@@ -115,7 +115,9 @@ function explorer() {
     _activeIds: null, // Set of graph node ids ("q:x" / "e:y"), or null = nothing dimmed
 
     async init() {
-      const res = await fetch("../dist/openformulagraph.json");
+      // Deployed, the bundle sits next to index.html; in local dev it's one level up.
+      let res = await fetch("dist/openformulagraph.json");
+      if (!res.ok) res = await fetch("../dist/openformulagraph.json");
       this._bundle = await res.json();
       this._graphData = buildGraphData(this._bundle);
       this._renderGraph();
