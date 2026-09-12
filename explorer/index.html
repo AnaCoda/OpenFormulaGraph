@@ -65,7 +65,10 @@
             <ul class="related-list" x-show="relatedEquations.length">
               <template x-for="eq in relatedEquations" :key="eq.id">
                 <li class="related-row" @click="selectEquation(eq.id)">
-                  <span class="related-katex" x-html="eq.katex"></span>
+                  <div class="related-main">
+                    <span class="related-katex" x-html="eq.katex"></span>
+                    <span class="related-subtitle" x-text="eq.name"></span>
+                  </div>
                   <span class="related-role" x-text="eq.role"></span>
                 </li>
               </template>

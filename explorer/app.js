@@ -176,6 +176,7 @@ function explorer() {
           const variable = Object.values(eq.variables).find((v) => v.quantity === qid);
           return {
             id: eq.id,
+            name: eq.name,
             katex: window.katex.renderToString(eq.latex, { throwOnError: false }),
             role: variable.role ?? "",
           };

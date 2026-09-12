@@ -395,9 +395,20 @@ html, body {
   background: var(--accent-bg);
 }
 
-.related-katex {
+.related-main {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.related-katex {
   font-size: 16px;
+}
+
+.related-subtitle {
+  font-size: 11.5px;
+  color: var(--text-dim);
 }
 
 .related-symbol {
