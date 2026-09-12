@@ -4,6 +4,10 @@ An open graph of equations and variables.
 It can be used to answer the question: given what you know, what else is calculable, and
 by which equation?
 
+Explore the graph at https://anacoda.github.io/OpenFormulaGraph/
+<img width="1918" height="974" alt="image" src="https://github.com/user-attachments/assets/4e0e11e7-5ecf-423b-b378-ee5d892100d1" />
+
+
 This is a data layer upon which teaching tools like games, quizzes, etc. are
 meant to be built on top of.
 
