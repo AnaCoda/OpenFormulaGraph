@@ -1,14 +1,4 @@
-// OpenFormulaGraph explorer: fetches dist/openformulagraph.json and renders
-// it as a force-directed graph you click your way around. Clicking a
-// quantity shows what equations it appears in; clicking an equation shows
-// its variables. There's no solver here: this is a browsing tool, not the
-// `ofg calculable` CLI in the browser.
-//
-// Equations are the point of this graph, so they aren't drawn as generic
-// canvas shapes: each equation node gets a real KaTeX-rendered card, an
-// absolutely-positioned HTML element kept in sync with the node's simulated
-// (x, y) every frame via graph2ScreenCoords. Quantities are the small
-// supporting circles that plug into those cards.
+// Fetches dist/openformulagraph.json and renders a clickable force-directed graph: click a quantity to see its equations, click an equation to see its variables.
 
 const COLORS = {
   quantityFill: "#aab0cc",
@@ -37,9 +27,7 @@ const HELP_LINKS = {
 
 const SUPERSCRIPT = { "-": "⁻", 0: "⁰", 1: "¹", 2: "²", 3: "³", 4: "⁴", 5: "⁵", 6: "⁶", 7: "⁷", 8: "⁸", 9: "⁹" };
 
-// Variable names like "v0" are meant to read as v-subscript-0 (as they do
-// inside the equation's own rendered latex); this turns the bare name into
-// KaTeX source so it renders the same way in the variables list.
+// Turns "v0" into "v_{0}" so it renders as a subscript like it does in the equation itself.
 function symbolToLatex(symbol) {
   const match = symbol.match(/^([a-zA-Z]+)(\d+)$/);
   return match ? `${match[1]}_{${match[2]}}` : symbol;
@@ -75,12 +63,7 @@ function buildGraphData(bundle) {
   return { nodes, links };
 }
 
-// A gentle spring toward the origin for every node. Quantities with no
-// equations yet (e.g. electric charge/current) have no links to anchor
-// them, so under charge repulsion alone they drift arbitrarily far from
-// the cluster; this keeps the whole graph loosely together without
-// meaningfully disturbing well-connected nodes, where the link force
-// dominates.
+// Gentle pull toward the origin so unlinked nodes (e.g. electric charge/current) don't drift off alone.
 function centerPullForce(strength) {
   let nodes = [];
   function force(alpha) {
@@ -95,10 +78,7 @@ function centerPullForce(strength) {
   return force;
 }
 
-// Equation cards are rendered as HTML at a fixed pixel size the physics
-// engine doesn't know about, so the default point-radius collision isn't
-// enough to keep two cards from settling on top of each other. This nudges
-// equation-node positions directly apart once they're closer than `radius`.
+// Nudges equation nodes apart so their HTML cards don't settle on top of each other.
 function equationCollideForce(radius) {
   let equations = [];
   function force() {
@@ -168,8 +148,7 @@ function explorer() {
         .sort((a, b) => a.sectionNum - b.sectionNum);
     },
 
-    // Grouped by textbook topic, in curriculum order, mirroring how the
-    // equations are actually organized into chapters in the source text.
+    // Curriculum list grouped by textbook topic/chapter.
     get curriculumGroups() {
       const groups = [];
       for (const eq of this.curriculum) {
@@ -252,16 +231,15 @@ function explorer() {
         node._el.classList.toggle("dim", !isActive);
         node._el.classList.toggle("highlight", isActive && !!this._activeIds);
       }
-      this._graph.graphData(this._graphData);
+      // Re-setting graphData() would force a redraw but also reheats the whole sim; this just flags a redraw instead.
+      this._graph.zoom(this._graph.zoom());
     },
 
     _renderGraph() {
       const self = this;
       const container = document.getElementById("graph");
 
-      // ForceGraph() clears the container and builds its own wrapper inside
-      // it, so the equation-card layer has to be appended after construction
-      // or it gets wiped along with anything else already in there.
+      // The equation-card layer is appended after ForceGraph() runs, since it clears the container on init.
       this._graph = ForceGraph()(container)
         .graphData(this._graphData)
         .nodeId("id")
@@ -305,6 +283,14 @@ function explorer() {
           ctx.fillText(node.symbol, node.x, node.y);
           ctx.restore();
         })
+        // Matches the click hit-area to the visible circle (force-graph's default hit-area ignores our custom drawing).
+        .nodePointerAreaPaint((node, color, ctx) => {
+          if (node.type !== "quantity") return;
+          ctx.fillStyle = color;
+          ctx.beginPath();
+          ctx.arc(node.x, node.y, 12, 0, 2 * Math.PI);
+          ctx.fill();
+        })
         .onNodeClick((node) => {
           if (node.type === "quantity") self.selectQuantity(node.qid);
           else self.selectEquation(node.eqid);
@@ -338,8 +324,7 @@ function explorer() {
       new ResizeObserver(resize).observe(container);
       resize();
 
-      // Degree-0 quantities (no equations reference them yet) would otherwise
-      // stretch zoomToFit's bounding box out to wherever they've drifted.
+      // Excludes degree-0 quantities from zoomToFit so a stray drifted node doesn't blow out the framing.
       const degree = new Map();
       for (const l of this._graphData.links) {
         const s = typeof l.source === "object" ? l.source.id : l.source;
