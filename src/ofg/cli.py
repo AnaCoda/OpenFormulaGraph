@@ -6,7 +6,7 @@ import argparse
 import sys
 
 from ofg.model import Graph, load_graph
-from ofg.reason import Slot, what_can_i_calculate
+from ofg.reason import Slot, forward_closure
 
 
 def _slot_label(graph: Graph, slot: Slot) -> str:
@@ -15,7 +15,7 @@ def _slot_label(graph: Graph, slot: Slot) -> str:
     return f"{name} ({role})" if role else name
 
 
-def cmd_what_can_i_calculate(args: argparse.Namespace) -> int:
+def cmd_calculable(args: argparse.Namespace) -> int:
     graph = load_graph()
 
     unknown = set(args.quantities) - set(graph.quantities)
@@ -24,7 +24,7 @@ def cmd_what_can_i_calculate(args: argparse.Namespace) -> int:
         print(f"known quantities: {sorted(graph.quantities)}", file=sys.stderr)
         return 1
 
-    result = what_can_i_calculate(graph, args.quantities)
+    result = forward_closure(graph, args.quantities)
 
     if not result.steps:
         print("Nothing new is calculable from what you know.")
@@ -41,12 +41,12 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="ofg")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
-    wcic = subparsers.add_parser(
-        "what-can-i-calculate",
+    calculable = subparsers.add_parser(
+        "calculable",
         help="Given known quantities, report what else becomes calculable.",
     )
-    wcic.add_argument("quantities", nargs="+", help="quantity ids you already know, e.g. mass force time")
-    wcic.set_defaults(func=cmd_what_can_i_calculate)
+    calculable.add_argument("quantities", nargs="+", help="quantity ids you already know, e.g. mass force time")
+    calculable.set_defaults(func=cmd_calculable)
 
     return parser
 

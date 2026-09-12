@@ -1,11 +1,13 @@
-"""Dimensional consistency checking.
+"""Dimensional analysis for equations.
 
-Not a units library — a 7-vector of exponents over the SI base dimensions
-(mass, length, time, current, temperature, amount, luminous intensity) plus
-about fifty lines of arithmetic. Checking an equation means walking its
-expression tree and asserting every additive term ends up with the same
-vector. That catches a wrong exponent or a wrong variable; it can't catch a
-missing constant factor or a flipped sign, which is what `checks` is for.
+Every physical quantity has a dimension: an expression in terms of the SI
+base quantities below. Velocity, for example, is length / time. We store
+each quantity's dimension as a 7-number vector of exponents and check that
+every term added together in an equation shares the same vector. That
+catches a wrong exponent or a wrong variable; it can't catch a missing
+constant factor or a flipped sign, which is what `checks` is for.
+
+Background: https://en.wikipedia.org/wiki/Dimensional_analysis
 """
 
 from __future__ import annotations
@@ -16,6 +18,10 @@ import sympy
 
 from ofg.model import Equation, Quantity
 
+# The 7 SI base units and their dimension symbols, see
+# https://en.wikipedia.org/wiki/SI_base_unit
+# M=mass(kg) L=length(m) T=time(s) I=electric current(A)
+# Theta=thermodynamic temperature(K) N=amount of substance(mol) J=luminous intensity(cd)
 BASE_DIMS = ("M", "L", "T", "I", "Theta", "N", "J")
 
 Vector = tuple[Fraction, ...]
@@ -42,9 +48,9 @@ def _scale(a: Vector, k: Fraction) -> Vector:
     return tuple(x * k for x in a)
 
 
-def dim_of(expr: sympy.Expr, symbol_quantities: dict[str, Quantity]) -> Vector:
+def dim_of(expr: sympy.Basic, symbol_quantities: dict[str, Quantity]) -> Vector:
     """The dimension vector of a sub-expression, or raise DimensionError."""
-    if expr.is_Symbol:
+    if isinstance(expr, sympy.Symbol):
         quantity = symbol_quantities.get(expr.name)
         if quantity is None:
             raise DimensionError(f"no quantity known for symbol '{expr.name}'")
@@ -72,9 +78,9 @@ def dim_of(expr: sympy.Expr, symbol_quantities: dict[str, Quantity]) -> Vector:
 
     if expr.is_Pow:
         base, exponent = expr.args
-        if not exponent.is_number or not exponent.is_real:
-            raise DimensionError(f"non-numeric exponent in {expr}: {exponent}")
-        return _scale(dim_of(base, symbol_quantities), Fraction(exponent))
+        if not isinstance(exponent, sympy.Rational):
+            raise DimensionError(f"non-rational exponent in {expr}: {exponent}")
+        return _scale(dim_of(base, symbol_quantities), Fraction(exponent.p, exponent.q))
 
     raise DimensionError(f"don't know how to check dimensions of: {expr} "
                           f"({type(expr).__name__})")

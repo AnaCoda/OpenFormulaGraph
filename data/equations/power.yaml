@@ -1,4 +1,4 @@
-id: power-definition
+id: power
 name: Power
 expr: "P - W/t"
 latex: "P = \\frac{W}{t}"

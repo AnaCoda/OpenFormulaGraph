@@ -1,10 +1,8 @@
-"""Load the YAML data files into in-memory dataclasses.
+"""Load the YAML data files into dataclasses.
 
-Quantities and equations are the only two node types (see README). Loading
-also enforces the one check that has to happen before anything else can run:
-every symbol in an equation's `expr` must match a declared variable, and
-vice versa. Everything downstream (dimensions, solving, reasoning) assumes
-that already holds.
+Two node types: quantities (mass, force, ...) and equations. Loading also
+checks that every symbol used in an equation's `expr` has a matching
+declared variable, and vice versa.
 """
 
 from __future__ import annotations
@@ -14,6 +12,7 @@ from dataclasses import dataclass, field
 
 import sympy
 import yaml
+from sympy.parsing.sympy_parser import parse_expr
 
 # repo_root/data, relative to this file (repo_root/src/ofg/model.py)
 DEFAULT_DATA_DIR = pathlib.Path(__file__).resolve().parents[2] / "data"
@@ -95,8 +94,8 @@ def _parse_equation_file(path: pathlib.Path) -> Equation:
         for name, v in raw["variables"].items()
     }
 
-    symbols = {name: sympy.Symbol(name) for name in variables}
-    expr = sympy.sympify(raw["expr"], locals=symbols)
+    symbols: dict[str, sympy.Symbol] = {str(name): sympy.Symbol(str(name)) for name in variables}
+    expr = parse_expr(str(raw["expr"]), local_dict=symbols)
 
     declared = set(variables)
     used = {s.name for s in expr.free_symbols}

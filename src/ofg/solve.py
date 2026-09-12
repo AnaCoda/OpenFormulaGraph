@@ -1,8 +1,7 @@
 """Thin SymPy wrapper: substitute knowns, solve for one unknown.
 
-Equations are stored in canonical zero form (`expr == 0`), which is exactly
-what `sympy.solve` wants, and is also why rearranged forms need no storage —
-solving for any variable is the same call.
+Equations are stored in canonical zero form (`expr == 0`), which is what
+`sympy.solve` wants directly.
 """
 
 from __future__ import annotations
@@ -14,7 +13,7 @@ from ofg.model import Equation
 
 def solve_for(equation: Equation, given: dict[str, float], target: str) -> list[sympy.Expr]:
     """Substitute `given` values and solve the remaining expression for `target`."""
-    substitutions = {sympy.Symbol(name): sympy.nsimplify(value) for name, value in given.items()}
+    substitutions = [(sympy.Symbol(name), sympy.nsimplify(value)) for name, value in given.items()]
     substituted = equation.expr.subs(substitutions)
     return sympy.solve(substituted, sympy.Symbol(target))
 

@@ -1,4 +1,4 @@
-id: work-definition
+id: work
 name: Work Done by a Constant Force
 expr: "W - F*x"
 latex: "W = Fd"

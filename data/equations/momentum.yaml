@@ -1,4 +1,4 @@
-id: momentum-definition
+id: momentum
 name: Linear Momentum
 expr: "p - m*v"
 latex: "p = mv"
