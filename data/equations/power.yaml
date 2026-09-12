@@ -1,5 +1,6 @@
 id: power
 name: Power
+description: The rate at which work is done.
 expr: "P - W/t"
 latex: "P = \\frac{W}{t}"
 variables:
@@ -10,6 +11,10 @@ topic: energy
 requires: []
 source:
   ref: openstax-college-physics-2e
-  section: "7.5"
+  section: "7.7"
+  url: "https://openstax.org/books/college-physics-2e/pages/7-7-power"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Power_(physics)"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/work-and-energy/work-and-energy-tutorial/a/what-is-power"}
 checks:
   - {given: {W: 10, t: 2}, solve_for: P, expect: 5}

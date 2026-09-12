@@ -1,5 +1,6 @@
 id: displacement-time
 name: Displacement Under Constant Acceleration
+description: Under constant acceleration, an object covers more distance in each successive interval of time, since it keeps speeding up as it moves. Displacement therefore grows faster than time itself.
 expr: "x - v0*t - a*t**2/2"
 latex: "\\Delta x = v_0 t + \\tfrac{1}{2} a t^2"
 variables:
@@ -12,5 +13,9 @@ requires: []
 source:
   ref: openstax-college-physics-2e
   section: "2.5"
+  url: "https://openstax.org/books/college-physics-2e/pages/2-5-motion-equations-for-constant-acceleration-in-one-dimension"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Equations_of_motion"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/one-dimensional-motion/kinematic-formulas/a/what-are-the-kinematic-formulas"}
 checks:
   - {given: {v0: 0, a: 2, t: 3}, solve_for: x, expect: 9}

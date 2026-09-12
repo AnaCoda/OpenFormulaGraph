@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OpenFormulaGraph Explorer</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body x-data="explorer()" x-init="init()">
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">&fnof;</span>
+      <span class="brand-name">OpenFormulaGraph</span>
+    </div>
+    <div class="topbar-hint">click a quantity or an equation to explore its connections</div>
+  </header>
+
+  <main class="layout">
+    <div id="graph" class="graph"></div>
+
+    <aside class="panel">
+      <div class="tabs">
+        <button class="tab" :class="{ active: activeTab === 'explore' }" @click="activeTab = 'explore'">Explore</button>
+        <button class="tab" :class="{ active: activeTab === 'curriculum' }" @click="activeTab = 'curriculum'">Curriculum</button>
+      </div>
+
+      <div class="panel-body" x-show="activeTab === 'explore'">
+        <template x-if="!selected">
+          <section class="panel-block hint">
+            <h2>Explore</h2>
+            <p>Click any quantity (circle) or equation (card) to see how it connects to the rest of the graph.</p>
+          </section>
+        </template>
+
+        <template x-if="selectedQuantity">
+          <section class="panel-block detail">
+            <div class="detail-header">
+              <span class="detail-symbol" x-text="selectedQuantity.symbol"></span>
+              <h2 x-text="selectedQuantity.name"></h2>
+            </div>
+            <p class="detail-description" x-show="selectedQuantity.description" x-text="selectedQuantity.description"></p>
+            <dl class="detail-facts">
+              <div>
+                <dt>SI unit <a class="help-link" :href="helpLinks.siUnit" target="_blank" rel="noopener" title="What is an SI unit?">?</a></dt>
+                <dd x-text="selectedQuantity.si_unit || 'none'"></dd>
+              </div>
+              <div>
+                <dt>Dimension <a class="help-link" :href="helpLinks.dimension" target="_blank" rel="noopener" title="What is dimensional analysis?">?</a></dt>
+                <dd x-text="formatDimension(selectedQuantity.dimension)"></dd>
+              </div>
+            </dl>
+            <div class="learn-links" x-show="selectedQuantity.links?.length">
+              <template x-for="link in selectedQuantity.links" :key="link.url">
+                <a class="learn-link" :href="link.url" target="_blank" rel="noopener" x-text="link.label"></a>
+              </template>
+            </div>
+
+            <h3>Appears in</h3>
+            <ul class="related-list" x-show="relatedEquations.length">
+              <template x-for="eq in relatedEquations" :key="eq.id">
+                <li class="related-row" @click="selectEquation(eq.id)">
+                  <span class="related-katex" x-html="eq.katex"></span>
+                  <span class="related-role" x-text="eq.role"></span>
+                </li>
+              </template>
+            </ul>
+            <p class="empty-note" x-show="!relatedEquations.length">No equations reference this quantity yet.</p>
+          </section>
+        </template>
+
+        <template x-if="selectedEquation">
+          <section class="panel-block detail">
+            <h2 x-text="selectedEquation.name"></h2>
+            <div class="detail-katex-big" x-html="selectedEquation.katex"></div>
+            <p class="detail-description" x-show="selectedEquation.description" x-text="selectedEquation.description"></p>
+            <a
+              class="source-link"
+              x-show="selectedEquation.source?.url"
+              :href="selectedEquation.source?.url"
+              target="_blank"
+              rel="noopener"
+              x-text="sourceLabel(selectedEquation.source)"
+            ></a>
+            <div class="learn-links" x-show="selectedEquation.links?.length">
+              <template x-for="link in selectedEquation.links" :key="link.url">
+                <a class="learn-link" :href="link.url" target="_blank" rel="noopener" x-text="link.label"></a>
+              </template>
+            </div>
+
+            <h3>Variables</h3>
+            <ul class="related-list">
+              <template x-for="v in relatedQuantities" :key="v.symbol">
+                <li class="related-row" @click="selectQuantity(v.qid)">
+                  <span class="related-symbol" x-html="v.symbolKatex"></span>
+                  <span class="related-name" x-text="v.name"></span>
+                  <span class="related-role" x-text="v.role"></span>
+                </li>
+              </template>
+            </ul>
+          </section>
+        </template>
+      </div>
+
+      <div class="panel-body" x-show="activeTab === 'curriculum'">
+        <section class="panel-block">
+          <h2>Curriculum order</h2>
+          <p class="curriculum-hint">Equations grouped by chapter, in the order they're introduced in OpenStax College Physics 2e.</p>
+          <template x-for="group in curriculumGroups" :key="group.topic">
+            <div class="curriculum-group">
+              <h4 class="curriculum-group-label" x-text="group.label"></h4>
+              <ul class="curriculum-list">
+                <template x-for="eq in group.items" :key="eq.id">
+                  <li
+                    class="curriculum-row"
+                    :class="{ active: selected?.type === 'equation' && selected.id === eq.id }"
+                    @click="selectFromCurriculum(eq.id)"
+                  >
+                    <span class="curriculum-section" x-text="'§' + eq.section"></span>
+                    <span class="curriculum-katex" x-html="eq.katex"></span>
+                  </li>
+                </template>
+              </ul>
+            </div>
+          </template>
+        </section>
+      </div>
+    </aside>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/force-graph/dist/force-graph.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js" defer></script>
+  <script src="app.js"></script>
+</body>
+</html>

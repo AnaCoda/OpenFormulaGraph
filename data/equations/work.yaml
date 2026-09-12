@@ -1,5 +1,6 @@
 id: work
 name: Work Done by a Constant Force
+description: The transfer of energy by a force that causes an object to be displaced; the product of the component of the force in the direction of the displacement and the magnitude of the displacement.
 expr: "W - F*x"
 latex: "W = Fd"
 variables:
@@ -11,5 +12,9 @@ requires: []
 source:
   ref: openstax-college-physics-2e
   section: "7.1"
+  url: "https://openstax.org/books/college-physics-2e/pages/7-1-work-the-scientific-definition"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Work_(physics)"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/work-and-energy/work-and-energy-tutorial/a/what-is-work"}
 checks:
   - {given: {F: 5, x: 2}, solve_for: W, expect: 10}

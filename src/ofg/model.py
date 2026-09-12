@@ -27,6 +27,8 @@ class Quantity:
     si_unit: str | None = None
     constant: bool = False
     value: float | None = None
+    description: str | None = None
+    links: list[dict] = field(default_factory=list)
 
 
 @dataclass(frozen=True)
@@ -51,6 +53,8 @@ class Equation:
     requires: list[str]
     source: dict
     checks: list[dict]
+    description: str | None = None
+    links: list[dict] = field(default_factory=list)
 
     @property
     def slots(self) -> frozenset[tuple[str, str | None]]:
@@ -79,6 +83,8 @@ def load_quantities(path: pathlib.Path) -> dict[str, Quantity]:
             si_unit=entry.get("si_unit"),
             constant=entry.get("constant", False),
             value=entry.get("value"),
+            description=entry.get("description"),
+            links=entry.get("links", []),
         )
         if q.id in quantities:
             raise ModelError(f"duplicate quantity id: {q.id}")
@@ -119,6 +125,8 @@ def _parse_equation_file(path: pathlib.Path) -> Equation:
         requires=raw.get("requires", []),
         source=raw.get("source", {}),
         checks=raw.get("checks", []),
+        description=raw.get("description"),
+        links=raw.get("links", []),
     )
 
 

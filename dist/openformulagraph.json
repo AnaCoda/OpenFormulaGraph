@@ -1,0 +1,543 @@
+{
+  "quantities": [
+    {
+      "id": "mass",
+      "name": "Mass",
+      "symbol": "m",
+      "dimension": {
+        "M": 1
+      },
+      "si_unit": "kg",
+      "constant": false,
+      "value": null,
+      "description": "The quantity of matter in a substance, measured in kilograms.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Mass"
+        }
+      ]
+    },
+    {
+      "id": "force",
+      "name": "Force",
+      "symbol": "F",
+      "dimension": {
+        "M": 1,
+        "L": 1,
+        "T": -2
+      },
+      "si_unit": "N",
+      "constant": false,
+      "value": null,
+      "description": "A push or pull on an object with a specific magnitude and direction; it can be represented by a vector.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Force"
+        }
+      ]
+    },
+    {
+      "id": "acceleration",
+      "name": "Acceleration",
+      "symbol": "a",
+      "dimension": {
+        "L": 1,
+        "T": -2
+      },
+      "si_unit": "m/s^2",
+      "constant": false,
+      "value": null,
+      "description": "The rate of change in velocity; the change in velocity over time.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Acceleration"
+        }
+      ]
+    },
+    {
+      "id": "velocity",
+      "name": "Velocity",
+      "symbol": "v",
+      "dimension": {
+        "L": 1,
+        "T": -1
+      },
+      "si_unit": "m/s",
+      "constant": false,
+      "value": null,
+      "description": "Displacement divided by the time over which the displacement occurs.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Velocity"
+        }
+      ]
+    },
+    {
+      "id": "displacement",
+      "name": "Displacement",
+      "symbol": "x",
+      "dimension": {
+        "L": 1
+      },
+      "si_unit": "m",
+      "constant": false,
+      "value": null,
+      "description": "The change in position of an object.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Displacement_(geometry)"
+        }
+      ]
+    },
+    {
+      "id": "time",
+      "name": "Time",
+      "symbol": "t",
+      "dimension": {
+        "T": 1
+      },
+      "si_unit": "s",
+      "constant": false,
+      "value": null,
+      "description": "Change, or the interval over which change occurs.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Time"
+        }
+      ]
+    },
+    {
+      "id": "energy",
+      "name": "Energy",
+      "symbol": "E",
+      "dimension": {
+        "M": 1,
+        "L": 2,
+        "T": -2
+      },
+      "si_unit": "J",
+      "constant": false,
+      "value": null,
+      "description": "The ability to do work.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Energy"
+        }
+      ]
+    },
+    {
+      "id": "work",
+      "name": "Work",
+      "symbol": "W",
+      "dimension": {
+        "M": 1,
+        "L": 2,
+        "T": -2
+      },
+      "si_unit": "J",
+      "constant": false,
+      "value": null,
+      "description": "The transfer of energy by a force that causes an object to be displaced; the product of the component of the force in the direction of the displacement and the magnitude of the displacement.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Work_(physics)"
+        }
+      ]
+    },
+    {
+      "id": "power",
+      "name": "Power",
+      "symbol": "P",
+      "dimension": {
+        "M": 1,
+        "L": 2,
+        "T": -3
+      },
+      "si_unit": "W",
+      "constant": false,
+      "value": null,
+      "description": "The rate at which work is done.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Power_(physics)"
+        }
+      ]
+    },
+    {
+      "id": "momentum",
+      "name": "Momentum",
+      "symbol": "p",
+      "dimension": {
+        "M": 1,
+        "L": 1,
+        "T": -1
+      },
+      "si_unit": "kg*m/s",
+      "constant": false,
+      "value": null,
+      "description": "The product of mass and velocity.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Momentum"
+        }
+      ]
+    },
+    {
+      "id": "charge",
+      "name": "Electric charge",
+      "symbol": "q",
+      "dimension": {
+        "I": 1,
+        "T": 1
+      },
+      "si_unit": "C",
+      "constant": false,
+      "value": null,
+      "description": "A physical property of an object that causes it to be attracted toward or repelled from another charged object; each charged object generates and is influenced by a force called an electromagnetic force.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Electric_charge"
+        }
+      ]
+    },
+    {
+      "id": "current",
+      "name": "Electric current",
+      "symbol": "I",
+      "dimension": {
+        "I": 1
+      },
+      "si_unit": "A",
+      "constant": false,
+      "value": null,
+      "description": "The rate at which charge flows.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Electric_current"
+        }
+      ]
+    }
+  ],
+  "equations": [
+    {
+      "id": "displacement-time",
+      "name": "Displacement Under Constant Acceleration",
+      "latex": "\\Delta x = v_0 t + \\tfrac{1}{2} a t^2",
+      "topic": "kinematics",
+      "variables": {
+        "x": {
+          "quantity": "displacement",
+          "role": null
+        },
+        "v0": {
+          "quantity": "velocity",
+          "role": "initial"
+        },
+        "a": {
+          "quantity": "acceleration",
+          "role": null
+        },
+        "t": {
+          "quantity": "time",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "2.5",
+        "url": "https://openstax.org/books/college-physics-2e/pages/2-5-motion-equations-for-constant-acceleration-in-one-dimension"
+      },
+      "description": "Under constant acceleration, an object covers more distance in each successive interval of time, since it keeps speeding up as it moves. Displacement therefore grows faster than time itself.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Equations_of_motion"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/one-dimensional-motion/kinematic-formulas/a/what-are-the-kinematic-formulas"
+        }
+      ]
+    },
+    {
+      "id": "kinetic-energy",
+      "name": "Kinetic Energy",
+      "latex": "KE = \\tfrac{1}{2} m v^2",
+      "topic": "energy",
+      "variables": {
+        "E": {
+          "quantity": "energy",
+          "role": null
+        },
+        "m": {
+          "quantity": "mass",
+          "role": null
+        },
+        "v": {
+          "quantity": "velocity",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "7.2",
+        "url": "https://openstax.org/books/college-physics-2e/pages/7-2-kinetic-energy-and-the-work-energy-theorem"
+      },
+      "description": "The energy an object has by reason of its motion, equal to one-half its mass times the square of its speed.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Kinetic_energy"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/work-and-energy/energy-tutorial/a/kinetic-energy"
+        }
+      ]
+    },
+    {
+      "id": "momentum",
+      "name": "Linear Momentum",
+      "latex": "p = mv",
+      "topic": "momentum",
+      "variables": {
+        "p": {
+          "quantity": "momentum",
+          "role": null
+        },
+        "m": {
+          "quantity": "mass",
+          "role": null
+        },
+        "v": {
+          "quantity": "velocity",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "8.1",
+        "url": "https://openstax.org/books/college-physics-2e/pages/8-1-linear-momentum-and-force"
+      },
+      "description": "The product of mass and velocity.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Momentum"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/linear-momentum/momentum-tutorial/a/what-are-momentum-and-impulse"
+        }
+      ]
+    },
+    {
+      "id": "newtons-second-law",
+      "name": "Newton's Second Law",
+      "latex": "F = ma",
+      "topic": "dynamics",
+      "variables": {
+        "F": {
+          "quantity": "force",
+          "role": null
+        },
+        "m": {
+          "quantity": "mass",
+          "role": null
+        },
+        "a": {
+          "quantity": "acceleration",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "4.3",
+        "url": "https://openstax.org/books/college-physics-2e/pages/4-3-newtons-second-law-of-motion-concept-of-a-system"
+      },
+      "description": "Net external force is proportional to and in the same direction as acceleration, and inversely proportional to mass.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Newton's_laws_of_motion"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/forces-newtons-laws/newtons-laws-of-motion/a/what-is-newtons-second-law"
+        }
+      ]
+    },
+    {
+      "id": "power",
+      "name": "Power",
+      "latex": "P = \\frac{W}{t}",
+      "topic": "energy",
+      "variables": {
+        "P": {
+          "quantity": "power",
+          "role": null
+        },
+        "W": {
+          "quantity": "work",
+          "role": null
+        },
+        "t": {
+          "quantity": "time",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "7.7",
+        "url": "https://openstax.org/books/college-physics-2e/pages/7-7-power"
+      },
+      "description": "The rate at which work is done.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Power_(physics)"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/work-and-energy/work-and-energy-tutorial/a/what-is-power"
+        }
+      ]
+    },
+    {
+      "id": "velocity-squared",
+      "name": "Velocity Squared Under Constant Acceleration",
+      "latex": "v^2 = v_0^2 + 2a\\Delta x",
+      "topic": "kinematics",
+      "variables": {
+        "v": {
+          "quantity": "velocity",
+          "role": "final"
+        },
+        "v0": {
+          "quantity": "velocity",
+          "role": "initial"
+        },
+        "a": {
+          "quantity": "acceleration",
+          "role": null
+        },
+        "x": {
+          "quantity": "displacement",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "2.5",
+        "url": "https://openstax.org/books/college-physics-2e/pages/2-5-motion-equations-for-constant-acceleration-in-one-dimension"
+      },
+      "description": "Under constant acceleration, speed grows with distance traveled, but only as its square root, so covering four times the distance only doubles the speed gained.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Equations_of_motion"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/one-dimensional-motion/kinematic-formulas/a/what-are-the-kinematic-formulas"
+        }
+      ]
+    },
+    {
+      "id": "velocity-time",
+      "name": "Velocity as a Function of Time",
+      "latex": "v = v_0 + at",
+      "topic": "kinematics",
+      "variables": {
+        "v": {
+          "quantity": "velocity",
+          "role": "final"
+        },
+        "v0": {
+          "quantity": "velocity",
+          "role": "initial"
+        },
+        "a": {
+          "quantity": "acceleration",
+          "role": null
+        },
+        "t": {
+          "quantity": "time",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "2.5",
+        "url": "https://openstax.org/books/college-physics-2e/pages/2-5-motion-equations-for-constant-acceleration-in-one-dimension"
+      },
+      "description": "Under constant acceleration, speed builds up steadily. Equal intervals of time always add the same amount of velocity, regardless of how fast the object is already moving.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Equations_of_motion"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/one-dimensional-motion/kinematic-formulas/a/what-are-the-kinematic-formulas"
+        }
+      ]
+    },
+    {
+      "id": "work",
+      "name": "Work Done by a Constant Force",
+      "latex": "W = Fd",
+      "topic": "energy",
+      "variables": {
+        "W": {
+          "quantity": "work",
+          "role": null
+        },
+        "F": {
+          "quantity": "force",
+          "role": null
+        },
+        "x": {
+          "quantity": "displacement",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "7.1",
+        "url": "https://openstax.org/books/college-physics-2e/pages/7-1-work-the-scientific-definition"
+      },
+      "description": "The transfer of energy by a force that causes an object to be displaced; the product of the component of the force in the direction of the displacement and the magnitude of the displacement.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Work_(physics)"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/work-and-energy/work-and-energy-tutorial/a/what-is-work"
+        }
+      ]
+    }
+  ]
+}

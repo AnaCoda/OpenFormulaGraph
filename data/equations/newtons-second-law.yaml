@@ -1,5 +1,6 @@
 id: newtons-second-law
 name: Newton's Second Law
+description: Net external force is proportional to and in the same direction as acceleration, and inversely proportional to mass.
 expr: "F - m*a"
 latex: "F = ma"
 variables:
@@ -11,5 +12,9 @@ requires: []
 source:
   ref: openstax-college-physics-2e
   section: "4.3"
+  url: "https://openstax.org/books/college-physics-2e/pages/4-3-newtons-second-law-of-motion-concept-of-a-system"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Newton's_laws_of_motion"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/forces-newtons-laws/newtons-laws-of-motion/a/what-is-newtons-second-law"}
 checks:
   - {given: {m: 2, a: 3}, solve_for: F, expect: 6}

@@ -1,5 +1,6 @@
 id: velocity-squared
 name: Velocity Squared Under Constant Acceleration
+description: Under constant acceleration, speed grows with distance traveled, but only as its square root, so covering four times the distance only doubles the speed gained.
 expr: "v**2 - v0**2 - 2*a*x"
 latex: "v^2 = v_0^2 + 2a\\Delta x"
 variables:
@@ -11,6 +12,10 @@ topic: kinematics
 requires: []
 source:
   ref: openstax-college-physics-2e
-  section: "2.6"
+  section: "2.5"
+  url: "https://openstax.org/books/college-physics-2e/pages/2-5-motion-equations-for-constant-acceleration-in-one-dimension"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Equations_of_motion"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/one-dimensional-motion/kinematic-formulas/a/what-are-the-kinematic-formulas"}
 checks:
   - {given: {v0: 0, a: 2, x: 9}, solve_for: v, expect: 6}

@@ -1,5 +1,6 @@
 id: velocity-time
 name: Velocity as a Function of Time
+description: Under constant acceleration, speed builds up steadily. Equal intervals of time always add the same amount of velocity, regardless of how fast the object is already moving.
 expr: "v - v0 - a*t"
 latex: "v = v_0 + at"
 variables:
@@ -12,5 +13,9 @@ requires: []
 source:
   ref: openstax-college-physics-2e
   section: "2.5"
+  url: "https://openstax.org/books/college-physics-2e/pages/2-5-motion-equations-for-constant-acceleration-in-one-dimension"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Equations_of_motion"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/one-dimensional-motion/kinematic-formulas/a/what-are-the-kinematic-formulas"}
 checks:
   - {given: {v0: 0, a: 2, t: 3}, solve_for: v, expect: 6}

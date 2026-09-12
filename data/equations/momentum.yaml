@@ -1,5 +1,6 @@
 id: momentum
 name: Linear Momentum
+description: The product of mass and velocity.
 expr: "p - m*v"
 latex: "p = mv"
 variables:
@@ -11,5 +12,9 @@ requires: []
 source:
   ref: openstax-college-physics-2e
   section: "8.1"
+  url: "https://openstax.org/books/college-physics-2e/pages/8-1-linear-momentum-and-force"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Momentum"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/linear-momentum/momentum-tutorial/a/what-are-momentum-and-impulse"}
 checks:
   - {given: {m: 2, v: 3}, solve_for: p, expect: 6}

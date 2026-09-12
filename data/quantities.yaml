@@ -3,69 +3,105 @@
   symbol: m
   dimension: {M: 1}
   si_unit: "kg"
+  description: The quantity of matter in a substance, measured in kilograms.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Mass"}
 
 - id: force
   name: Force
   symbol: F
   dimension: {M: 1, L: 1, T: -2}
   si_unit: "N"
+  description: A push or pull on an object with a specific magnitude and direction; it can be represented by a vector.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Force"}
 
 - id: acceleration
   name: Acceleration
   symbol: a
   dimension: {L: 1, T: -2}
   si_unit: "m/s^2"
+  description: The rate of change in velocity; the change in velocity over time.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Acceleration"}
 
 - id: velocity
   name: Velocity
   symbol: v
   dimension: {L: 1, T: -1}
   si_unit: "m/s"
+  description: Displacement divided by the time over which the displacement occurs.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Velocity"}
 
 - id: displacement
   name: Displacement
   symbol: x
   dimension: {L: 1}
   si_unit: "m"
+  description: The change in position of an object.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Displacement_(geometry)"}
 
 - id: time
   name: Time
   symbol: t
   dimension: {T: 1}
   si_unit: "s"
+  description: Change, or the interval over which change occurs.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Time"}
 
 - id: energy
   name: Energy
   symbol: E
   dimension: {M: 1, L: 2, T: -2}
   si_unit: "J"
+  description: The ability to do work.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Energy"}
 
 - id: work
   name: Work
   symbol: W
   dimension: {M: 1, L: 2, T: -2}
   si_unit: "J"
+  description: The transfer of energy by a force that causes an object to be displaced; the product of the component of the force in the direction of the displacement and the magnitude of the displacement.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Work_(physics)"}
 
 - id: power
   name: Power
   symbol: P
   dimension: {M: 1, L: 2, T: -3}
   si_unit: "W"
+  description: The rate at which work is done.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Power_(physics)"}
 
 - id: momentum
   name: Momentum
   symbol: p
   dimension: {M: 1, L: 1, T: -1}
   si_unit: "kg*m/s"
+  description: The product of mass and velocity.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Momentum"}
 
 - id: charge
   name: Electric charge
   symbol: q
   dimension: {I: 1, T: 1}
   si_unit: "C"
+  description: A physical property of an object that causes it to be attracted toward or repelled from another charged object; each charged object generates and is influenced by a force called an electromagnetic force.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Electric_charge"}
 
 - id: current
   name: Electric current
   symbol: I
   dimension: {I: 1}
   si_unit: "A"
+  description: The rate at which charge flows.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Electric_current"}

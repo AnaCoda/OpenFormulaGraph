@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import sys
 
+from ofg.build import build as build_bundle
 from ofg.model import Graph, load_graph
 from ofg.reason import Slot, forward_closure
 
@@ -37,6 +38,12 @@ def cmd_calculable(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_build(args: argparse.Namespace) -> int:
+    path = build_bundle()
+    print(f"wrote {path}")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="ofg")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -47,6 +54,9 @@ def build_parser() -> argparse.ArgumentParser:
     )
     calculable.add_argument("quantities", nargs="+", help="quantity ids you already know, e.g. mass force time")
     calculable.set_defaults(func=cmd_calculable)
+
+    build_cmd = subparsers.add_parser("build", help="Bundle data/ into dist/openformulagraph.json.")
+    build_cmd.set_defaults(func=cmd_build)
 
     return parser
 
