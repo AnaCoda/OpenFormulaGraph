@@ -1,0 +1,20 @@
+id: electric-power
+name: Electric Power
+description: The rate at which electrical energy is supplied by a source or dissipated by a device; it is the product of current times voltage.
+expr: "P - I*V"
+latex: "P = IV"
+variables:
+  P: {quantity: power}
+  I: {quantity: current}
+  V: {quantity: voltage}
+topic: electricity
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "20.4"
+  url: "https://openstax.org/books/college-physics-2e/pages/20-4-electric-power-and-energy"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Electric_power"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/high-school-physics/dc-circuits/electric-power-and-dc-circuits/v/electric-power"}
+checks:
+  - {given: {I: 2, V: 5}, solve_for: P, expect: 10}

@@ -41,7 +41,7 @@
         <template x-if="selectedQuantity">
           <section class="panel-block detail">
             <div class="detail-header">
-              <span class="detail-symbol" x-text="selectedQuantity.symbol"></span>
+              <span class="detail-symbol" x-text="displaySymbol(selectedQuantity.symbol)"></span>
               <h2 x-text="selectedQuantity.name"></h2>
             </div>
             <p class="detail-description" x-show="selectedQuantity.description" x-text="selectedQuantity.description"></p>
@@ -122,10 +122,13 @@
                   <li
                     class="curriculum-row"
                     :class="{ active: selected?.type === 'equation' && selected.id === eq.id }"
-                    @click="selectFromCurriculum(eq.id)"
+                    @click="selectEquation(eq.id)"
                   >
                     <span class="curriculum-section" x-text="'§' + eq.section"></span>
-                    <span class="curriculum-katex" x-html="eq.katex"></span>
+                    <div class="curriculum-main">
+                      <span class="curriculum-katex" x-html="eq.katex"></span>
+                      <span class="curriculum-name" x-text="eq.name"></span>
+                    </div>
                   </li>
                 </template>
               </ul>

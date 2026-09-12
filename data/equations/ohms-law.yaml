@@ -1,0 +1,20 @@
+id: ohms-law
+name: "Ohm's Law"
+description: An empirical relation stating that the current through a conductor is proportional to the potential difference across it, often written as I = V/R, where R is the resistance.
+expr: "V - I*R"
+latex: "V = IR"
+variables:
+  V: {quantity: voltage}
+  I: {quantity: current}
+  R: {quantity: resistance}
+topic: electricity
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "20.2"
+  url: "https://openstax.org/books/college-physics-2e/pages/20-2-ohms-law-resistance-and-simple-circuits"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Ohm%27s_law"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/circuits-topic/circuits-resistance/v/circuits-part-1"}
+checks:
+  - {given: {I: 2, R: 5}, solve_for: V, expect: 10}

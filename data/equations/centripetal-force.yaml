@@ -1,0 +1,21 @@
+id: centripetal-force
+name: Centripetal Force
+description: Any net force that causes uniform circular motion is a centripetal force; it points toward the center of curvature, and its magnitude grows with mass and with the square of speed, but shrinks as the radius of the circle grows.
+expr: "F - m*v**2/r"
+latex: "F_c = \\frac{mv^2}{r}"
+variables:
+  F: {quantity: force, role: centripetal}
+  m: {quantity: mass}
+  v: {quantity: velocity}
+  r: {quantity: radius}
+topic: circular-motion
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "6.3"
+  url: "https://openstax.org/books/college-physics-2e/pages/6-3-centripetal-force"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Centripetal_force"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/centripetal-force-and-gravitation/centripetalforces/a/what-is-centripetal-force"}
+checks:
+  - {given: {m: 2, v: 4, r: 2}, solve_for: F, expect: 16}

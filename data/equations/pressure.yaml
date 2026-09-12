@@ -1,0 +1,20 @@
+id: pressure
+name: Pressure
+description: The force per unit area perpendicular to the force, over which the force acts.
+expr: "P - F/A"
+latex: "P = \\frac{F}{A}"
+variables:
+  P: {quantity: pressure}
+  F: {quantity: force}
+  A: {quantity: area}
+topic: fluids
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "11.3"
+  url: "https://openstax.org/books/college-physics-2e/pages/11-3-pressure"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Pressure"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/fluids/density-and-pressure/a/pressure-article"}
+checks:
+  - {given: {F: 10, A: 2}, solve_for: P, expect: 5}

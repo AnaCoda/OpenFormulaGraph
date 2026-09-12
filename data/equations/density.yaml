@@ -1,0 +1,20 @@
+id: density
+name: Density
+description: The mass per unit volume of a substance or object.
+expr: "rho - m/V"
+latex: "\\rho = \\frac{m}{V}"
+variables:
+  rho: {quantity: density}
+  m: {quantity: mass}
+  V: {quantity: volume}
+topic: fluids
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "11.2"
+  url: "https://openstax.org/books/college-physics-2e/pages/11-2-density"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Density"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/chemistry/atomic-structure-and-properties/introduction-to-the-atom/a/density"}
+checks:
+  - {given: {m: 10, V: 2}, solve_for: rho, expect: 5}

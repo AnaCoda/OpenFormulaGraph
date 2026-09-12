@@ -1,0 +1,22 @@
+id: coulombs-law
+name: Coulomb's Law
+description: The electrostatic force between two point charges is directly proportional to the magnitude of each charge and inversely proportional to the square of the distance separating them; like charges repel and opposite charges attract, with the force acting along the line joining the two charges.
+expr: "F - k*q1*q2/r**2"
+latex: "F = \\frac{kq_1q_2}{r^2}"
+variables:
+  F: {quantity: force, role: electric}
+  k: {quantity: coulombs-constant}
+  q1: {quantity: charge, role: first-charge}
+  q2: {quantity: charge, role: second-charge}
+  r: {quantity: radius}
+topic: electricity
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "18.3"
+  url: "https://openstax.org/books/college-physics-2e/pages/18-3-coulombs-law"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Coulomb%27s_law"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/hs-physics/x215e29cb31244fa1:types-of-interactions/x215e29cb31244fa1:coulomb-s-law/a/coulombs-law-and-electric-force-ap-physics-1"}
+checks:
+  - {given: {k: 8.99e9, q1: 1e-6, q2: 1e-6, r: 1}, solve_for: F, expect: 8.99e-3}

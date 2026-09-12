@@ -228,9 +228,490 @@
           "url": "https://en.wikipedia.org/wiki/Electric_current"
         }
       ]
+    },
+    {
+      "id": "gravitational-acceleration",
+      "name": "Acceleration Due to Gravity",
+      "symbol": "g",
+      "dimension": {
+        "L": 1,
+        "T": -2
+      },
+      "si_unit": "m/s^2",
+      "constant": true,
+      "value": 9.8,
+      "description": "The constant acceleration of a freely falling object, 9.80 m/s^2 near Earth's surface, independent of the object's mass.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Gravitational_acceleration"
+        }
+      ]
+    },
+    {
+      "id": "gravitational-constant",
+      "name": "Gravitational Constant",
+      "symbol": "G",
+      "dimension": {
+        "M": -1,
+        "L": 3,
+        "T": -2
+      },
+      "si_unit": "N*m^2/kg^2",
+      "constant": true,
+      "value": 6.674e-11,
+      "description": "The proportionality constant in Newton's law of gravitation, the same everywhere in the universe.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Gravitational_constant"
+        }
+      ]
+    },
+    {
+      "id": "coulombs-constant",
+      "name": "Coulomb's Constant",
+      "symbol": "k",
+      "dimension": {
+        "M": 1,
+        "L": 3,
+        "T": -4,
+        "I": -2
+      },
+      "si_unit": "N*m^2/C^2",
+      "constant": true,
+      "value": "8.99e9",
+      "description": "The proportionality constant in Coulomb's law relating electrostatic force to charge and separation.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Coulomb%27s_law#Coulomb_constant"
+        }
+      ]
+    },
+    {
+      "id": "radius",
+      "name": "Radius",
+      "symbol": "r",
+      "dimension": {
+        "L": 1
+      },
+      "si_unit": "m",
+      "constant": false,
+      "value": null,
+      "description": "The straight-line distance from a center point, such as the center of a circular path or between two masses or charges.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Radius"
+        }
+      ]
+    },
+    {
+      "id": "coefficient-of-friction",
+      "name": "Coefficient of Friction",
+      "symbol": "mu",
+      "dimension": {},
+      "si_unit": "",
+      "constant": false,
+      "value": null,
+      "description": "A unitless number representing the ratio of friction force to normal force between two surfaces in contact.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Friction#Coefficient_of_friction"
+        }
+      ]
+    },
+    {
+      "id": "height",
+      "name": "Height",
+      "symbol": "h",
+      "dimension": {
+        "L": 1
+      },
+      "si_unit": "m",
+      "constant": false,
+      "value": null,
+      "description": "Vertical distance above a reference level, such as the ground.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Height"
+        }
+      ]
+    },
+    {
+      "id": "length",
+      "name": "Length",
+      "symbol": "L",
+      "dimension": {
+        "L": 1
+      },
+      "si_unit": "m",
+      "constant": false,
+      "value": null,
+      "description": "The measured extent of something from end to end.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Length"
+        }
+      ]
+    },
+    {
+      "id": "impulse",
+      "name": "Impulse",
+      "symbol": "J",
+      "dimension": {
+        "M": 1,
+        "L": 1,
+        "T": -1
+      },
+      "si_unit": "N*s",
+      "constant": false,
+      "value": null,
+      "description": "The average net external force on an object multiplied by the time the force acts, equal to the object's change in momentum.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Impulse_(physics)"
+        }
+      ]
+    },
+    {
+      "id": "density",
+      "name": "Density",
+      "symbol": "rho",
+      "dimension": {
+        "M": 1,
+        "L": -3
+      },
+      "si_unit": "kg/m^3",
+      "constant": false,
+      "value": null,
+      "description": "The mass per unit volume of a substance or object.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Density"
+        }
+      ]
+    },
+    {
+      "id": "volume",
+      "name": "Volume",
+      "symbol": "V",
+      "dimension": {
+        "L": 3
+      },
+      "si_unit": "m^3",
+      "constant": false,
+      "value": null,
+      "description": "The amount of three-dimensional space occupied by a substance or object.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Volume"
+        }
+      ]
+    },
+    {
+      "id": "area",
+      "name": "Area",
+      "symbol": "A",
+      "dimension": {
+        "L": 2
+      },
+      "si_unit": "m^2",
+      "constant": false,
+      "value": null,
+      "description": "The amount of two-dimensional space enclosed within a boundary.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Area"
+        }
+      ]
+    },
+    {
+      "id": "pressure",
+      "name": "Pressure",
+      "symbol": "P",
+      "dimension": {
+        "M": 1,
+        "L": -1,
+        "T": -2
+      },
+      "si_unit": "Pa",
+      "constant": false,
+      "value": null,
+      "description": "The force per unit perpendicular area applied to a surface.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Pressure"
+        }
+      ]
+    },
+    {
+      "id": "period",
+      "name": "Period",
+      "symbol": "T",
+      "dimension": {
+        "T": 1
+      },
+      "si_unit": "s",
+      "constant": false,
+      "value": null,
+      "description": "The time for one oscillation.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Frequency#Period_of_a_wave"
+        }
+      ]
+    },
+    {
+      "id": "frequency",
+      "name": "Frequency",
+      "symbol": "f",
+      "dimension": {
+        "T": -1
+      },
+      "si_unit": "Hz",
+      "constant": false,
+      "value": null,
+      "description": "The number of oscillations per unit time.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Frequency"
+        }
+      ]
+    },
+    {
+      "id": "wavelength",
+      "name": "Wavelength",
+      "symbol": "lambda",
+      "dimension": {
+        "L": 1
+      },
+      "si_unit": "m",
+      "constant": false,
+      "value": null,
+      "description": "The distance between adjacent identical parts of a wave.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Wavelength"
+        }
+      ]
+    },
+    {
+      "id": "voltage",
+      "name": "Voltage",
+      "symbol": "V",
+      "dimension": {
+        "M": 1,
+        "L": 2,
+        "T": -3,
+        "I": -1
+      },
+      "si_unit": "V",
+      "constant": false,
+      "value": null,
+      "description": "The electric potential difference between two points, equal to the work done per unit charge moved between them.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Voltage"
+        }
+      ]
+    },
+    {
+      "id": "resistance",
+      "name": "Electrical Resistance",
+      "symbol": "R",
+      "dimension": {
+        "M": 1,
+        "L": 2,
+        "T": -3,
+        "I": -2
+      },
+      "si_unit": "ohm",
+      "constant": false,
+      "value": null,
+      "description": "A material's opposition to the flow of electric current; for ohmic materials, the ratio of voltage to current.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Electrical_resistance_and_conductance"
+        }
+      ]
     }
   ],
   "equations": [
+    {
+      "id": "centripetal-acceleration",
+      "name": "Centripetal Acceleration",
+      "latex": "a_c = \\frac{v^2}{r}",
+      "topic": "circular-motion",
+      "variables": {
+        "a": {
+          "quantity": "acceleration",
+          "role": "centripetal"
+        },
+        "v": {
+          "quantity": "velocity",
+          "role": null
+        },
+        "r": {
+          "quantity": "radius",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "6.2",
+        "url": "https://openstax.org/books/college-physics-2e/pages/6-2-centripetal-acceleration"
+      },
+      "description": "The acceleration of an object moving in uniform circular motion (resulting from a net external force).",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Centripetal_force"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/ap-physics-c-mechanics/x077f5683c1428fac:force-and-translational-dynamics/x077f5683c1428fac:circular-motion/a/what-is-centripetal-force"
+        }
+      ]
+    },
+    {
+      "id": "centripetal-force",
+      "name": "Centripetal Force",
+      "latex": "F_c = \\frac{mv^2}{r}",
+      "topic": "circular-motion",
+      "variables": {
+        "F": {
+          "quantity": "force",
+          "role": "centripetal"
+        },
+        "m": {
+          "quantity": "mass",
+          "role": null
+        },
+        "v": {
+          "quantity": "velocity",
+          "role": null
+        },
+        "r": {
+          "quantity": "radius",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "6.3",
+        "url": "https://openstax.org/books/college-physics-2e/pages/6-3-centripetal-force"
+      },
+      "description": "Any net force that causes uniform circular motion is a centripetal force; it points toward the center of curvature, and its magnitude grows with mass and with the square of speed, but shrinks as the radius of the circle grows.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Centripetal_force"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/centripetal-force-and-gravitation/centripetalforces/a/what-is-centripetal-force"
+        }
+      ]
+    },
+    {
+      "id": "coulombs-law",
+      "name": "Coulomb's Law",
+      "latex": "F = \\frac{kq_1q_2}{r^2}",
+      "topic": "electricity",
+      "variables": {
+        "F": {
+          "quantity": "force",
+          "role": "electric"
+        },
+        "k": {
+          "quantity": "coulombs-constant",
+          "role": null
+        },
+        "q1": {
+          "quantity": "charge",
+          "role": "first-charge"
+        },
+        "q2": {
+          "quantity": "charge",
+          "role": "second-charge"
+        },
+        "r": {
+          "quantity": "radius",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "18.3",
+        "url": "https://openstax.org/books/college-physics-2e/pages/18-3-coulombs-law"
+      },
+      "description": "The electrostatic force between two point charges is directly proportional to the magnitude of each charge and inversely proportional to the square of the distance separating them; like charges repel and opposite charges attract, with the force acting along the line joining the two charges.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Coulomb%27s_law"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/hs-physics/x215e29cb31244fa1:types-of-interactions/x215e29cb31244fa1:coulomb-s-law/a/coulombs-law-and-electric-force-ap-physics-1"
+        }
+      ]
+    },
+    {
+      "id": "density",
+      "name": "Density",
+      "latex": "\\rho = \\frac{m}{V}",
+      "topic": "fluids",
+      "variables": {
+        "rho": {
+          "quantity": "density",
+          "role": null
+        },
+        "m": {
+          "quantity": "mass",
+          "role": null
+        },
+        "V": {
+          "quantity": "volume",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "11.2",
+        "url": "https://openstax.org/books/college-physics-2e/pages/11-2-density"
+      },
+      "description": "The mass per unit volume of a substance or object.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Density"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/chemistry/atomic-structure-and-properties/introduction-to-the-atom/a/density"
+        }
+      ]
+    },
     {
       "id": "displacement-time",
       "name": "Displacement Under Constant Acceleration",
@@ -273,6 +754,121 @@
       ]
     },
     {
+      "id": "electric-power",
+      "name": "Electric Power",
+      "latex": "P = IV",
+      "topic": "electricity",
+      "variables": {
+        "P": {
+          "quantity": "power",
+          "role": null
+        },
+        "I": {
+          "quantity": "current",
+          "role": null
+        },
+        "V": {
+          "quantity": "voltage",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "20.4",
+        "url": "https://openstax.org/books/college-physics-2e/pages/20-4-electric-power-and-energy"
+      },
+      "description": "The rate at which electrical energy is supplied by a source or dissipated by a device; it is the product of current times voltage.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Electric_power"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/high-school-physics/dc-circuits/electric-power-and-dc-circuits/v/electric-power"
+        }
+      ]
+    },
+    {
+      "id": "gravitational-potential-energy",
+      "name": "Gravitational Potential Energy",
+      "latex": "PE = mgh",
+      "topic": "energy",
+      "variables": {
+        "PE": {
+          "quantity": "energy",
+          "role": "gravitational-potential"
+        },
+        "m": {
+          "quantity": "mass",
+          "role": null
+        },
+        "g": {
+          "quantity": "gravitational-acceleration",
+          "role": null
+        },
+        "h": {
+          "quantity": "height",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "7.3",
+        "url": "https://openstax.org/books/college-physics-2e/pages/7-3-gravitational-potential-energy"
+      },
+      "description": "The energy an object has due to its position in a gravitational field, equal to the work done to raise it against gravity.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Gravitational_energy"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/work-and-energy/work-and-energy-tutorial/a/what-is-gravitational-potential-energy"
+        }
+      ]
+    },
+    {
+      "id": "impulse-momentum-theorem",
+      "name": "Impulse-Momentum Theorem",
+      "latex": "J = F\\Delta t",
+      "topic": "momentum",
+      "variables": {
+        "J": {
+          "quantity": "impulse",
+          "role": null
+        },
+        "F": {
+          "quantity": "force",
+          "role": null
+        },
+        "t": {
+          "quantity": "time",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "8.2",
+        "url": "https://openstax.org/books/college-physics-2e/pages/8-2-impulse"
+      },
+      "description": "The impulse on an object is equal to the average net external force acting on it multiplied by the time interval over which the force acts.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Impulse_(physics)"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/linear-momentum/momentum-tutorial/a/what-are-momentum-and-impulse"
+        }
+      ]
+    },
+    {
       "id": "kinetic-energy",
       "name": "Kinetic Energy",
       "latex": "KE = \\tfrac{1}{2} m v^2",
@@ -306,6 +902,43 @@
         {
           "label": "Khan Academy",
           "url": "https://www.khanacademy.org/science/physics/work-and-energy/energy-tutorial/a/kinetic-energy"
+        }
+      ]
+    },
+    {
+      "id": "kinetic-friction",
+      "name": "Kinetic Friction",
+      "latex": "f_k = \\mu_k N",
+      "topic": "dynamics",
+      "variables": {
+        "f": {
+          "quantity": "force",
+          "role": "friction"
+        },
+        "mu": {
+          "quantity": "coefficient-of-friction",
+          "role": null
+        },
+        "N": {
+          "quantity": "force",
+          "role": "normal"
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "5.1",
+        "url": "https://openstax.org/books/college-physics-2e/pages/5-1-friction"
+      },
+      "description": "If two surfaces are in contact and moving relative to one another, then the friction between them is called kinetic friction. The kinetic friction force is proportional to the normal force pressing the surfaces together, scaled by the coefficient of kinetic friction.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Friction"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/forces-newtons-laws/inclined-planes-friction/v/force-of-friction-keeping-velocity-constant"
         }
       ]
     },
@@ -347,6 +980,51 @@
       ]
     },
     {
+      "id": "newtons-law-of-gravitation",
+      "name": "Newton's Universal Law of Gravitation",
+      "latex": "F = \\frac{Gm_1m_2}{r^2}",
+      "topic": "gravitation",
+      "variables": {
+        "F": {
+          "quantity": "force",
+          "role": "gravitational"
+        },
+        "G": {
+          "quantity": "gravitational-constant",
+          "role": null
+        },
+        "m1": {
+          "quantity": "mass",
+          "role": "first-body"
+        },
+        "m2": {
+          "quantity": "mass",
+          "role": "second-body"
+        },
+        "r": {
+          "quantity": "radius",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "6.5",
+        "url": "https://openstax.org/books/college-physics-2e/pages/6-5-newtons-universal-law-of-gravitation"
+      },
+      "description": "Every particle of mass in the universe attracts every other particle with a force that grows with the product of their masses and shrinks with the square of the distance between their centers.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Newton's_law_of_universal_gravitation"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/highschool-physics/x6679aa2c65c01e53:gravitation/x6679aa2c65c01e53:newtons-law-of-gravitation"
+        }
+      ]
+    },
+    {
       "id": "newtons-second-law",
       "name": "Newton's Second Law",
       "latex": "F = ma",
@@ -384,6 +1062,76 @@
       ]
     },
     {
+      "id": "ohms-law",
+      "name": "Ohm's Law",
+      "latex": "V = IR",
+      "topic": "electricity",
+      "variables": {
+        "V": {
+          "quantity": "voltage",
+          "role": null
+        },
+        "I": {
+          "quantity": "current",
+          "role": null
+        },
+        "R": {
+          "quantity": "resistance",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "20.2",
+        "url": "https://openstax.org/books/college-physics-2e/pages/20-2-ohms-law-resistance-and-simple-circuits"
+      },
+      "description": "An empirical relation stating that the current through a conductor is proportional to the potential difference across it, often written as I = V/R, where R is the resistance.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Ohm%27s_law"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/circuits-topic/circuits-resistance/v/circuits-part-1"
+        }
+      ]
+    },
+    {
+      "id": "period-frequency",
+      "name": "Period-Frequency Relation",
+      "latex": "f = \\frac{1}{T}",
+      "topic": "waves",
+      "variables": {
+        "f": {
+          "quantity": "frequency",
+          "role": null
+        },
+        "T": {
+          "quantity": "period",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "16.2",
+        "url": "https://openstax.org/books/college-physics-2e/pages/16-2-period-and-frequency-in-oscillations"
+      },
+      "description": "Period and frequency describe the same oscillation from opposite ends, the time per cycle versus the number of cycles per unit time, so one is simply the reciprocal of the other.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Frequency#Period_of_a_wave"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/mechanical-waves-and-sound/mechanical-waves/v/amplitude-period-frequency-and-wavelength-of-periodic-waves"
+        }
+      ]
+    },
+    {
       "id": "power",
       "name": "Power",
       "latex": "P = \\frac{W}{t}",
@@ -417,6 +1165,80 @@
         {
           "label": "Khan Academy",
           "url": "https://www.khanacademy.org/science/physics/work-and-energy/work-and-energy-tutorial/a/what-is-power"
+        }
+      ]
+    },
+    {
+      "id": "pressure",
+      "name": "Pressure",
+      "latex": "P = \\frac{F}{A}",
+      "topic": "fluids",
+      "variables": {
+        "P": {
+          "quantity": "pressure",
+          "role": null
+        },
+        "F": {
+          "quantity": "force",
+          "role": null
+        },
+        "A": {
+          "quantity": "area",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "11.3",
+        "url": "https://openstax.org/books/college-physics-2e/pages/11-3-pressure"
+      },
+      "description": "The force per unit area perpendicular to the force, over which the force acts.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Pressure"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/fluids/density-and-pressure/a/pressure-article"
+        }
+      ]
+    },
+    {
+      "id": "simple-pendulum-period",
+      "name": "Simple Pendulum Period",
+      "latex": "T = 2\\pi\\sqrt{\\frac{L}{g}}",
+      "topic": "waves",
+      "variables": {
+        "T": {
+          "quantity": "period",
+          "role": null
+        },
+        "L": {
+          "quantity": "length",
+          "role": null
+        },
+        "g": {
+          "quantity": "gravitational-acceleration",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "16.4",
+        "url": "https://openstax.org/books/college-physics-2e/pages/16-4-the-simple-pendulum"
+      },
+      "description": "For a mass swinging on a light string or wire, the period of oscillation depends only on the pendulum's length and the local acceleration due to gravity, not on the mass or the amplitude. This holds as an approximation for small displacement angles, less than about 15 degrees.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Pendulum_(mechanics)"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/in-in-class11th-physics/in-in-11th-physics-oscillations/in-in-simple-pendulums/a/simple-pendulum-ap1"
         }
       ]
     },
@@ -499,6 +1321,80 @@
         {
           "label": "Khan Academy",
           "url": "https://www.khanacademy.org/science/physics/one-dimensional-motion/kinematic-formulas/a/what-are-the-kinematic-formulas"
+        }
+      ]
+    },
+    {
+      "id": "wave-speed",
+      "name": "Wave Speed",
+      "latex": "v_w = f\\lambda",
+      "topic": "waves",
+      "variables": {
+        "v": {
+          "quantity": "velocity",
+          "role": "wave"
+        },
+        "f": {
+          "quantity": "frequency",
+          "role": null
+        },
+        "lam": {
+          "quantity": "wavelength",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "16.9",
+        "url": "https://openstax.org/books/college-physics-2e/pages/16-9-waves"
+      },
+      "description": "The speed at which the disturbance moves. Also called the propagation velocity or propagation speed.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Phase_velocity"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/mechanical-waves-and-sound/mechanical-waves/v/amplitude-period-frequency-and-wavelength-of-periodic-waves"
+        }
+      ]
+    },
+    {
+      "id": "weight",
+      "name": "Weight",
+      "latex": "w = mg",
+      "topic": "dynamics",
+      "variables": {
+        "w": {
+          "quantity": "force",
+          "role": "weight"
+        },
+        "m": {
+          "quantity": "mass",
+          "role": null
+        },
+        "g": {
+          "quantity": "gravitational-acceleration",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "4.3",
+        "url": "https://openstax.org/books/college-physics-2e/pages/4-3-newtons-second-law-of-motion-concept-of-a-system"
+      },
+      "description": "The weight of an object is defined as the force of gravity acting on an object of mass m. Near Earth's surface, where the only force acting on a freely falling object is gravity, this force equals the object's mass times the acceleration due to gravity.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Weight"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/centripetal-force-and-gravitation/gravity-newtonian/v/mass-and-weight-clarification"
         }
       ]
     },

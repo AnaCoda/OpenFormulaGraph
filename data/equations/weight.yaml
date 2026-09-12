@@ -1,0 +1,20 @@
+id: weight
+name: Weight
+description: The weight of an object is defined as the force of gravity acting on an object of mass m. Near Earth's surface, where the only force acting on a freely falling object is gravity, this force equals the object's mass times the acceleration due to gravity.
+expr: "w - m*g"
+latex: "w = mg"
+variables:
+  w: {quantity: force, role: weight}
+  m: {quantity: mass}
+  g: {quantity: gravitational-acceleration}
+topic: dynamics
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "4.3"
+  url: "https://openstax.org/books/college-physics-2e/pages/4-3-newtons-second-law-of-motion-concept-of-a-system"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Weight"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/centripetal-force-and-gravitation/gravity-newtonian/v/mass-and-weight-clarification"}
+checks:
+  - {given: {m: 10, g: 9.80}, solve_for: w, expect: 98.0}

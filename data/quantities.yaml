@@ -105,3 +105,162 @@
   description: The rate at which charge flows.
   links:
     - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Electric_current"}
+
+- id: gravitational-acceleration
+  name: Acceleration Due to Gravity
+  symbol: g
+  dimension: {L: 1, T: -2}
+  si_unit: "m/s^2"
+  constant: true
+  value: 9.81
+  description: The constant acceleration of a freely falling object, 9.81 m/s^2 near Earth's surface, independent of the object's mass.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Gravitational_acceleration"}
+
+- id: gravitational-constant
+  name: Gravitational Constant
+  symbol: G
+  dimension: {M: -1, L: 3, T: -2}
+  si_unit: "N*m^2/kg^2"
+  constant: true
+  value: 6.674e-11
+  description: The proportionality constant in Newton's law of gravitation, the same everywhere in the universe.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Gravitational_constant"}
+
+- id: coulombs-constant
+  name: Coulomb's Constant
+  symbol: k
+  dimension: {M: 1, L: 3, T: -4, I: -2}
+  si_unit: "N*m^2/C^2"
+  constant: true
+  value: 8.99e9
+  description: The proportionality constant in Coulomb's law relating electrostatic force to charge and separation.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Coulomb%27s_law#Coulomb_constant"}
+
+- id: radius
+  name: Radius
+  symbol: r
+  dimension: {L: 1}
+  si_unit: "m"
+  description: The straight-line distance from a center point, such as the center of a circular path or between two masses or charges.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Radius"}
+
+- id: coefficient-of-friction
+  name: Coefficient of Friction
+  symbol: mu
+  dimension: {}
+  si_unit: ""
+  description: A unitless number representing the ratio of friction force to normal force between two surfaces in contact.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Friction#Coefficient_of_friction"}
+
+- id: height
+  name: Height
+  symbol: h
+  dimension: {L: 1}
+  si_unit: "m"
+  description: Vertical distance above a reference level, such as the ground.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Height"}
+
+- id: length
+  name: Length
+  symbol: L
+  dimension: {L: 1}
+  si_unit: "m"
+  description: The measured extent of something from end to end.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Length"}
+
+- id: impulse
+  name: Impulse
+  symbol: J
+  dimension: {M: 1, L: 1, T: -1}
+  si_unit: "N*s"
+  description: The average net external force on an object multiplied by the time the force acts, equal to the object's change in momentum.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Impulse_(physics)"}
+
+- id: density
+  name: Density
+  symbol: rho
+  dimension: {M: 1, L: -3}
+  si_unit: "kg/m^3"
+  description: The mass per unit volume of a substance or object.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Density"}
+
+- id: volume
+  name: Volume
+  symbol: V
+  dimension: {L: 3}
+  si_unit: "m^3"
+  description: The amount of three-dimensional space occupied by a substance or object.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Volume"}
+
+- id: area
+  name: Area
+  symbol: A
+  dimension: {L: 2}
+  si_unit: "m^2"
+  description: The amount of two-dimensional space enclosed within a boundary.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Area"}
+
+- id: pressure
+  name: Pressure
+  symbol: P
+  dimension: {M: 1, L: -1, T: -2}
+  si_unit: "Pa"
+  description: The force per unit perpendicular area applied to a surface.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Pressure"}
+
+- id: period
+  name: Period
+  symbol: T
+  dimension: {T: 1}
+  si_unit: "s"
+  description: The time for one oscillation.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Frequency#Period_of_a_wave"}
+
+- id: frequency
+  name: Frequency
+  symbol: f
+  dimension: {T: -1}
+  si_unit: "Hz"
+  description: The number of oscillations per unit time.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Frequency"}
+
+- id: wavelength
+  name: Wavelength
+  symbol: "lambda"
+  dimension: {L: 1}
+  si_unit: "m"
+  description: The distance between adjacent identical parts of a wave.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Wavelength"}
+
+- id: voltage
+  name: Voltage
+  symbol: V
+  dimension: {M: 1, L: 2, T: -3, I: -1}
+  si_unit: "V"
+  description: The electric potential difference between two points, equal to the work done per unit charge moved between them.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Voltage"}
+
+- id: resistance
+  name: Electrical Resistance
+  symbol: R
+  dimension: {M: 1, L: 2, T: -3, I: -2}
+  si_unit: "ohm"
+  description: A material's opposition to the flow of electric current; for ohmic materials, the ratio of voltage to current.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Electrical_resistance_and_conductance"}

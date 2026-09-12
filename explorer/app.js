@@ -18,6 +18,11 @@ const TOPIC_LABELS = {
   dynamics: "Dynamics",
   momentum: "Momentum",
   energy: "Work & Energy",
+  "circular-motion": "Circular Motion",
+  gravitation: "Gravitation",
+  fluids: "Fluid Statics",
+  waves: "Oscillatory Motion & Waves",
+  electricity: "Electricity",
 };
 
 const HELP_LINKS = {
@@ -27,8 +32,20 @@ const HELP_LINKS = {
 
 const SUPERSCRIPT = { "-": "⁻", 0: "⁰", 1: "¹", 2: "²", 3: "³", 4: "⁴", 5: "⁵", 6: "⁶", 7: "⁷", 8: "⁸", 9: "⁹" };
 
+// Quantity/variable symbols spelled out in ASCII (data can't use raw unicode identifiers everywhere).
+const GREEK = {
+  lambda: "λ", lam: "λ", mu: "μ", rho: "ρ", theta: "θ", omega: "ω",
+  delta: "δ", Delta: "Δ", sigma: "σ", tau: "τ", phi: "φ", psi: "ψ",
+};
+
+// Renders an ASCII-spelled Greek name as its actual glyph, e.g. "lambda" -> "λ".
+function displaySymbol(symbol) {
+  return GREEK[symbol] ?? symbol;
+}
+
 // Turns "v0" into "v_{0}" so it renders as a subscript like it does in the equation itself.
 function symbolToLatex(symbol) {
+  if (GREEK[symbol]) return GREEK[symbol];
   const match = symbol.match(/^([a-zA-Z]+)(\d+)$/);
   return match ? `${match[1]}_{${match[2]}}` : symbol;
 }
@@ -78,29 +95,35 @@ function centerPullForce(strength) {
   return force;
 }
 
-// Nudges equation nodes apart so their HTML cards don't settle on top of each other.
-function equationCollideForce(radius) {
-  let equations = [];
+// Keeps cards and quantity labels from overlapping. Equation cards get a bigger effective
+// radius the longer their name is, since that's what drives the card's actual width.
+function nodeCollideForce(padding) {
+  let nodes = [];
+  const radiusOf = (n) => (n.type === "equation" ? 55 + n.name.length * 3.2 : 40);
   function force() {
-    for (let i = 0; i < equations.length; i++) {
-      for (let j = i + 1; j < equations.length; j++) {
-        const a = equations[i];
-        const b = equations[j];
-        const dx = b.x - a.x || 0.01;
-        const dy = b.y - a.y || 0.01;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < radius) {
-          const move = ((radius - dist) / dist) * 0.5;
-          a.x -= dx * move;
-          a.y -= dy * move;
-          b.x += dx * move;
-          b.y += dy * move;
+    // Several passes per tick so overlaps resolve within the simulation's shorter, calmer settle time.
+    for (let pass = 0; pass < 3; pass++) {
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const a = nodes[i];
+          const b = nodes[j];
+          const minDist = radiusOf(a) + radiusOf(b) + padding;
+          const dx = b.x - a.x || 0.01;
+          const dy = b.y - a.y || 0.01;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < minDist) {
+            const move = ((minDist - dist) / dist) * 0.5;
+            a.x -= dx * move;
+            a.y -= dy * move;
+            b.x += dx * move;
+            b.y += dy * move;
+          }
         }
       }
     }
   }
   force.initialize = (ns) => {
-    equations = ns.filter((n) => n.type === "equation");
+    nodes = ns;
   };
   return force;
 }
@@ -143,6 +166,7 @@ function explorer() {
       return [...this._bundle.equations]
         .map((eq) => ({
           id: eq.id,
+          name: eq.name,
           topic: eq.topic,
           section: eq.source?.section ?? "?",
           sectionNum: parseFloat(eq.source?.section ?? "0"),
@@ -160,11 +184,6 @@ function explorer() {
         else groups.push({ topic: eq.topic, label: TOPIC_LABELS[eq.topic] ?? eq.topic, items: [eq] });
       }
       return groups;
-    },
-
-    selectFromCurriculum(eqid) {
-      this.selectEquation(eqid);
-      this.activeTab = "explore";
     },
 
     get relatedEquations() {
@@ -210,6 +229,7 @@ function explorer() {
         if (Object.values(eq.variables).some((v) => v.quantity === qid)) active.add(`e:${eq.id}`);
       }
       this._activeIds = active;
+      this.activeTab = "explore";
       this._refreshHighlight();
     },
 
@@ -219,6 +239,7 @@ function explorer() {
       const active = new Set([`e:${eqid}`]);
       for (const v of Object.values(eq.variables)) active.add(`q:${v.quantity}`);
       this._activeIds = active;
+      this.activeTab = "explore";
       this._refreshHighlight();
     },
 
@@ -254,8 +275,8 @@ function explorer() {
         .linkDirectionalParticles((l) => (self._isLinkActive(l) ? 3 : 0))
         .linkDirectionalParticleWidth(2.4)
         .linkDirectionalParticleColor(() => COLORS.particle)
-        .d3AlphaDecay(0.025)
-        .d3VelocityDecay(0.28)
+        .d3AlphaDecay(0.05)
+        .d3VelocityDecay(0.45)
         .nodeCanvasObjectMode(() => "replace")
         .nodeCanvasObject((node, ctx, scale) => {
           if (node.type === "equation") return; // rendered as an HTML card instead
@@ -284,16 +305,20 @@ function explorer() {
           ctx.textAlign = "center";
           ctx.textBaseline = "middle";
           ctx.fillStyle = isSelected ? "#ffffff" : COLORS.quantityText;
-          ctx.fillText(node.symbol, node.x, node.y);
+          ctx.fillText(displaySymbol(node.symbol), node.x, node.y);
+
+          ctx.font = `${Math.max(8, 9 / scale)}px Inter, sans-serif`;
+          ctx.fillStyle = COLORS.quantityText;
+          ctx.fillText(node.name, node.x, node.y + r + 8);
           ctx.restore();
         })
         .onBackgroundClick(() => self.clearSelection())
         .onRenderFramePost(() => this._syncOverlays());
 
       this._graph.d3Force("charge").strength(-110);
-      this._graph.d3Force("link").distance(60);
+      this._graph.d3Force("link").distance(70);
       this._graph.d3Force("pull", centerPullForce(0.045));
-      this._graph.d3Force("eqCollide", equationCollideForce(140));
+      this._graph.d3Force("collide", nodeCollideForce(24));
 
       this._equationLayer = document.createElement("div");
       this._equationLayer.className = "equation-layer";
@@ -305,7 +330,9 @@ function explorer() {
         const el = document.createElement("div");
         if (node.type === "equation") {
           el.className = "eq-card";
-          el.innerHTML = window.katex.renderToString(node.latex, { throwOnError: false });
+          el.innerHTML =
+            `<div class="eq-card-label">${node.name}</div>` +
+            window.katex.renderToString(node.latex, { throwOnError: false });
           el.addEventListener("click", () => self.selectEquation(node.eqid));
         } else {
           el.className = "q-hit";
@@ -330,9 +357,18 @@ function explorer() {
         degree.set(s, (degree.get(s) || 0) + 1);
         degree.set(t, (degree.get(t) || 0) + 1);
       }
-      this._graph.onEngineStop(() =>
-        this._graph.zoomToFit(400, 100, (n) => (degree.get(n.id) || 0) > 0)
-      );
+      // A fixed padding can exceed a short container's own height, which forces zoomToFit
+      // to zoom out to its minimum; scale padding down for smaller containers instead.
+      const MIN_ZOOM = 0.6;
+      this._graph.onEngineStop(() => {
+        const padding = Math.max(20, Math.min(100, Math.min(this._graph.width(), this._graph.height()) * 0.15));
+        // Instant so the zoom it lands on can be read back immediately below (an animated
+        // zoomToFit doesn't reach its target until the transition finishes).
+        this._graph.zoomToFit(0, padding, (n) => (degree.get(n.id) || 0) > 0);
+        // Fitting the whole graph into a fixed-size container can shrink cards past legibility;
+        // floor the zoom instead and let panning reveal what doesn't fit.
+        if (this._graph.zoom() < MIN_ZOOM) this._graph.zoom(MIN_ZOOM, 300);
+      });
     },
 
     _isLinkActive(link) {

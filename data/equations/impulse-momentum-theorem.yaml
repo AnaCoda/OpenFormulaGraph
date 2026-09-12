@@ -1,0 +1,20 @@
+id: impulse-momentum-theorem
+name: Impulse-Momentum Theorem
+description: The impulse on an object is equal to the average net external force acting on it multiplied by the time interval over which the force acts.
+expr: "J - F*t"
+latex: "J = F\\Delta t"
+variables:
+  J: {quantity: impulse}
+  F: {quantity: force}
+  t: {quantity: time}
+topic: momentum
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "8.2"
+  url: "https://openstax.org/books/college-physics-2e/pages/8-2-impulse"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Impulse_(physics)"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/linear-momentum/momentum-tutorial/a/what-are-momentum-and-impulse"}
+checks:
+  - {given: {F: 10, t: 2}, solve_for: J, expect: 20}

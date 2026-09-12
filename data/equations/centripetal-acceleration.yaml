@@ -1,0 +1,20 @@
+id: centripetal-acceleration
+name: Centripetal Acceleration
+description: The acceleration of an object moving in uniform circular motion (resulting from a net external force).
+expr: "a - v**2/r"
+latex: "a_c = \\frac{v^2}{r}"
+variables:
+  a: {quantity: acceleration, role: centripetal}
+  v: {quantity: velocity}
+  r: {quantity: radius}
+topic: circular-motion
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "6.2"
+  url: "https://openstax.org/books/college-physics-2e/pages/6-2-centripetal-acceleration"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Centripetal_force"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/ap-physics-c-mechanics/x077f5683c1428fac:force-and-translational-dynamics/x077f5683c1428fac:circular-motion/a/what-is-centripetal-force"}
+checks:
+  - {given: {v: 4, r: 2}, solve_for: a, expect: 8}

@@ -1,0 +1,20 @@
+id: simple-pendulum-period
+name: Simple Pendulum Period
+description: For a mass swinging on a light string or wire, the period of oscillation depends only on the pendulum's length and the local acceleration due to gravity, not on the mass or the amplitude. This holds as an approximation for small displacement angles, less than about 15 degrees.
+expr: "T - 2*pi*sqrt(L/g)"
+latex: "T = 2\\pi\\sqrt{\\frac{L}{g}}"
+variables:
+  T: {quantity: period}
+  L: {quantity: length}
+  g: {quantity: gravitational-acceleration}
+topic: waves
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "16.4"
+  url: "https://openstax.org/books/college-physics-2e/pages/16-4-the-simple-pendulum"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Pendulum_(mechanics)"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/in-in-class11th-physics/in-in-11th-physics-oscillations/in-in-simple-pendulums/a/simple-pendulum-ap1"}
+checks:
+  - {given: {L: 1, g: 9.80}, solve_for: T, expect: 2.007089923154493}

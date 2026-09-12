@@ -56,7 +56,7 @@ def dim_of(expr: sympy.Basic, symbol_quantities: dict[str, Quantity]) -> Vector:
             raise DimensionError(f"no quantity known for symbol '{expr.name}'")
         return vector_from_dict(quantity.dimension)
 
-    if expr.is_Number:
+    if expr.is_number:
         return ZERO
 
     if expr.is_Add:

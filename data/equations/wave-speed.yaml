@@ -1,0 +1,20 @@
+id: wave-speed
+name: Wave Speed
+description: The speed at which the disturbance moves. Also called the propagation velocity or propagation speed.
+expr: "v - f*lam"
+latex: "v_w = f\\lambda"
+variables:
+  v: {quantity: velocity, role: wave}
+  f: {quantity: frequency}
+  lam: {quantity: wavelength}
+topic: waves
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "16.9"
+  url: "https://openstax.org/books/college-physics-2e/pages/16-9-waves"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Phase_velocity"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/mechanical-waves-and-sound/mechanical-waves/v/amplitude-period-frequency-and-wavelength-of-periodic-waves"}
+checks:
+  - {given: {f: 2, lam: 3}, solve_for: v, expect: 6}

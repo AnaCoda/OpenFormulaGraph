@@ -1,0 +1,22 @@
+id: newtons-law-of-gravitation
+name: Newton's Universal Law of Gravitation
+description: Every particle of mass in the universe attracts every other particle with a force that grows with the product of their masses and shrinks with the square of the distance between their centers.
+expr: "F - G*m1*m2/r**2"
+latex: "F = \\frac{Gm_1m_2}{r^2}"
+variables:
+  F: {quantity: force, role: gravitational}
+  G: {quantity: gravitational-constant}
+  m1: {quantity: mass, role: first-body}
+  m2: {quantity: mass, role: second-body}
+  r: {quantity: radius}
+topic: gravitation
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "6.5"
+  url: "https://openstax.org/books/college-physics-2e/pages/6-5-newtons-universal-law-of-gravitation"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Newton's_law_of_universal_gravitation"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/highschool-physics/x6679aa2c65c01e53:gravitation/x6679aa2c65c01e53:newtons-law-of-gravitation"}
+checks:
+  - {given: {G: 6.674e-11, m1: 5.972e24, m2: 1, r: 6.371e6}, solve_for: F, expect: 9.819532032815958}

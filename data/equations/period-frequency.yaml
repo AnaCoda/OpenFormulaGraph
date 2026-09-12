@@ -1,0 +1,19 @@
+id: period-frequency
+name: Period-Frequency Relation
+description: Period and frequency describe the same oscillation from opposite ends, the time per cycle versus the number of cycles per unit time, so one is simply the reciprocal of the other.
+expr: "f - 1/T"
+latex: "f = \\frac{1}{T}"
+variables:
+  f: {quantity: frequency}
+  T: {quantity: period}
+topic: waves
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "16.2"
+  url: "https://openstax.org/books/college-physics-2e/pages/16-2-period-and-frequency-in-oscillations"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Frequency#Period_of_a_wave"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/mechanical-waves-and-sound/mechanical-waves/v/amplitude-period-frequency-and-wavelength-of-periodic-waves"}
+checks:
+  - {given: {T: 0.5}, solve_for: f, expect: 2}

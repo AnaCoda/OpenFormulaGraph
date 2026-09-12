@@ -1,0 +1,20 @@
+id: kinetic-friction
+name: Kinetic Friction
+description: If two surfaces are in contact and moving relative to one another, then the friction between them is called kinetic friction. The kinetic friction force is proportional to the normal force pressing the surfaces together, scaled by the coefficient of kinetic friction.
+expr: "f - mu*N"
+latex: "f_k = \\mu_k N"
+variables:
+  f: {quantity: force, role: friction}
+  mu: {quantity: coefficient-of-friction}
+  N: {quantity: force, role: normal}
+topic: dynamics
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "5.1"
+  url: "https://openstax.org/books/college-physics-2e/pages/5-1-friction"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Friction"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/forces-newtons-laws/inclined-planes-friction/v/force-of-friction-keeping-velocity-constant"}
+checks:
+  - {given: {mu: 0.3, N: 20}, solve_for: f, expect: 6}
