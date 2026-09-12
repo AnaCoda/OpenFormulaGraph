@@ -1,6 +1,6 @@
 # OpenFormulaGraph
 
-A small, open, machine-checkable graph of physics equations and quantities.
+An open graph of equations and variables.
 It can be used to answer the question: given what you know, what else is calculable, and
 by which equation?
 
@@ -25,19 +25,15 @@ same quantity appear more than once in an equation without ambiguity.
 Requires [uv](https://docs.astral.sh/uv/).
 
 ```bash
-uv run ofg calculable mass force time
-```
+> uv run ofg calculable mass force time
 
-```
 Calculable:
   Acceleration  (via "Newton's Second Law", F = ma)
 ```
 
 ```bash
-uv run ofg calculable mass force time velocity
-```
+> uv run ofg calculable mass force time velocity
 
-```
 Calculable:
   Energy  (via 'Kinetic Energy', KE = \tfrac{1}{2} m v^2)
   Momentum  (via 'Linear Momentum', p = mv)
@@ -51,10 +47,11 @@ uv sync
 uv run pytest
 ```
 
-`tests/test_dimensions.py` checks every equation for dimensional
-consistency. `tests/test_checks.py` runs each equation's numeric
-example check. Loading the graph itself (`ofg.model.load_graph`) enforces that
-declared variables match the symbols actually used in `expr`.
+- `tests/test_dimensions.py` checks every equation for dimensional
+consistency
+- `tests/test_checks.py` runs each equation's numeric
+example check
+- `ofg.model.load_graph` enforces that declared variables match the symbols actually used in `expr`.
 
 ## License
 
