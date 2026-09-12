@@ -137,6 +137,7 @@ function explorer() {
     },
 
     get curriculum() {
+      if (!this._bundle) return [];
       return [...this._bundle.equations]
         .map((eq) => ({
           id: eq.id,
