@@ -1,0 +1,16 @@
+id: velocity-squared
+name: Velocity Squared Under Constant Acceleration
+expr: "v**2 - v0**2 - 2*a*x"
+latex: "v^2 = v_0^2 + 2a\\Delta x"
+variables:
+  v: {quantity: velocity, role: final}
+  v0: {quantity: velocity, role: initial}
+  a: {quantity: acceleration}
+  x: {quantity: displacement}
+topic: kinematics
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "2.6"
+checks:
+  - {given: {v0: 0, a: 2, x: 9}, solve_for: v, expect: 6}

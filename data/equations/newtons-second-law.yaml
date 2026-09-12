@@ -1,0 +1,15 @@
+id: newtons-second-law
+name: Newton's Second Law
+expr: "F - m*a"
+latex: "F = ma"
+variables:
+  F: {quantity: force}
+  m: {quantity: mass}
+  a: {quantity: acceleration}
+topic: dynamics
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "4.3"
+checks:
+  - {given: {m: 2, a: 3}, solve_for: F, expect: 6}

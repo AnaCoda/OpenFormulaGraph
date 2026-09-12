@@ -1,0 +1,16 @@
+id: velocity-time
+name: Velocity as a Function of Time
+expr: "v - v0 - a*t"
+latex: "v = v_0 + at"
+variables:
+  v: {quantity: velocity, role: final}
+  v0: {quantity: velocity, role: initial}
+  a: {quantity: acceleration}
+  t: {quantity: time}
+topic: kinematics
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "2.5"
+checks:
+  - {given: {v0: 0, a: 2, t: 3}, solve_for: v, expect: 6}

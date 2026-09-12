@@ -1,0 +1,15 @@
+id: momentum-definition
+name: Linear Momentum
+expr: "p - m*v"
+latex: "p = mv"
+variables:
+  p: {quantity: momentum}
+  m: {quantity: mass}
+  v: {quantity: velocity}
+topic: momentum
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "8.1"
+checks:
+  - {given: {m: 2, v: 3}, solve_for: p, expect: 6}

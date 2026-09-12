@@ -1,0 +1,15 @@
+id: work-definition
+name: Work Done by a Constant Force
+expr: "W - F*x"
+latex: "W = Fd"
+variables:
+  W: {quantity: work}
+  F: {quantity: force}
+  x: {quantity: displacement}
+topic: energy
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "7.1"
+checks:
+  - {given: {F: 5, x: 2}, solve_for: W, expect: 10}

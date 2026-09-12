@@ -1,0 +1,71 @@
+- id: mass
+  name: Mass
+  symbol: m
+  dimension: {M: 1}
+  si_unit: "kg"
+
+- id: force
+  name: Force
+  symbol: F
+  dimension: {M: 1, L: 1, T: -2}
+  si_unit: "N"
+
+- id: acceleration
+  name: Acceleration
+  symbol: a
+  dimension: {L: 1, T: -2}
+  si_unit: "m/s^2"
+
+- id: velocity
+  name: Velocity
+  symbol: v
+  dimension: {L: 1, T: -1}
+  si_unit: "m/s"
+
+- id: displacement
+  name: Displacement
+  symbol: x
+  dimension: {L: 1}
+  si_unit: "m"
+
+- id: time
+  name: Time
+  symbol: t
+  dimension: {T: 1}
+  si_unit: "s"
+
+- id: energy
+  name: Energy
+  symbol: E
+  dimension: {M: 1, L: 2, T: -2}
+  si_unit: "J"
+
+- id: work
+  name: Work
+  symbol: W
+  dimension: {M: 1, L: 2, T: -2}
+  si_unit: "J"
+
+- id: power
+  name: Power
+  symbol: P
+  dimension: {M: 1, L: 2, T: -3}
+  si_unit: "W"
+
+- id: momentum
+  name: Momentum
+  symbol: p
+  dimension: {M: 1, L: 1, T: -1}
+  si_unit: "kg*m/s"
+
+- id: charge
+  name: Electric charge
+  symbol: q
+  dimension: {I: 1, T: 1}
+  si_unit: "C"
+
+- id: current
+  name: Electric current
+  symbol: I
+  dimension: {I: 1}
+  si_unit: "A"

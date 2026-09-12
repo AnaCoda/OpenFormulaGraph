@@ -1,0 +1,15 @@
+id: kinetic-energy
+name: Kinetic Energy
+expr: "E - m*v**2/2"
+latex: "KE = \\tfrac{1}{2} m v^2"
+variables:
+  E: {quantity: energy}
+  m: {quantity: mass}
+  v: {quantity: velocity}
+topic: energy
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "7.2"
+checks:
+  - {given: {m: 2, v: 3}, solve_for: E, expect: 9}

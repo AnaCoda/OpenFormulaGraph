@@ -1,0 +1,15 @@
+id: power-definition
+name: Power
+expr: "P - W/t"
+latex: "P = \\frac{W}{t}"
+variables:
+  P: {quantity: power}
+  W: {quantity: work}
+  t: {quantity: time}
+topic: energy
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "7.5"
+checks:
+  - {given: {W: 10, t: 2}, solve_for: P, expect: 5}

@@ -1,0 +1,16 @@
+id: displacement-time
+name: Displacement Under Constant Acceleration
+expr: "x - v0*t - a*t**2/2"
+latex: "\\Delta x = v_0 t + \\tfrac{1}{2} a t^2"
+variables:
+  x: {quantity: displacement}
+  v0: {quantity: velocity, role: initial}
+  a: {quantity: acceleration}
+  t: {quantity: time}
+topic: kinematics
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "2.5"
+checks:
+  - {given: {v0: 0, a: 2, t: 3}, solve_for: x, expect: 9}
