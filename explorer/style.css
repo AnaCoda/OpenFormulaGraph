@@ -80,6 +80,16 @@ html, body {
   pointer-events: none;
 }
 
+.q-hit {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
 .eq-card {
   position: absolute;
   transform: translate(-50%, -50%);

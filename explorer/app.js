@@ -284,20 +284,8 @@ function explorer() {
           ctx.fillText(node.symbol, node.x, node.y);
           ctx.restore();
         })
-        // Matches the click hit-area to the visible circle (force-graph's default hit-area ignores our custom drawing).
-        .nodePointerAreaPaint((node, color, ctx) => {
-          if (node.type !== "quantity") return;
-          ctx.fillStyle = color;
-          ctx.beginPath();
-          ctx.arc(node.x, node.y, 12, 0, 2 * Math.PI);
-          ctx.fill();
-        })
-        .onNodeClick((node) => {
-          if (node.type === "quantity") self.selectQuantity(node.qid);
-          else self.selectEquation(node.eqid);
-        })
         .onBackgroundClick(() => self.clearSelection())
-        .onRenderFramePost(() => this._syncEquationCards());
+        .onRenderFramePost(() => this._syncOverlays());
 
       this._graph.d3Force("charge").strength(-110);
       this._graph.d3Force("link").distance(60);
@@ -308,12 +296,18 @@ function explorer() {
       this._equationLayer.className = "equation-layer";
       container.appendChild(this._equationLayer);
 
+      // Real DOM click targets for every node, since canvas-based hit-testing (force-graph's default) breaks under
+      // browsers that add noise to canvas pixel readback for anti-fingerprinting, e.g. Brave.
       for (const node of this._graphData.nodes) {
-        if (node.type !== "equation") continue;
         const el = document.createElement("div");
-        el.className = "eq-card";
-        el.innerHTML = window.katex.renderToString(node.latex, { throwOnError: false });
-        el.addEventListener("click", () => self.selectEquation(node.eqid));
+        if (node.type === "equation") {
+          el.className = "eq-card";
+          el.innerHTML = window.katex.renderToString(node.latex, { throwOnError: false });
+          el.addEventListener("click", () => self.selectEquation(node.eqid));
+        } else {
+          el.className = "q-hit";
+          el.addEventListener("click", () => self.selectQuantity(node.qid));
+        }
         this._equationLayer.appendChild(el);
         node._el = el;
       }
@@ -346,9 +340,9 @@ function explorer() {
       return sourceId === selectedGraphId || targetId === selectedGraphId;
     },
 
-    _syncEquationCards() {
+    _syncOverlays() {
       for (const node of this._graphData.nodes) {
-        if (node.type !== "equation" || !node._el || node.x === undefined) continue;
+        if (!node._el || node.x === undefined) continue;
         const { x, y } = this._graph.graph2ScreenCoords(node.x, node.y);
         node._el.style.left = `${x}px`;
         node._el.style.top = `${y}px`;
