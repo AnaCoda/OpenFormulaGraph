@@ -233,6 +233,9 @@ function explorer() {
     activeTopics: new Set(), // curriculum topics currently filtering/clustering the graph
     _userMoved: false, // true once the user has panned/zoomed, which stops the view auto-fitting
     expandedTopics: new Set(), // curriculum topics whose equation list is expanded in the panel
+    sheet: null, // null | 'detail' | 'chapters' mobile bottom panes
+    sheetFull: false, // true = sheet dragged/expanded past its peek height
+    _sheetDrag: null,
     _bundle: null,
     _graphData: null,
     _graph: null,
@@ -361,6 +364,7 @@ function explorer() {
       }
       this._activeIds = active;
       this._refreshHighlight();
+      if (this.isMobileShell()) this.openSheet("detail");
     },
 
     selectEquation(eqid) {
@@ -370,6 +374,7 @@ function explorer() {
       for (const v of Object.values(eq.variables)) active.add(`q:${v.quantity}`);
       this._activeIds = active;
       this._refreshHighlight();
+      if (this.isMobileShell()) this.openSheet("detail");
     },
 
     // Toggles a curriculum topic in/out of the multi-select filter
@@ -580,6 +585,57 @@ function explorer() {
       this.selected = null;
       this._activeIds = null;
       this._refreshHighlight();
+      this.closeSheet();
+    },
+
+    isMobileShell() {
+      return window.matchMedia("(max-width: 1100px)").matches;
+    },
+
+    openSheet(which) {
+      this.sheet = which;
+      this.sheetFull = false;
+    },
+
+    closeSheet() {
+      this.sheet = null;
+      this.sheetFull = false;
+    },
+
+    // Drags the handle on a bottom pane between peek, full, and dismissed
+    startSheetDrag(event) {
+      const sheetEl = event.currentTarget.closest("aside");
+      if (!sheetEl) return;
+      const startY = event.clientY;
+      const rect = sheetEl.getBoundingClientRect();
+      const startTranslate = rect.top - window.innerHeight + rect.height; // current translateY in px (0 = full open)
+      sheetEl.setPointerCapture(event.pointerId);
+      sheetEl.classList.add("dragging");
+
+      const onMove = (e) => {
+        const dy = Math.max(0, startTranslate + (e.clientY - startY));
+        sheetEl.style.setProperty("--sheet-y", `${dy}px`);
+      };
+      const onUp = (e) => {
+        sheetEl.removeEventListener("pointermove", onMove);
+        sheetEl.removeEventListener("pointerup", onUp);
+        sheetEl.classList.remove("dragging");
+        sheetEl.style.removeProperty("--sheet-y");
+
+        const finalTranslate = Math.max(0, startTranslate + (e.clientY - startY));
+        const height = rect.height || 1;
+        const peekTranslate = height * 0.58;
+
+        if (finalTranslate < peekTranslate * 0.5) {
+          this.sheetFull = true;
+        } else if (finalTranslate > peekTranslate * 1.25) {
+          this.closeSheet();
+        } else {
+          this.sheetFull = false;
+        }
+      };
+      sheetEl.addEventListener("pointermove", onMove);
+      sheetEl.addEventListener("pointerup", onUp);
     },
 
     _refreshHighlight() {

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>OpenFormulaGraph Explorer</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -20,8 +20,9 @@
     </div>
   </header>
 
-  <main class="layout">
+  <main class="layout" :class="{ 'sheet-open': sheet, 'sheet-full': sheetFull }" :data-sheet="sheet">
     <aside class="panel panel-body panel-explore">
+        <div class="sheet-handle" @pointerdown="startSheetDrag($event)"><span></span></div>
         <template x-if="!selected">
           <section class="panel-block hint">
             <h2>Explore</h2>
@@ -111,6 +112,7 @@
     <div id="curriculum-resizer" class="panel-resizer" title="Drag to resize"></div>
 
     <aside class="panel panel-body panel-curriculum">
+        <div class="sheet-handle" @pointerdown="startSheetDrag($event)"><span></span></div>
         <section class="panel-block">
           <h2>Curriculum order</h2>
           <p class="curriculum-hint">Equations grouped by chapter, in the order they're introduced in OpenStax College Physics 2e. Click a chapter to add or remove it from the graph.</p>
@@ -156,6 +158,8 @@
           </div>
         </section>
     </aside>
+    <div class="sheet-scrim" :class="{ visible: sheetFull }" @click="closeSheet()"></div>
+    <button class="fab-chapters" x-show="sheet !== 'chapters'" @click="openSheet('chapters')">Chapters</button>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/force-graph/dist/force-graph.min.js"></script>
