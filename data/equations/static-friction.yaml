@@ -1,0 +1,20 @@
+id: static-friction
+name: Maximum Static Friction
+description: Static friction opposes the start of relative motion between two surfaces in contact and can increase to match an applied force up to a maximum, proportional to the normal force pressing the surfaces together.
+expr: "f - mu*N"
+latex: "f_{s(max)} = \\mu_s N"
+variables:
+  f: {quantity: force, role: static-friction}
+  mu: {quantity: coefficient-of-friction, role: static}
+  N: {quantity: force, role: normal}
+topic: dynamics
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "5.1"
+  url: "https://openstax.org/books/college-physics-2e/pages/5-1-friction"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Friction#Static_friction"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/forces-newtons-laws/inclined-planes-friction/a/what-is-static-friction"}
+checks:
+  - {given: {mu: 0.5, N: 20}, solve_for: f, expect: 10}

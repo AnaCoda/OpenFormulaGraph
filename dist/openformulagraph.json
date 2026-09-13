@@ -239,8 +239,8 @@
       },
       "si_unit": "m/s^2",
       "constant": true,
-      "value": 9.8,
-      "description": "The constant acceleration of a freely falling object, 9.80 m/s^2 near Earth's surface, independent of the object's mass.",
+      "value": 9.81,
+      "description": "The constant acceleration of a freely falling object, 9.81 m/s^2 near Earth's surface, independent of the object's mass.",
       "links": [
         {
           "label": "Wikipedia",
@@ -549,9 +549,101 @@
           "url": "https://en.wikipedia.org/wiki/Electrical_resistance_and_conductance"
         }
       ]
+    },
+    {
+      "id": "angular-velocity",
+      "name": "Angular Velocity",
+      "symbol": "omega",
+      "dimension": {
+        "T": -1
+      },
+      "si_unit": "rad/s",
+      "constant": false,
+      "value": null,
+      "description": "The rate of change of an angle as an object rotates, equal to the rotation angle swept divided by the time it takes.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Angular_velocity"
+        }
+      ]
     }
   ],
   "equations": [
+    {
+      "id": "angular-velocity",
+      "name": "Linear Velocity from Angular Velocity",
+      "latex": "v = r\\omega",
+      "topic": "circular-motion",
+      "variables": {
+        "v": {
+          "quantity": "velocity",
+          "role": null
+        },
+        "r": {
+          "quantity": "radius",
+          "role": null
+        },
+        "omega": {
+          "quantity": "angular-velocity",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "6.1",
+        "url": "https://openstax.org/books/college-physics-2e/pages/6-1-rotation-angle-and-angular-velocity"
+      },
+      "description": "A point at distance r from the axis of a rotating object moves at a linear (tangential) speed proportional to both the radius and the angular velocity, so doubling either one doubles the tangential speed.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Angular_velocity"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/torque-angular-momentum/rotational-kinematics/a/rotational-kinematic-formulas"
+        }
+      ]
+    },
+    {
+      "id": "average-velocity",
+      "name": "Average Velocity",
+      "latex": "\\bar{v} = \\frac{\\Delta x}{t}",
+      "topic": "kinematics",
+      "variables": {
+        "v": {
+          "quantity": "velocity",
+          "role": "average"
+        },
+        "x": {
+          "quantity": "displacement",
+          "role": null
+        },
+        "t": {
+          "quantity": "time",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "2.3",
+        "url": "https://openstax.org/books/college-physics-2e/pages/2-3-time-velocity-and-speed"
+      },
+      "description": "Average velocity is displacement divided by the elapsed time; it depends only on where an object starts and ends, not on the details of how its speed changed along the way.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Velocity#Average_velocity"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/one-dimensional-motion/displacement-velocity-time/a/what-is-average-velocity"
+        }
+      ]
+    },
     {
       "id": "centripetal-acceleration",
       "name": "Centripetal Acceleration",
@@ -709,6 +801,47 @@
         {
           "label": "Khan Academy",
           "url": "https://www.khanacademy.org/science/chemistry/atomic-structure-and-properties/introduction-to-the-atom/a/density"
+        }
+      ]
+    },
+    {
+      "id": "displacement-average-velocity",
+      "name": "Displacement from Average Velocity Under Constant Acceleration",
+      "latex": "\\Delta x = \\frac{v_0 + v}{2}t",
+      "topic": "kinematics",
+      "variables": {
+        "x": {
+          "quantity": "displacement",
+          "role": null
+        },
+        "v0": {
+          "quantity": "velocity",
+          "role": "initial"
+        },
+        "v": {
+          "quantity": "velocity",
+          "role": "final"
+        },
+        "t": {
+          "quantity": "time",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "2.5",
+        "url": "https://openstax.org/books/college-physics-2e/pages/2-5-motion-equations-for-constant-acceleration-in-one-dimension"
+      },
+      "description": "Under constant acceleration, the average velocity over an interval equals the mean of the initial and final velocities, so displacement is just that mean multiplied by the elapsed time.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Equations_of_motion"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/one-dimensional-motion/kinematic-formulas/a/what-are-the-kinematic-formulas"
         }
       ]
     },
@@ -1239,6 +1372,43 @@
         {
           "label": "Khan Academy",
           "url": "https://www.khanacademy.org/science/in-in-class11th-physics/in-in-11th-physics-oscillations/in-in-simple-pendulums/a/simple-pendulum-ap1"
+        }
+      ]
+    },
+    {
+      "id": "static-friction",
+      "name": "Maximum Static Friction",
+      "latex": "f_{s(max)} = \\mu_s N",
+      "topic": "dynamics",
+      "variables": {
+        "f": {
+          "quantity": "force",
+          "role": "static-friction"
+        },
+        "mu": {
+          "quantity": "coefficient-of-friction",
+          "role": "static"
+        },
+        "N": {
+          "quantity": "force",
+          "role": "normal"
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "5.1",
+        "url": "https://openstax.org/books/college-physics-2e/pages/5-1-friction"
+      },
+      "description": "Static friction opposes the start of relative motion between two surfaces in contact and can increase to match an applied force up to a maximum, proportional to the normal force pressing the surfaces together.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Friction#Static_friction"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/forces-newtons-laws/inclined-planes-friction/a/what-is-static-friction"
         }
       ]
     },

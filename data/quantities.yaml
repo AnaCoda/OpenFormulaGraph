@@ -264,3 +264,12 @@
   description: A material's opposition to the flow of electric current; for ohmic materials, the ratio of voltage to current.
   links:
     - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Electrical_resistance_and_conductance"}
+
+- id: angular-velocity
+  name: Angular Velocity
+  symbol: omega
+  dimension: {T: -1}
+  si_unit: "rad/s"
+  description: The rate of change of an angle as an object rotates, equal to the rotation angle swept divided by the time it takes.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Angular_velocity"}

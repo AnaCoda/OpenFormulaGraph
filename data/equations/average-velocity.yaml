@@ -1,0 +1,20 @@
+id: average-velocity
+name: Average Velocity
+description: Average velocity is displacement divided by the elapsed time; it depends only on where an object starts and ends, not on the details of how its speed changed along the way.
+expr: "v - x/t"
+latex: "\\bar{v} = \\frac{\\Delta x}{t}"
+variables:
+  v: {quantity: velocity, role: average}
+  x: {quantity: displacement}
+  t: {quantity: time}
+topic: kinematics
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "2.3"
+  url: "https://openstax.org/books/college-physics-2e/pages/2-3-time-velocity-and-speed"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Velocity#Average_velocity"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/one-dimensional-motion/displacement-velocity-time/a/what-is-average-velocity"}
+checks:
+  - {given: {x: 10, t: 4}, solve_for: v, expect: 2.5}

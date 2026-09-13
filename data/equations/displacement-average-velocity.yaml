@@ -1,0 +1,21 @@
+id: displacement-average-velocity
+name: Displacement from Average Velocity Under Constant Acceleration
+description: Under constant acceleration, the average velocity over an interval equals the mean of the initial and final velocities, so displacement is just that mean multiplied by the elapsed time.
+expr: "x - (v0 + v)*t/2"
+latex: "\\Delta x = \\frac{v_0 + v}{2}t"
+variables:
+  x: {quantity: displacement}
+  v0: {quantity: velocity, role: initial}
+  v: {quantity: velocity, role: final}
+  t: {quantity: time}
+topic: kinematics
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "2.5"
+  url: "https://openstax.org/books/college-physics-2e/pages/2-5-motion-equations-for-constant-acceleration-in-one-dimension"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Equations_of_motion"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/one-dimensional-motion/kinematic-formulas/a/what-are-the-kinematic-formulas"}
+checks:
+  - {given: {v0: 0, v: 6, t: 3}, solve_for: x, expect: 9}

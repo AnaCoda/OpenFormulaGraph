@@ -1,0 +1,20 @@
+id: angular-velocity
+name: Linear Velocity from Angular Velocity
+description: A point at distance r from the axis of a rotating object moves at a linear (tangential) speed proportional to both the radius and the angular velocity, so doubling either one doubles the tangential speed.
+expr: "v - r*omega"
+latex: "v = r\\omega"
+variables:
+  v: {quantity: velocity}
+  r: {quantity: radius}
+  omega: {quantity: angular-velocity}
+topic: circular-motion
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "6.1"
+  url: "https://openstax.org/books/college-physics-2e/pages/6-1-rotation-angle-and-angular-velocity"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Angular_velocity"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/torque-angular-momentum/rotational-kinematics/a/rotational-kinematic-formulas"}
+checks:
+  - {given: {r: 2, omega: 3}, solve_for: v, expect: 6}

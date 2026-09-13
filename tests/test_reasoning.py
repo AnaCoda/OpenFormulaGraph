@@ -30,6 +30,7 @@ def test_initial_velocity_unlocks_the_rest_of_the_chain():
     assert resolved == {
         ("acceleration", None),
         ("velocity", "final"),
+        ("velocity", "average"),
         ("displacement", None),
         ("work", None),
         ("power", None),
