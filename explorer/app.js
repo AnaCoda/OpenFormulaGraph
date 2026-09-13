@@ -230,6 +230,7 @@ function nodeCollideForce(padX, padY) {
 function explorer() {
   return {
     selected: null, // { type: 'quantity'|'equation', id } | null
+    curriculumCollapsed: false, // desktop: user has manually collapsed the curriculum panel
     activeTopics: new Set(), // curriculum topics currently filtering/clustering the graph
     _userMoved: false, // true once the user has panned/zoomed, which stops the view auto-fitting
     expandedTopics: new Set(), // curriculum topics whose equation list is expanded in the panel

@@ -20,8 +20,11 @@
     </div>
   </header>
 
-  <main class="layout" :class="{ 'sheet-open': sheet, 'sheet-full': sheetFull }" :data-sheet="sheet">
-    <aside class="panel panel-body panel-explore">
+  <main class="layout" :class="{ 'sheet-open': sheet, 'sheet-full': sheetFull, 'explore-collapsed': !selected, 'curriculum-collapsed': curriculumCollapsed }" :data-sheet="sheet">
+    <aside
+      class="panel panel-body panel-explore"
+      @click="if (!$event.target.closest('a, button, .related-row')) clearSelection()"
+    >
         <div class="sheet-handle" @pointerdown="startSheetDrag($event)"><span></span></div>
         <template x-if="!selected">
           <section class="panel-block hint">
@@ -114,7 +117,15 @@
     <aside class="panel panel-body panel-curriculum">
         <div class="sheet-handle" @pointerdown="startSheetDrag($event)"><span></span></div>
         <section class="panel-block">
-          <h2>Curriculum order</h2>
+          <div class="curriculum-header-row">
+            <h2>Curriculum order</h2>
+            <button
+              type="button"
+              class="panel-collapse-btn"
+              title="Collapse curriculum panel"
+              @click="curriculumCollapsed = true"
+            ><svg width="10" height="10" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          </div>
           <p class="curriculum-hint">Equations grouped by chapter, in the order they're introduced in OpenStax College Physics 2e. Click a chapter to add or remove it from the graph.</p>
           <div class="curriculum-list">
             <template x-for="topic in topicOrder" :key="topic">
@@ -158,6 +169,18 @@
           </div>
         </section>
     </aside>
+
+    <button
+      type="button"
+      class="curriculum-reopen-tab"
+      x-show="curriculumCollapsed"
+      @click="curriculumCollapsed = false"
+      title="Show curriculum order"
+    >
+      <svg width="10" height="10" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Curriculum</span>
+    </button>
+
     <div class="sheet-scrim" :class="{ visible: sheetFull }" @click="closeSheet()"></div>
     <button class="fab-chapters" x-show="sheet !== 'chapters'" @click="openSheet('chapters')">Chapters</button>
   </main>
