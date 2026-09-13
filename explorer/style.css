@@ -90,7 +90,7 @@ html, body {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  cursor: pointer;
+  cursor: grab;
   pointer-events: auto;
 }
 
@@ -105,10 +105,16 @@ html, body {
   white-space: nowrap;
   font-size: 19px;
   color: var(--text);
-  cursor: pointer;
+  cursor: grab;
   pointer-events: auto;
   opacity: 1;
   transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.15s ease, opacity 0.25s ease;
+}
+
+.q-hit.dragging,
+.eq-card.dragging {
+  cursor: grabbing;
+  transition: none;
 }
 
 .cluster-box-layer {

@@ -1,4 +1,4 @@
-// Fetches dist/openformulagraph.json and renders a clickable force-directed graph: click a quantity to see its equations, click an equation to see its variables.
+// Fetches dist/openformulagraph.json and renders a clickable force-directed graph
 
 const COLORS = {
   quantityFill: "#767ea8",
@@ -630,12 +630,17 @@ function explorer() {
       const availH = Math.max(60, paneH - margin * 2);
       const scale = Math.min(availW / Math.max(1, maxX - minX), availH / Math.max(1, maxY - minY));
       const k = Math.max(1, Math.min(1.25, scale));
-      this._graph.centerAt((minX + maxX) / 2, (minY + maxY) / 2, duration).zoom(k, duration);
+      // Anchor the content's top-left corner near the pane's top-left,
+      // so a zoomed-in view lands you at the start of a section rather than adrift in the middle.
+      const cx = minX + (paneW / 2 - margin) / k;
+      const cy = minY + (paneH / 2 - margin) / k;
+      this._graph.centerAt(cx, cy, duration).zoom(k, duration);
     },
 
     _renderGraph() {
       const self = this;
       const container = document.getElementById("graph");
+      this._graphContainer = container;
 
       // The equation-card layer is appended after ForceGraph() runs, since it clears the container on init.
       this._graph = ForceGraph()(container)
@@ -716,13 +721,20 @@ function explorer() {
         if (node.type === "equation") {
           el.className = "eq-card";
           el.innerHTML = `<div class="eq-card-label">${node.name}</div>` + self._eqKatex.get(node.eqid);
-          el.addEventListener("click", () => self.selectEquation(node.eqid));
+          el.addEventListener("click", () => {
+            if (el._wasDragged) return;
+            self.selectEquation(node.eqid);
+          });
         } else {
           el.className = "q-hit";
-          el.addEventListener("click", () => self.selectQuantity(node.qid));
+          el.addEventListener("click", () => {
+            if (el._wasDragged) return;
+            self.selectQuantity(node.qid);
+          });
         }
         this._equationLayer.appendChild(el);
         node._el = el;
+        this._setupNodeDrag(node, el);
       }
 
       // Re-fit on resize too
@@ -780,6 +792,48 @@ function explorer() {
       const targetId = typeof link.target === "object" ? link.target.id : link.target;
       const selectedGraphId = `${this.selected.type === "quantity" ? "q" : "e"}:${this.selected.id}`;
       return sourceId === selectedGraphId || targetId === selectedGraphId;
+    },
+
+    // Lets the user pick up a node and reposition it. The DOM overlay elements sit above the
+    // canvas and own pointer events (see the click-target comment above), so force-graph's own
+    // built-in canvas drag never sees these clicks — this reimplements dragging on top of that.
+    _setupNodeDrag(node, el) {
+      const self = this;
+      el.addEventListener("pointerdown", (down) => {
+        if (down.button !== 0) return;
+        const startX = down.clientX;
+        const startY = down.clientY;
+        let dragging = false;
+
+        const onMove = (move) => {
+          if (!dragging) {
+            if (Math.abs(move.clientX - startX) < 4 && Math.abs(move.clientY - startY) < 4) return;
+            dragging = true;
+            el._wasDragged = true;
+            el.classList.add("dragging");
+            self._userMoved = true; // stop auto-fit from fighting the drag
+          }
+          const rect = self._graphContainer.getBoundingClientRect();
+          const { x, y } = self._graph.screen2GraphCoords(move.clientX - rect.left, move.clientY - rect.top);
+          node.x = node.fx = x;
+          node.y = node.fy = y;
+          self._graph.d3ReheatSimulation();
+          self._syncOverlays();
+        };
+        const onUp = () => {
+          window.removeEventListener("pointermove", onMove);
+          window.removeEventListener("pointerup", onUp);
+          if (dragging) {
+            el.classList.remove("dragging");
+            // Cleared on a timeout so the click event that follows pointerup still sees it.
+            setTimeout(() => {
+              el._wasDragged = false;
+            }, 0);
+          }
+        };
+        window.addEventListener("pointermove", onMove);
+        window.addEventListener("pointerup", onUp);
+      });
     },
 
     _syncOverlays() {
