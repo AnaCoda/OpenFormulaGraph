@@ -461,7 +461,7 @@ function explorer() {
           area += (hw * 2 + 26) * (hh * 2 + 16);
           widest = Math.max(widest, hw * 2 + 26);
         }
-        return { topic, eqs, size: Math.max(widest * 1.3, Math.sqrt(area / 0.6)) };
+        return { topic, eqs, size: Math.max(widest * 1.3, Math.sqrt(area / 0.52)) };
       });
 
       // Pack the cells into rows whose total shape matches the graph pane's aspect ratio
@@ -609,6 +609,7 @@ function explorer() {
       if (!paneW || !paneH) return;
 
       let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+      const cards = [];
       let found = false;
       for (const node of this._graphData.nodes) {
         if (!Number.isFinite(node.x) || !Number.isFinite(node.y)) continue;
@@ -620,6 +621,7 @@ function explorer() {
         maxX = Math.max(maxX, node.x + hw);
         minY = Math.min(minY, node.y - hh);
         maxY = Math.max(maxY, node.y + hh);
+        if (node.type === "equation") cards.push({ left: node.x - hw, top: node.y - hh });
         found = true;
       }
       if (!found) return;
@@ -630,10 +632,16 @@ function explorer() {
       const availH = Math.max(60, paneH - margin * 2);
       const scale = Math.min(availW / Math.max(1, maxX - minX), availH / Math.max(1, maxY - minY));
       const k = Math.max(1, Math.min(1.25, scale));
-      // Anchor the content's top-left corner near the pane's top-left,
-      // so a zoomed-in view lands you at the start of a section rather than adrift in the middle.
-      const cx = minX + (paneW / 2 - margin) / k;
-      const cy = minY + (paneH / 2 - margin) / k;
+
+      // Where the view opens. If it all fits, centre it. If it doesn't, open on the equation card
+      // nearest the layout's top-left
+      const start = cards.reduce(
+        (best, card) =>
+          !best || card.left - minX + (card.top - minY) < best.left - minX + (best.top - minY) ? card : best,
+        null
+      ) || { left: minX, top: minY };
+      const cx = maxX - minX > paneW / k ? start.left + (paneW / 2 - margin) / k : (minX + maxX) / 2;
+      const cy = maxY - minY > paneH / k ? start.top + (paneH / 2 - margin) / k : (minY + maxY) / 2;
       this._graph.centerAt(cx, cy, duration).zoom(k, duration);
     },
 
@@ -754,14 +762,14 @@ function explorer() {
         this._degree.set(t, (this._degree.get(t) || 0) + 1);
       }
 
-      const markUserMoved = () => {
-        this._userMoved = true;
-      };
-      container.addEventListener("wheel", markUserMoved, { passive: true });
+      // Marks the view as user-driven the moment a pan/zoom gesture starts
+      container.addEventListener("wheel", () => { this._userMoved = true; }, { passive: true });
       container.addEventListener("pointerdown", (down) => {
+        const startX = down.clientX;
+        const startY = down.clientY;
         const onMove = (move) => {
-          if (Math.abs(move.clientX - down.clientX) > 4 || Math.abs(move.clientY - down.clientY) > 4) {
-            markUserMoved();
+          if (Math.abs(move.clientX - startX) > 4 || Math.abs(move.clientY - startY) > 4) {
+            this._userMoved = true;
             window.removeEventListener("pointermove", onMove);
           }
         };
@@ -784,6 +792,8 @@ function explorer() {
         if (tick % 12 === 0) refit(250);
       });
       this._graph.onEngineStop(() => refit(0));
+
+      document.fonts?.ready?.then(() => this._applyTopicFilter());
     },
 
     _isLinkActive(link) {
@@ -805,7 +815,14 @@ function explorer() {
         const startY = down.clientY;
         let dragging = false;
 
+        // Pointer capture routes this pointer's move/up/cancel events straight to `el` even once
+        // the finger/cursor leaves it, so each drag's listeners only ever see their own pointer.
+        // without it, mobile browsers can cancel the touch mid-gesture (see below) and leave these
+        // listeners on window forever.
+        el.setPointerCapture(down.pointerId);
+
         const onMove = (move) => {
+          if (move.pointerId !== down.pointerId) return;
           if (!dragging) {
             if (Math.abs(move.clientX - startX) < 4 && Math.abs(move.clientY - startY) < 4) return;
             dragging = true;
@@ -820,9 +837,11 @@ function explorer() {
           self._graph.d3ReheatSimulation();
           self._syncOverlays();
         };
-        const onUp = () => {
-          window.removeEventListener("pointermove", onMove);
-          window.removeEventListener("pointerup", onUp);
+        const onEnd = (end) => {
+          if (end.pointerId !== down.pointerId) return;
+          el.removeEventListener("pointermove", onMove);
+          el.removeEventListener("pointerup", onEnd);
+          el.removeEventListener("pointercancel", onEnd);
           if (dragging) {
             el.classList.remove("dragging");
             // Cleared on a timeout so the click event that follows pointerup still sees it.
@@ -831,8 +850,9 @@ function explorer() {
             }, 0);
           }
         };
-        window.addEventListener("pointermove", onMove);
-        window.addEventListener("pointerup", onUp);
+        el.addEventListener("pointermove", onMove);
+        el.addEventListener("pointerup", onEnd);
+        el.addEventListener("pointercancel", onEnd);
       });
     },
 
