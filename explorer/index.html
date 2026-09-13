@@ -24,6 +24,8 @@
   <main class="layout">
     <div id="graph" class="graph"></div>
 
+    <div id="panel-resizer" class="panel-resizer" title="Drag to resize"></div>
+
     <aside class="panel">
       <div class="tabs">
         <button class="tab" :class="{ active: activeTab === 'explore' }" @click="activeTab = 'explore'">Explore</button>
@@ -48,7 +50,7 @@
             <dl class="detail-facts">
               <div>
                 <dt>SI unit <a class="help-link" :href="helpLinks.siUnit" target="_blank" rel="noopener" title="What is an SI unit?">?</a></dt>
-                <dd x-text="selectedQuantity.si_unit || 'none'"></dd>
+                <dd x-text="formatUnit(selectedQuantity.si_unit)"></dd>
               </div>
               <div>
                 <dt>Dimension <a class="help-link" :href="helpLinks.dimension" target="_blank" rel="noopener" title="What is dimensional analysis?">?</a></dt>

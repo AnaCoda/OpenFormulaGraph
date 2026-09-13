@@ -155,6 +155,7 @@ function explorer() {
     },
 
     formatDimension,
+    formatUnit,
     helpLinks: HELP_LINKS,
 
     get selectedQuantity() {
@@ -398,5 +399,37 @@ function explorer() {
     },
   };
 }
+
+// Drag the handle between the graph and the side panel to resize the panel.
+function setupPanelResize() {
+  const resizer = document.getElementById("panel-resizer");
+  const layout = document.querySelector(".layout");
+  if (!resizer || !layout) return;
+
+  const MIN_WIDTH = 280;
+  const MAX_WIDTH = 720;
+
+  const onMove = (e) => {
+    const rect = layout.getBoundingClientRect();
+    const width = Math.min(MAX_WIDTH, Math.max(MIN_WIDTH, rect.right - e.clientX));
+    layout.style.setProperty("--panel-width", `${width}px`);
+  };
+  const stopDrag = () => {
+    resizer.classList.remove("dragging");
+    document.body.style.cursor = "";
+    window.removeEventListener("mousemove", onMove);
+    window.removeEventListener("mouseup", stopDrag);
+  };
+
+  resizer.addEventListener("mousedown", (e) => {
+    e.preventDefault();
+    resizer.classList.add("dragging");
+    document.body.style.cursor = "col-resize";
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", stopDrag);
+  });
+}
+
+setupPanelResize();
 
 window.explorer = explorer;

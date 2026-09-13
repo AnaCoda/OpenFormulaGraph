@@ -62,7 +62,7 @@ html, body {
 
 .layout {
   display: grid;
-  grid-template-columns: 1fr 340px;
+  grid-template-columns: 1fr 6px var(--panel-width, 340px);
   height: calc(100% - 62px);
 }
 
@@ -128,8 +128,31 @@ html, body {
   white-space: nowrap;
 }
 
+.panel-resizer {
+  position: relative;
+  cursor: col-resize;
+  background: transparent;
+}
+
+.panel-resizer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  transform: translateX(-50%);
+  background: var(--panel-border);
+  transition: background 0.15s ease, width 0.15s ease;
+}
+
+.panel-resizer:hover::after,
+.panel-resizer.dragging::after {
+  width: 3px;
+  background: var(--accent, #4f6df5);
+}
+
 .panel {
-  border-left: 1px solid var(--panel-border);
   background: var(--bg-1);
   padding: 22px 20px;
   overflow-y: auto;
@@ -479,8 +502,10 @@ html, body {
     grid-template-columns: 1fr;
     grid-template-rows: 55vh 1fr;
   }
+  .panel-resizer {
+    display: none;
+  }
   .panel {
-    border-left: none;
     border-top: 1px solid var(--panel-border);
   }
 }
