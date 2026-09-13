@@ -57,6 +57,14 @@ function formatDimension(dimension) {
   return parts.length ? parts.join("·") : "dimensionless";
 }
 
+// "kg*m/s^2" -> "kg·m/s²"; empty string (dimensionless quantities) -> "none".
+function formatUnit(unit) {
+  if (!unit) return "none";
+  return unit
+    .replace(/\*/g, "·")
+    .replace(/\^(-?\d+)/g, (_, exp) => exp.split("").map((c) => SUPERSCRIPT[c] ?? c).join(""));
+}
+
 function buildGraphData(bundle) {
   const nodes = bundle.quantities
     .map((q) => ({ id: `q:${q.id}`, type: "quantity", qid: q.id, name: q.name, symbol: q.symbol, val: 3 }))
@@ -212,6 +220,7 @@ function explorer() {
           qid: q.id,
           name: q.name,
           role: v.role ?? "",
+          unit: formatUnit(q.si_unit),
         };
       });
     },

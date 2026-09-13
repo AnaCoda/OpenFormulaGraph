@@ -457,6 +457,18 @@ html, body {
   letter-spacing: 0.04em;
 }
 
+.related-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.related-unit {
+  font-size: 11.5px;
+  color: var(--text-dim);
+}
+
 .empty-note {
   color: var(--text-dim);
   font-size: 13px;

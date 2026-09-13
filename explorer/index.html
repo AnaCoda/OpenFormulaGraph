@@ -102,7 +102,10 @@
                 <li class="related-row" @click="selectQuantity(v.qid)">
                   <span class="related-symbol" x-html="v.symbolKatex"></span>
                   <span class="related-name" x-text="v.name"></span>
-                  <span class="related-role" x-text="v.role"></span>
+                  <div class="related-meta">
+                    <span class="related-role" x-show="v.role" x-text="v.role"></span>
+                    <span class="related-unit" x-text="v.unit"></span>
+                  </div>
                 </li>
               </template>
             </ul>
