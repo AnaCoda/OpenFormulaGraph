@@ -5,7 +5,8 @@ It can be used to answer the question: given what you know, what else is calcula
 by which equation?
 
 Explore the graph at https://anacoda.github.io/OpenFormulaGraph/
-<img width="1918" height="974" alt="image" src="https://github.com/user-attachments/assets/4e0e11e7-5ecf-423b-b378-ee5d892100d1" />
+<img width="958" height="524" alt="image" src="https://github.com/user-attachments/assets/cb69598b-e0a7-4251-aa99-5fa54a90cddc" />
+
 
 
 This is a data layer upon which teaching tools like games, quizzes, etc. are
