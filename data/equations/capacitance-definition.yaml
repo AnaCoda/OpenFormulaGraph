@@ -1,0 +1,20 @@
+id: capacitance-definition
+name: Capacitance
+description: A capacitor's capacitance is the amount of charge it stores per unit of voltage applied across it.
+expr: "C - Q/V"
+latex: "C = \\frac{Q}{V}"
+variables:
+  C: {quantity: capacitance}
+  Q: {quantity: charge}
+  V: {quantity: voltage}
+topic: electricity
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "19.5"
+  url: "https://openstax.org/books/college-physics-2e/pages/19-5-capacitors-and-dielectrics"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Capacitance"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/electrical-engineering/ee-electrostatics/ee-capacitance/a/ee-capacitance"}
+checks:
+  - {given: {Q: 0.002, V: 100}, solve_for: C, expect: 0.00002}

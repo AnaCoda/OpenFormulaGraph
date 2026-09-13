@@ -1,0 +1,21 @@
+id: transformer-equation
+name: Transformer Equation
+description: An ideal transformer steps voltage up or down in the same ratio as the number of turns in its secondary coil compares to its primary coil.
+expr: "Vs/Vp - Ns/Np"
+latex: "\\frac{V_s}{V_p} = \\frac{N_s}{N_p}"
+variables:
+  Vs: {quantity: voltage, role: secondary}
+  Vp: {quantity: voltage, role: primary}
+  Ns: {quantity: count, role: secondary-turns}
+  Np: {quantity: count, role: primary-turns}
+topic: electromagnetic-induction
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "23.10"
+  url: "https://openstax.org/books/college-physics-2e/pages/23-10-electrical-safety-systems-and-devices"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Transformer#Basic_principles"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/magnetic-forces-and-magnetic-fields/magnetic-flux-faradays-law/a/what-is-faradays-law"}
+checks:
+  - {given: {Vp: 120, Ns: 100, Np: 500}, solve_for: Vs, expect: 24}

@@ -1,0 +1,20 @@
+id: rotational-power
+name: Rotational Power
+description: The rate at which a torque does work on a rotating body, the rotational analog of force times velocity.
+expr: "P - tau*omega"
+latex: "P = \\tau\\omega"
+variables:
+  P: {quantity: power, role: rotational}
+  tau: {quantity: torque}
+  omega: {quantity: angular-velocity}
+topic: rotational-motion
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "10.5"
+  url: "https://openstax.org/books/college-physics-2e/pages/10-5-angular-momentum-and-its-conservation"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Power_(physics)#Mechanical_power"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/torque-angular-momentum/rotational-kinetic-energy/a/rotational-kinetic-energy-and-work-review"}
+checks:
+  - {given: {tau: 5, omega: 2}, solve_for: P, expect: 10}

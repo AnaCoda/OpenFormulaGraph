@@ -1,0 +1,20 @@
+id: youngs-modulus
+name: Young's Modulus
+description: Relates the stress on a material to the strain it produces, for deformation along a single axis within the material's elastic range.
+expr: "sigma - Y*epsilon"
+latex: "\\sigma = Y \\epsilon"
+variables:
+  sigma: {quantity: stress}
+  Y: {quantity: young-modulus}
+  epsilon: {quantity: strain}
+topic: dynamics
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "5.3"
+  url: "https://openstax.org/books/college-physics-2e/pages/5-3-elasticity-stress-and-strain"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Young%27s_modulus"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/ap-physics-1/ap-simple-harmonic-motion/introduction-to-springs/a/hookes-law"}
+checks:
+  - {given: {Y: 2e11, epsilon: 0.001}, solve_for: sigma, expect: 200000000.0}

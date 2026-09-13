@@ -273,3 +273,406 @@
   description: The rate of change of an angle as an object rotates, equal to the rotation angle swept divided by the time it takes.
   links:
     - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Angular_velocity"}
+
+- id: spring-constant
+  name: Spring Constant
+  symbol: k
+  dimension: {M: 1, T: -2}
+  si_unit: "N/m"
+  description: A measure of a spring's stiffness, defined as the ratio of the force applied to a spring to the resulting displacement.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Hooke%27s_law"}
+
+- id: angle
+  name: Angle
+  symbol: theta
+  dimension: {}
+  si_unit: "rad"
+  description: A measure of rotation or the amount of turn between two rays sharing an endpoint.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Angle"}
+
+- id: angular-acceleration
+  name: Angular Acceleration
+  symbol: alpha
+  dimension: {T: -2}
+  si_unit: "rad/s^2"
+  description: The rate of change of angular velocity.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Angular_acceleration"}
+
+- id: torque
+  name: Torque
+  symbol: tau
+  dimension: {M: 1, L: 2, T: -2}
+  si_unit: "N*m"
+  description: A measure of the twisting force that tends to cause rotation about an axis, equal to the product of a force and its lever arm.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Torque"}
+
+- id: moment-of-inertia
+  name: Moment of Inertia
+  symbol: I
+  dimension: {M: 1, L: 2}
+  si_unit: "kg*m^2"
+  description: A rotating body's resistance to a change in its angular velocity, analogous to mass in linear motion, and dependent on how its mass is distributed about the axis.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Moment_of_inertia"}
+
+- id: angular-momentum
+  name: Angular Momentum
+  symbol: L
+  dimension: {M: 1, L: 2, T: -1}
+  si_unit: "kg*m^2/s"
+  description: A measure of a rotating object's tendency to keep rotating, equal to the product of its moment of inertia and angular velocity.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Angular_momentum"}
+
+- id: drag-coefficient
+  name: Drag Coefficient
+  symbol: C
+  dimension: {}
+  si_unit: ""
+  description: A unitless number quantifying the drag or resistance of an object moving through a fluid, dependent on its shape.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Drag_coefficient"}
+
+- id: young-modulus
+  name: Young's Modulus
+  symbol: Y
+  dimension: {M: 1, L: -1, T: -2}
+  si_unit: "Pa"
+  description: A measure of a material's stiffness, defined as the ratio of tensile stress to tensile strain along an axis.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Young%27s_modulus"}
+
+- id: stress
+  name: Stress
+  symbol: sigma
+  dimension: {M: 1, L: -1, T: -2}
+  si_unit: "Pa"
+  description: The force per unit cross-sectional area within a material that arises from an applied load.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Stress_(mechanics)"}
+
+- id: strain
+  name: Strain
+  symbol: epsilon
+  dimension: {}
+  si_unit: ""
+  description: The fractional deformation of a material, defined as the change in length divided by the original length.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Deformation_(physics)#Strain"}
+
+- id: temperature
+  name: Temperature
+  symbol: T
+  dimension: {Theta: 1}
+  si_unit: "K"
+  description: A measure of the average kinetic energy of the particles in a substance.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Temperature"}
+
+- id: linear-expansion-coefficient
+  name: Coefficient of Linear Expansion
+  symbol: alpha
+  dimension: {Theta: -1}
+  si_unit: "1/K"
+  description: A material-specific constant giving the fractional change in length per degree of temperature change.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Thermal_expansion"}
+
+- id: volume-expansion-coefficient
+  name: Coefficient of Volume Expansion
+  symbol: beta
+  dimension: {Theta: -1}
+  si_unit: "1/K"
+  description: A material-specific constant giving the fractional change in volume per degree of temperature change.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Thermal_expansion"}
+
+- id: boltzmann-constant
+  name: Boltzmann Constant
+  symbol: k_B
+  dimension: {M: 1, L: 2, T: -2, Theta: -1}
+  si_unit: "J/K"
+  constant: true
+  value: 1.380649e-23
+  description: The proportionality constant relating the average kinetic energy of particles in a gas to its temperature.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Boltzmann_constant"}
+
+- id: count
+  name: Number of Particles
+  symbol: N
+  dimension: {}
+  si_unit: ""
+  description: A count of discrete particles, such as molecules or atomic nuclei, with no associated unit.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Particle_number"}
+
+- id: gas-constant
+  name: Universal Gas Constant
+  symbol: R
+  dimension: {M: 1, L: 2, T: -2, Theta: -1, N: -1}
+  si_unit: "J/(mol*K)"
+  constant: true
+  value: 8.314
+  description: The proportionality constant relating pressure, volume, amount, and temperature of an ideal gas, the same for every gas.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Gas_constant"}
+
+- id: amount-of-substance
+  name: Amount of Substance
+  symbol: n
+  dimension: {N: 1}
+  si_unit: "mol"
+  description: A count of elementary entities (atoms, molecules) in a sample, measured in moles.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Amount_of_substance"}
+
+- id: specific-heat
+  name: Specific Heat
+  symbol: c
+  dimension: {L: 2, T: -2, Theta: -1}
+  si_unit: "J/(kg*K)"
+  description: The amount of heat needed to raise the temperature of one kilogram of a substance by one degree.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Specific_heat_capacity"}
+
+- id: latent-heat
+  name: Latent Heat
+  symbol: Lh
+  dimension: {L: 2, T: -2}
+  si_unit: "J/kg"
+  description: The energy per unit mass absorbed or released when a substance changes phase at constant temperature.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Latent_heat"}
+
+- id: thermal-conductivity
+  name: Thermal Conductivity
+  symbol: k
+  dimension: {M: 1, L: 1, T: -3, Theta: -1}
+  si_unit: "W/(m*K)"
+  description: A material's ability to conduct heat, defined as the rate of heat transfer through a unit thickness per unit temperature difference.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Thermal_conductivity_and_resistivity"}
+
+- id: stefan-boltzmann-constant
+  name: Stefan-Boltzmann Constant
+  symbol: sigma
+  dimension: {M: 1, T: -3, Theta: -4}
+  si_unit: "W/(m^2*K^4)"
+  constant: true
+  value: 5.67e-8
+  description: The proportionality constant relating the power radiated by a black body to the fourth power of its temperature.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Stefan%E2%80%93Boltzmann_constant"}
+
+- id: emissivity
+  name: Emissivity
+  symbol: e
+  dimension: {}
+  si_unit: ""
+  description: A unitless measure, between 0 and 1, of how effectively a surface radiates energy compared to an ideal black body.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Emissivity"}
+
+- id: efficiency
+  name: Efficiency
+  symbol: Eff
+  dimension: {}
+  si_unit: ""
+  description: The ratio of useful output to total input for a process, such as work output to energy input.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Energy_conversion_efficiency"}
+
+- id: linear-mass-density
+  name: Linear Mass Density
+  symbol: mu
+  dimension: {M: 1, L: -1}
+  si_unit: "kg/m"
+  description: The mass per unit length of a one-dimensional object, such as a string or rod.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Linear_density"}
+
+- id: viscosity
+  name: Viscosity
+  symbol: eta
+  dimension: {M: 1, L: -1, T: -1}
+  si_unit: "Pa*s"
+  description: A fluid's resistance to flow, relating the shear stress within it to the rate of shear strain.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Viscosity"}
+
+- id: flow-rate
+  name: Volume Flow Rate
+  symbol: Q
+  dimension: {L: 3, T: -1}
+  si_unit: "m^3/s"
+  description: The volume of fluid that passes through a cross-section per unit time.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Volumetric_flow_rate"}
+
+- id: reynolds-number
+  name: Reynolds Number
+  symbol: NR
+  dimension: {}
+  si_unit: ""
+  description: A unitless number predicting whether fluid flow will be laminar or turbulent, based on the fluid's speed, density, viscosity, and the size of the flow.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Reynolds_number"}
+
+- id: sound-intensity
+  name: Sound Intensity
+  symbol: I
+  dimension: {M: 1, T: -3}
+  si_unit: "W/m^2"
+  description: The power carried by a sound wave per unit area.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Sound_intensity"}
+
+- id: reference-sound-intensity
+  name: Reference Sound Intensity
+  symbol: I0
+  dimension: {M: 1, T: -3}
+  si_unit: "W/m^2"
+  constant: true
+  value: 1e-12
+  description: The standard reference intensity, roughly the faintest sound audible to humans, against which sound intensity levels in decibels are measured.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Sound_intensity#Sound_intensity_level"}
+
+- id: sound-intensity-level
+  name: Sound Intensity Level
+  symbol: beta
+  dimension: {}
+  si_unit: "dB"
+  description: A logarithmic measure of sound intensity relative to a standard reference intensity, expressed in decibels.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Sound_intensity#Sound_intensity_level"}
+
+- id: electric-field
+  name: Electric Field
+  symbol: E
+  dimension: {M: 1, L: 1, T: -3, I: -1}
+  si_unit: "N/C"
+  description: The electric force per unit charge that would be exerted on a small positive test charge at a given point.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Electric_field"}
+
+- id: capacitance
+  name: Capacitance
+  symbol: C
+  dimension: {M: -1, L: -2, T: 4, I: 2}
+  si_unit: "F"
+  description: A conductor's ability to store charge per unit of electric potential difference across it.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Capacitance"}
+
+- id: permittivity-of-free-space
+  name: Permittivity of Free Space
+  symbol: epsilon0
+  dimension: {M: -1, L: -3, T: 4, I: 2}
+  si_unit: "F/m"
+  constant: true
+  value: 8.854e-12
+  description: A physical constant describing how an electric field permeates a vacuum.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Vacuum_permittivity"}
+
+- id: resistivity
+  name: Resistivity
+  symbol: rho
+  dimension: {M: 1, L: 3, T: -3, I: -2}
+  si_unit: "ohm*m"
+  description: An intrinsic material property describing how strongly it opposes the flow of electric current.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Electrical_resistivity_and_conductivity"}
+
+- id: magnetic-field
+  name: Magnetic Field
+  symbol: B
+  dimension: {M: 1, T: -2, I: -1}
+  si_unit: "T"
+  description: A vector field describing the magnetic influence on moving electric charges, electric currents, and magnetic materials.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Magnetic_field"}
+
+- id: permeability-of-free-space
+  name: Permeability of Free Space
+  symbol: mu0
+  dimension: {M: 1, L: 1, T: -2, I: -2}
+  si_unit: "T*m/A"
+  constant: true
+  value: 1.25663706e-6
+  description: A physical constant describing the ability of a vacuum to support the formation of a magnetic field.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Vacuum_permeability"}
+
+- id: inductance
+  name: Inductance
+  symbol: L
+  dimension: {M: 1, L: 2, T: -2, I: -2}
+  si_unit: "H"
+  description: A conductor's property of opposing a change in the current flowing through it, by inducing a voltage proportional to that rate of change.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Inductance"}
+
+- id: index-of-refraction
+  name: Index of Refraction
+  symbol: n
+  dimension: {}
+  si_unit: ""
+  description: A unitless ratio of the speed of light in a vacuum to its speed in a given medium, describing how much the medium bends light.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Refractive_index"}
+
+- id: magnification
+  name: Magnification
+  symbol: m
+  dimension: {}
+  si_unit: ""
+  description: The ratio of an image's size (or apparent size) to the size of the object producing it.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Magnification"}
+
+- id: order-number
+  name: Order Number
+  symbol: m
+  dimension: {}
+  si_unit: ""
+  description: The integer counting which interference maximum or fringe is being described, in diffraction and interference patterns.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Diffraction#Diffraction_grating"}
+
+- id: speed-of-light
+  name: Speed of Light
+  symbol: c
+  dimension: {L: 1, T: -1}
+  si_unit: "m/s"
+  constant: true
+  value: 299792458
+  description: The speed at which light and all other electromagnetic radiation travel in a vacuum, a universal physical constant.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Speed_of_light"}
+
+- id: planck-constant
+  name: Planck's Constant
+  symbol: h
+  dimension: {M: 1, L: 2, T: -1}
+  si_unit: "J*s"
+  constant: true
+  value: 6.62607015e-34
+  description: The proportionality constant relating a photon's energy to its frequency, fundamental to quantum mechanics.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Planck_constant"}
+
+- id: decay-constant
+  name: Decay Constant
+  symbol: lam
+  dimension: {T: -1}
+  si_unit: "1/s"
+  description: The probability per unit time that a given radioactive nucleus will decay, characteristic of a particular isotope.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Exponential_decay#Decay_rate"}

@@ -1,0 +1,22 @@
+id: pressure-depth
+name: Pressure as a Function of Depth
+description: The pressure in a static fluid increases linearly with depth, as the weight of the fluid above adds to whatever pressure already exists at the surface.
+expr: "P - P0 - rho*g*h"
+latex: "P = P_0 + \\rho g h"
+variables:
+  P: {quantity: pressure, role: total}
+  P0: {quantity: pressure, role: surface}
+  rho: {quantity: density}
+  g: {quantity: gravitational-acceleration}
+  h: {quantity: height, role: depth}
+topic: fluids
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "11.4"
+  url: "https://openstax.org/books/college-physics-2e/pages/11-4-variation-of-pressure-with-depth-in-a-fluid"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Fluid_statics#Hydrostatic_pressure"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/fluids/pressure-and-pascals-principle-topic/a/what-is-pressure"}
+checks:
+  - {given: {P0: 101325, rho: 1000, g: 9.80, h: 2}, solve_for: P, expect: 120925}

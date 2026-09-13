@@ -1,0 +1,22 @@
+id: radiative-heat-transfer
+name: Stefan-Boltzmann Law of Radiation
+description: The power an object radiates due to its temperature grows with the fourth power of its absolute temperature, and depends on its surface area and emissivity.
+expr: "P - sigma*e*A*T**4"
+latex: "P = \\sigma e A T^4"
+variables:
+  P: {quantity: power, role: radiated}
+  sigma: {quantity: stefan-boltzmann-constant}
+  e: {quantity: emissivity}
+  A: {quantity: area}
+  T: {quantity: temperature}
+topic: thermodynamics
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "14.6"
+  url: "https://openstax.org/books/college-physics-2e/pages/14-6-radiation-heat-transfer-by-electromagnetic-waves"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Stefan%E2%80%93Boltzmann_law"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/ap-physics-2/thermodynamics-ap/heat-transfer-ap/a/what-is-thermal-radiation"}
+checks:
+  - {given: {sigma: 5.67e-8, e: 1, A: 1, T: 300}, solve_for: P, expect: 459.27}

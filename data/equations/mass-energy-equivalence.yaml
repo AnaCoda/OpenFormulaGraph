@@ -1,0 +1,20 @@
+id: mass-energy-equivalence
+name: Mass-Energy Equivalence
+description: Mass and energy are interchangeable; the rest energy locked in an object's mass is that mass times the speed of light squared.
+expr: "E - m*c**2"
+latex: "E = mc^2"
+variables:
+  E: {quantity: energy, role: rest-mass}
+  m: {quantity: mass}
+  c: {quantity: speed-of-light}
+topic: relativity
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "28.7"
+  url: "https://openstax.org/books/college-physics-2e/pages/28-7-relativistic-energy"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Mass%E2%80%93energy_equivalence"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/special-relativity/relativistic-energy/a/relativistic-energy"}
+checks:
+  - {given: {m: 0.001, c: 299792458}, solve_for: E, expect: 89875517873681.77}

@@ -1,0 +1,20 @@
+id: elastic-potential-energy
+name: Elastic Potential Energy
+description: The energy stored in a spring (or other elastic object) when it is stretched or compressed from its equilibrium position.
+expr: "PE - k*x**2/2"
+latex: "PE_s = \\tfrac{1}{2} k x^2"
+variables:
+  PE: {quantity: energy, role: elastic-potential}
+  k: {quantity: spring-constant}
+  x: {quantity: displacement}
+topic: energy
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "16.3"
+  url: "https://openstax.org/books/college-physics-2e/pages/16-3-simple-harmonic-motion-a-special-periodic-motion"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Elastic_energy"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/work-and-energy/hookes-law/a/spring-potential-energy-and-hookes-law-review"}
+checks:
+  - {given: {k: 200, x: 0.05}, solve_for: PE, expect: 0.25}

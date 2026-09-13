@@ -1,0 +1,20 @@
+id: capacitor-energy
+name: Energy Stored in a Capacitor
+description: The electrical potential energy stored in a charged capacitor, which grows with the square of the voltage across it.
+expr: "E - C*V**2/2"
+latex: "E = \\tfrac{1}{2} C V^2"
+variables:
+  E: {quantity: energy, role: capacitor}
+  C: {quantity: capacitance}
+  V: {quantity: voltage}
+topic: electricity
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "19.6"
+  url: "https://openstax.org/books/college-physics-2e/pages/19-6-capacitors-in-series-and-parallel"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Capacitor#Energy_of_electric_field"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/electrical-engineering/ee-electrostatics/ee-capacitance/a/ee-capacitance"}
+checks:
+  - {given: {C: 0.00002, V: 100}, solve_for: E, expect: 0.1}

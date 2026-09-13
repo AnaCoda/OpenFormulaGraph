@@ -1,0 +1,21 @@
+id: heat-transfer-specific-heat
+name: Heat Transfer and Specific Heat
+description: The heat needed to change a substance's temperature depends on its mass, its specific heat, and the size of the temperature change.
+expr: "Q - m*c*dT"
+latex: "Q = mc\\Delta T"
+variables:
+  Q: {quantity: energy, role: heat}
+  m: {quantity: mass}
+  c: {quantity: specific-heat}
+  dT: {quantity: temperature, role: change}
+topic: thermodynamics
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "14.1"
+  url: "https://openstax.org/books/college-physics-2e/pages/14-1-heat"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Specific_heat_capacity"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/ap-physics-2/thermodynamics-ap/temperature-thermal-equilibrium-ap/a/what-is-specific-heat-capacity"}
+checks:
+  - {given: {m: 2, c: 4186, dT: 10}, solve_for: Q, expect: 83720}

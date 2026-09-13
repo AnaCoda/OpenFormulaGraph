@@ -1,0 +1,20 @@
+id: rotational-work
+name: Rotational Work
+description: The work done by a constant torque acting through an angular displacement, the rotational analog of force times distance.
+expr: "W - tau*theta"
+latex: "W = \\tau\\theta"
+variables:
+  W: {quantity: work, role: rotational}
+  tau: {quantity: torque}
+  theta: {quantity: angle}
+topic: rotational-motion
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "10.5"
+  url: "https://openstax.org/books/college-physics-2e/pages/10-5-angular-momentum-and-its-conservation"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Work_(physics)#Torque_and_rotation"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/torque-angular-momentum/rotational-kinetic-energy/a/rotational-kinetic-energy-and-work-review"}
+checks:
+  - {given: {tau: 5, theta: 2}, solve_for: W, expect: 10}

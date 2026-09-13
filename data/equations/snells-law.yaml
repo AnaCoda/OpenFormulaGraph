@@ -1,0 +1,21 @@
+id: snells-law
+name: Snell's Law
+description: When light crosses the boundary between two media, the angle it bends by is set by the ratio of the two media's indices of refraction.
+expr: "n1*sin(theta1) - n2*sin(theta2)"
+latex: "n_1 \\sin\\theta_1 = n_2 \\sin\\theta_2"
+variables:
+  n1: {quantity: index-of-refraction, role: incident}
+  theta1: {quantity: angle, role: incidence}
+  n2: {quantity: index-of-refraction, role: refracted}
+  theta2: {quantity: angle, role: refraction}
+topic: optics
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "25.4"
+  url: "https://openstax.org/books/college-physics-2e/pages/25-4-the-law-of-refraction"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Snell%27s_law"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/geometric-optics/refraction-in-lenses/a/refraction-at-boundaries"}
+checks:
+  - {given: {n1: 1.0, theta1: 0.5235987755982988, n2: 1.5}, solve_for: theta2, expect: 0.3398369094541219}

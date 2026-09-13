@@ -1,0 +1,22 @@
+id: electric-potential-energy
+name: Electric Potential Energy Between Two Charges
+description: The potential energy stored between two point charges, which decreases in magnitude as they're moved farther apart.
+expr: "PE - k*q1*q2/r"
+latex: "PE = \\frac{kq_1q_2}{r}"
+variables:
+  PE: {quantity: energy, role: electric-potential}
+  k: {quantity: coulombs-constant}
+  q1: {quantity: charge, role: 1}
+  q2: {quantity: charge, role: 2}
+  r: {quantity: radius}
+topic: electricity
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "19.1"
+  url: "https://openstax.org/books/college-physics-2e/pages/19-1-electric-potential-energy-potential-difference"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Electric_potential_energy#Electric_potential_energy_of_a_system_of_point_charges"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/electrical-engineering/ee-electrostatics/ee-electric-force-and-electric-field/a/ee-electric-potential-energy"}
+checks:
+  - {given: {k: 8.99e9, q1: 2e-6, q2: 3e-6, r: 0.5}, solve_for: PE, expect: 0.10788}

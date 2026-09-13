@@ -1,0 +1,20 @@
+id: current-definition
+name: Electric Current
+description: Electric current is the rate at which charge flows past a point in a circuit.
+expr: "I - Q/t"
+latex: "I = \\frac{Q}{t}"
+variables:
+  I: {quantity: current}
+  Q: {quantity: charge}
+  t: {quantity: time}
+topic: electricity
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "20.1"
+  url: "https://openstax.org/books/college-physics-2e/pages/20-1-current"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Electric_current#Definition"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/electrical-engineering/ee-circuit-analysis-topic/ee-resistor-circuits/a/ee-current"}
+checks:
+  - {given: {Q: 6, t: 3}, solve_for: I, expect: 2}

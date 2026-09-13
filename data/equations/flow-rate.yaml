@@ -1,0 +1,20 @@
+id: flow-rate
+name: Volume Flow Rate
+description: The volume of fluid passing a cross-section of a pipe per unit time, equal to the cross-sectional area times the fluid's speed.
+expr: "Q - A*v"
+latex: "Q = Av"
+variables:
+  Q: {quantity: flow-rate}
+  A: {quantity: area}
+  v: {quantity: velocity}
+topic: fluid-dynamics
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "12.1"
+  url: "https://openstax.org/books/college-physics-2e/pages/12-1-flow-rate-and-its-relation-to-velocity"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Volumetric_flow_rate"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/fluids/fluid-dynamics/a/what-is-volume-flow-rate"}
+checks:
+  - {given: {A: 2, v: 3}, solve_for: Q, expect: 6}

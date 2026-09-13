@@ -1,0 +1,21 @@
+id: ideal-banking-angle
+name: Ideal Banking Angle
+description: The angle at which a curve must be banked so that a vehicle can round it at a given speed without relying on friction at all.
+expr: "tan(theta) - v**2/(r*g)"
+latex: "\\tan\\theta = \\frac{v^2}{rg}"
+variables:
+  theta: {quantity: angle, role: banking}
+  v: {quantity: velocity}
+  r: {quantity: radius}
+  g: {quantity: gravitational-acceleration}
+topic: circular-motion
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "6.3"
+  url: "https://openstax.org/books/college-physics-2e/pages/6-3-centripetal-force"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Banked_turn"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/centripetal-force-and-gravitation/banked-inclines/a/what-are-banked-turns"}
+checks:
+  - {given: {v: 20, r: 100, g: 9.80}, solve_for: theta, expect: 0.38752380578027884}

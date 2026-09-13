@@ -1,0 +1,20 @@
+id: angular-momentum
+name: Angular Momentum
+description: A measure of a rotating body's tendency to keep spinning, equal to the product of its moment of inertia and angular velocity, conserved when no net external torque acts.
+expr: "L - I*omega"
+latex: "L = I\\omega"
+variables:
+  L: {quantity: angular-momentum}
+  I: {quantity: moment-of-inertia}
+  omega: {quantity: angular-velocity}
+topic: rotational-motion
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "10.6"
+  url: "https://openstax.org/books/college-physics-2e/pages/10-6-collisions-of-extended-bodies-in-two-dimensions"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Angular_momentum"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/torque-angular-momentum/angular-momentum/a/what-is-angular-momentum"}
+checks:
+  - {given: {I: 4, omega: 3}, solve_for: L, expect: 12}

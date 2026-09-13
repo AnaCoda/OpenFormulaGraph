@@ -1,0 +1,20 @@
+id: sound-intensity
+name: Sound Intensity
+description: The power a sound wave carries per unit area, which determines how loud the sound is perceived to be.
+expr: "I - P/A"
+latex: "I = \\frac{P}{A}"
+variables:
+  I: {quantity: sound-intensity}
+  P: {quantity: power}
+  A: {quantity: area}
+topic: sound
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "17.3"
+  url: "https://openstax.org/books/college-physics-2e/pages/17-3-sound-intensity-and-sound-level"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Sound_intensity"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/mechanical-waves-and-sound/sound-topic/a/what-is-intensity-of-sound"}
+checks:
+  - {given: {P: 0.02, A: 4}, solve_for: I, expect: 0.005}

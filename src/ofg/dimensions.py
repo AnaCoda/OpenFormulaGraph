@@ -82,6 +82,17 @@ def dim_of(expr: sympy.Basic, symbol_quantities: dict[str, Quantity]) -> Vector:
             raise DimensionError(f"non-rational exponent in {expr}: {exponent}")
         return _scale(dim_of(base, symbol_quantities), Fraction(exponent.p, exponent.q))
 
+    if expr.is_Function:
+        # Transcendental functions (sin, cos, tan, log, exp, ...) only make physical sense on
+        # a dimensionless argument, and always produce a dimensionless result.
+        for arg in expr.args:
+            arg_dim = dim_of(arg, symbol_quantities)
+            if arg_dim != ZERO:
+                raise DimensionError(
+                    f"{expr.func}(...) requires a dimensionless argument, but {arg} has dimension {arg_dim}"
+                )
+        return ZERO
+
     raise DimensionError(f"don't know how to check dimensions of: {expr} "
                           f"({type(expr).__name__})")
 

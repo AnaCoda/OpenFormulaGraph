@@ -1,0 +1,21 @@
+id: electric-field-point-charge
+name: Electric Field of a Point Charge
+description: The strength of the electric field surrounding a point charge, falling off with the square of the distance from it.
+expr: "E - k*q/r**2"
+latex: "E = \\frac{kq}{r^2}"
+variables:
+  E: {quantity: electric-field}
+  k: {quantity: coulombs-constant}
+  q: {quantity: charge}
+  r: {quantity: radius}
+topic: electricity
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "18.5"
+  url: "https://openstax.org/books/college-physics-2e/pages/18-5-electric-field-concept-of-a-field-revisited"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Electric_field#Field_due_to_a_point_charge"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/electric-charge-electric-force-and-voltage/electric-field/a/electric-field"}
+checks:
+  - {given: {k: 8.99e9, q: 2e-6, r: 0.3}, solve_for: E, expect: 199777.77777777778}

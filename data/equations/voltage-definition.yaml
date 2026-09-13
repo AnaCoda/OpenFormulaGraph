@@ -1,0 +1,20 @@
+id: voltage-definition
+name: Voltage from Potential Energy per Charge
+description: Voltage, or electric potential, is defined as the electric potential energy per unit charge at a point in a circuit or field.
+expr: "V - PE/q"
+latex: "V = \\frac{PE}{q}"
+variables:
+  V: {quantity: voltage}
+  PE: {quantity: energy, role: electric-potential}
+  q: {quantity: charge}
+topic: electricity
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "19.1"
+  url: "https://openstax.org/books/college-physics-2e/pages/19-1-electric-potential-energy-potential-difference"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Voltage"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/electrical-engineering/ee-electrostatics/ee-voltage/a/ee-voltage"}
+checks:
+  - {given: {PE: 0.002, q: 4e-6}, solve_for: V, expect: 500}

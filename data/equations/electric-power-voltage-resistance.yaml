@@ -1,0 +1,20 @@
+id: electric-power-voltage-resistance
+name: Electric Power (Voltage and Resistance)
+description: The power dissipated by a resistor, expressed in terms of the voltage across it and its resistance, useful when the current is not directly known.
+expr: "P - V**2/R"
+latex: "P = \\frac{V^2}{R}"
+variables:
+  P: {quantity: power}
+  V: {quantity: voltage}
+  R: {quantity: resistance}
+topic: electricity
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "20.5"
+  url: "https://openstax.org/books/college-physics-2e/pages/20-5-electric-power-and-energy"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Joule_heating"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/electrical-engineering/ee-circuit-analysis-topic/ee-resistor-circuits/a/ee-power"}
+checks:
+  - {given: {V: 10, R: 5}, solve_for: P, expect: 20}

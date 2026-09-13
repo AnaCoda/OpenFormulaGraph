@@ -1,0 +1,20 @@
+id: electric-field-force
+name: Electric Field from Force per Charge
+description: The electric field at a point, defined operationally as the force a small positive test charge would feel there, divided by the size of that charge.
+expr: "E - F/q"
+latex: "E = \\frac{F}{q}"
+variables:
+  E: {quantity: electric-field}
+  F: {quantity: force}
+  q: {quantity: charge}
+topic: electricity
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "18.4"
+  url: "https://openstax.org/books/college-physics-2e/pages/18-4-electric-field-concept-of-a-field-revisited"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Electric_field#Definition"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/electric-charge-electric-force-and-voltage/electric-field/a/electric-field"}
+checks:
+  - {given: {F: 0.002, q: 4e-6}, solve_for: E, expect: 500}

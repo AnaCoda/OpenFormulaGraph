@@ -1,0 +1,22 @@
+id: drag-force
+name: Drag Force
+description: The resistive force a fluid exerts on an object moving through it, growing with the square of the object's speed.
+expr: "F - C*rho*A*v**2/2"
+latex: "F_D = \\tfrac{1}{2} C \\rho A v^2"
+variables:
+  F: {quantity: force, role: drag}
+  C: {quantity: drag-coefficient}
+  rho: {quantity: density, role: fluid}
+  A: {quantity: area, role: cross-section}
+  v: {quantity: velocity}
+topic: dynamics
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "5.2"
+  url: "https://openstax.org/books/college-physics-2e/pages/5-2-drag-forces"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Drag_(physics)#The_drag_equation"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/ap-physics-1/ap-forces-newtons-laws/newtons-laws-of-motion-ap/a/frictional-forces-ap1"}
+checks:
+  - {given: {C: 0.5, rho: 1.2, A: 2, v: 10}, solve_for: F, expect: 60.0}

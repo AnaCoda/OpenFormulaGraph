@@ -1,0 +1,21 @@
+id: radioactive-decay
+name: Radioactive Decay
+description: The number of undecayed radioactive nuclei in a sample shrinks exponentially with time, at a rate set by the isotope's decay constant.
+expr: "N - N0*exp(-lam*t)"
+latex: "N = N_0 e^{-\\lambda t}"
+variables:
+  N: {quantity: count, role: remaining}
+  N0: {quantity: count, role: initial}
+  lam: {quantity: decay-constant}
+  t: {quantity: time}
+topic: nuclear-physics
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "31.4"
+  url: "https://openstax.org/books/college-physics-2e/pages/31-4-half-life-and-activity"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Exponential_decay#Solution_of_the_differential_equation"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/chemistry/nuclear-chemistry/radioactive-decay/a/rates-of-radioactive-decay"}
+checks:
+  - {given: {N0: 1000, lam: 0.1, t: 10}, solve_for: N, expect: 367.87944117144233}

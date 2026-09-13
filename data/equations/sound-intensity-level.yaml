@@ -1,0 +1,20 @@
+id: sound-intensity-level
+name: Sound Intensity Level
+description: A logarithmic scale, in decibels, comparing a sound's intensity to the faintest audible reference intensity, matching how loudness is actually perceived.
+expr: "beta - 10*log(I/I0, 10)"
+latex: "\\beta = 10\\log_{10}\\left(\\frac{I}{I_0}\\right)"
+variables:
+  beta: {quantity: sound-intensity-level}
+  I: {quantity: sound-intensity}
+  I0: {quantity: reference-sound-intensity}
+topic: sound
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "17.3"
+  url: "https://openstax.org/books/college-physics-2e/pages/17-3-sound-intensity-and-sound-level"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Sound_intensity#Sound_intensity_level"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/mechanical-waves-and-sound/sound-topic/a/what-is-intensity-of-sound"}
+checks:
+  - {given: {I: 1e-6, I0: 1e-12}, solve_for: beta, expect: 60}

@@ -1,0 +1,20 @@
+id: angular-frequency-spring
+name: Angular Frequency of a Mass on a Spring
+description: The natural angular frequency of a mass oscillating on a spring, set by the spring's stiffness and the mass attached to it.
+expr: "omega - sqrt(k/m)"
+latex: "\\omega = \\sqrt{\\frac{k}{m}}"
+variables:
+  omega: {quantity: angular-velocity}
+  k: {quantity: spring-constant}
+  m: {quantity: mass}
+topic: waves
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "16.2"
+  url: "https://openstax.org/books/college-physics-2e/pages/16-2-period-and-frequency-in-oscillations"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Harmonic_oscillator#Simple_harmonic_oscillator"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/ap-physics-1/ap-simple-harmonic-motion/period-of-mass-spring/a/period-of-mass-spring-systems-ap1"}
+checks:
+  - {given: {k: 200, m: 2}, solve_for: omega, expect: 10.0}

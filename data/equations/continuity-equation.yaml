@@ -1,0 +1,21 @@
+id: continuity-equation
+name: Equation of Continuity
+description: For an incompressible fluid flowing through a pipe of varying cross-section, the flow rate is the same everywhere, so the fluid speeds up where the pipe narrows.
+expr: "A1*v1 - A2*v2"
+latex: "A_1 v_1 = A_2 v_2"
+variables:
+  A1: {quantity: area, role: inlet}
+  v1: {quantity: velocity, role: inlet}
+  A2: {quantity: area, role: outlet}
+  v2: {quantity: velocity, role: outlet}
+topic: fluid-dynamics
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "12.1"
+  url: "https://openstax.org/books/college-physics-2e/pages/12-1-flow-rate-and-its-relation-to-velocity"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Continuity_equation#Fluid_dynamics"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/fluids/fluid-dynamics/a/what-is-the-continuity-equation"}
+checks:
+  - {given: {A1: 2, v1: 3, A2: 1}, solve_for: v2, expect: 6}

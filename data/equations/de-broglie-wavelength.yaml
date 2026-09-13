@@ -1,0 +1,20 @@
+id: de-broglie-wavelength
+name: De Broglie Wavelength
+description: Every moving particle has an associated wavelength inversely proportional to its momentum, revealing the wave nature of matter.
+expr: "lam - h/p"
+latex: "\\lambda = \\frac{h}{p}"
+variables:
+  lam: {quantity: wavelength}
+  h: {quantity: planck-constant}
+  p: {quantity: momentum}
+topic: quantum-physics
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "29.6"
+  url: "https://openstax.org/books/college-physics-2e/pages/29-6-de-broglies-hypothesis-electrons-as-waves"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Matter_wave#De_Broglie_relations"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/quantum-physics/photons/a/photon-momentum"}
+checks:
+  - {given: {h: 6.62607015e-34, p: 1e-24}, solve_for: lam, expect: 6.62607015e-10}

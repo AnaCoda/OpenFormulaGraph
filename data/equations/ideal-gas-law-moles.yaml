@@ -1,0 +1,22 @@
+id: ideal-gas-law-moles
+name: Ideal Gas Law (Molar Form)
+description: Relates the pressure, volume, and temperature of an ideal gas to the amount of gas present, measured in moles, via the universal gas constant.
+expr: "P*V - n*R*T"
+latex: "PV = nRT"
+variables:
+  P: {quantity: pressure}
+  V: {quantity: volume}
+  n: {quantity: amount-of-substance}
+  R: {quantity: gas-constant}
+  T: {quantity: temperature}
+topic: thermodynamics
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "13.3"
+  url: "https://openstax.org/books/college-physics-2e/pages/13-3-the-ideal-gas-law"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Ideal_gas_law"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/ap-physics-2/thermodynamics-ap/ideal-gas-laws-ap/a/what-is-the-ideal-gas-law"}
+checks:
+  - {given: {V: 0.0224, n: 1, R: 8.314, T: 273.15}, solve_for: P, expect: 101382.54910714286}

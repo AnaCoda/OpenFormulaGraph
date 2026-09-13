@@ -1,0 +1,21 @@
+id: pascals-principle
+name: Pascal's Principle (Hydraulic Lift)
+description: A change in pressure applied to an enclosed, incompressible fluid is transmitted undiminished to every point in the fluid, letting a small input force produce a much larger output force over a larger area.
+expr: "F1/A1 - F2/A2"
+latex: "\\frac{F_1}{A_1} = \\frac{F_2}{A_2}"
+variables:
+  F1: {quantity: force, role: input}
+  A1: {quantity: area, role: input}
+  F2: {quantity: force, role: output}
+  A2: {quantity: area, role: output}
+topic: fluids
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "11.5"
+  url: "https://openstax.org/books/college-physics-2e/pages/11-5-pascals-principle"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Pascal%27s_law"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/fluids/pressure-and-pascals-principle-topic/a/pascals-principle-and-hydraulics"}
+checks:
+  - {given: {F1: 10, A1: 0.01, A2: 1}, solve_for: F2, expect: 1000}

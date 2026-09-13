@@ -1,0 +1,20 @@
+id: rc-time-constant
+name: RC Time Constant
+description: The characteristic time scale over which a capacitor charges or discharges through a resistor, after which about 63% of the change has occurred.
+expr: "tau - R*C"
+latex: "\\tau = RC"
+variables:
+  tau: {quantity: time, role: rc-constant}
+  R: {quantity: resistance}
+  C: {quantity: capacitance}
+topic: circuits
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "21.4"
+  url: "https://openstax.org/books/college-physics-2e/pages/21-4-dc-circuits-containing-resistors-and-capacitors"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/RC_time_constant"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/electrical-engineering/ee-circuit-analysis-topic/ee-natural-and-forced-response/a/ee-rc-natural-response-intuition"}
+checks:
+  - {given: {R: 1000, C: 0.000001}, solve_for: tau, expect: 0.001}

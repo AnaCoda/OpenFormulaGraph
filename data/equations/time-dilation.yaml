@@ -1,0 +1,21 @@
+id: time-dilation
+name: Time Dilation
+description: A moving clock runs slow compared to one at rest, by a factor depending on how close its speed is to the speed of light.
+expr: "dt - dt0/sqrt(1 - v**2/c**2)"
+latex: "\\Delta t = \\frac{\\Delta t_0}{\\sqrt{1 - v^2/c^2}}"
+variables:
+  dt: {quantity: time, role: dilated}
+  dt0: {quantity: time, role: proper}
+  v: {quantity: velocity}
+  c: {quantity: speed-of-light}
+topic: relativity
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "28.3"
+  url: "https://openstax.org/books/college-physics-2e/pages/28-3-relativistic-effects"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Time_dilation"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/special-relativity/time-dilation/a/time-dilation-intro"}
+checks:
+  - {given: {dt0: 1, v: 259627884.49097934, c: 299792458}, solve_for: dt, expect: 1.9999999999999996}

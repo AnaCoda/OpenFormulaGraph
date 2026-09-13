@@ -1,0 +1,21 @@
+id: linear-thermal-expansion
+name: Linear Thermal Expansion
+description: A solid's length changes in proportion to its original length and the temperature change it undergoes, with the constant of proportionality depending on the material.
+expr: "dL - alpha*L0*dT"
+latex: "\\Delta L = \\alpha L_0 \\Delta T"
+variables:
+  dL: {quantity: length, role: change}
+  alpha: {quantity: linear-expansion-coefficient}
+  L0: {quantity: length, role: initial}
+  dT: {quantity: temperature, role: change}
+topic: thermodynamics
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "13.2"
+  url: "https://openstax.org/books/college-physics-2e/pages/13-2-thermal-expansion-of-solids-and-liquids"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Thermal_expansion#Linear_expansion"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/ap-physics-2/thermodynamics-ap/temperature-thermal-equilibrium-ap/a/thermal-expansion"}
+checks:
+  - {given: {alpha: 1.2e-5, L0: 10, dT: 50}, solve_for: dL, expect: 0.006}

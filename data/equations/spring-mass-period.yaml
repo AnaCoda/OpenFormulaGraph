@@ -1,0 +1,20 @@
+id: spring-mass-period
+name: Period of a Mass on a Spring
+description: For a mass attached to a spring undergoing simple harmonic motion, the period of oscillation depends only on the mass and the spring's stiffness, not on the amplitude.
+expr: "T - 2*pi*sqrt(m/k)"
+latex: "T = 2\\pi\\sqrt{\\frac{m}{k}}"
+variables:
+  T: {quantity: period}
+  m: {quantity: mass}
+  k: {quantity: spring-constant}
+topic: waves
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "16.2"
+  url: "https://openstax.org/books/college-physics-2e/pages/16-2-period-and-frequency-in-oscillations"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Harmonic_oscillator#Simple_harmonic_oscillator"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/ap-physics-1/ap-simple-harmonic-motion/period-of-mass-spring/a/period-of-mass-spring-systems-ap1"}
+checks:
+  - {given: {m: 2, k: 200}, solve_for: T, expect: 0.6283185307179586}

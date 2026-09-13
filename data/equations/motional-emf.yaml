@@ -1,0 +1,21 @@
+id: motional-emf
+name: Motional EMF
+description: A conducting rod moving through a magnetic field develops a voltage across its ends, proportional to the field strength, the rod's length, and its speed.
+expr: "emf - B*L*v"
+latex: "\\text{emf} = BLv"
+variables:
+  emf: {quantity: voltage, role: emf}
+  B: {quantity: magnetic-field}
+  L: {quantity: length}
+  v: {quantity: velocity}
+topic: electromagnetic-induction
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "23.2"
+  url: "https://openstax.org/books/college-physics-2e/pages/23-2-faradays-law-of-induction-lenzs-law"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Faraday%27s_law_of_induction#Motional_EMF"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/magnetic-forces-and-magnetic-fields/magnetic-flux-faradays-law/a/what-is-faradays-law"}
+checks:
+  - {given: {B: 0.5, L: 2, v: 3}, solve_for: emf, expect: 3}

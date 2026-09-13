@@ -1,0 +1,21 @@
+id: angular-velocity-time
+name: Angular Velocity as a Function of Time
+description: Under constant angular acceleration, an object's angular velocity grows linearly with time, the rotational analog of velocity under constant linear acceleration.
+expr: "omega - omega0 - alpha*t"
+latex: "\\omega = \\omega_0 + \\alpha t"
+variables:
+  omega: {quantity: angular-velocity, role: final}
+  omega0: {quantity: angular-velocity, role: initial}
+  alpha: {quantity: angular-acceleration}
+  t: {quantity: time}
+topic: rotational-motion
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "10.1"
+  url: "https://openstax.org/books/college-physics-2e/pages/10-1-angular-acceleration"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Angular_acceleration"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/torque-angular-momentum/rotational-motion/a/rotational-vs-linear-relationships"}
+checks:
+  - {given: {omega0: 2, alpha: 3, t: 4}, solve_for: omega, expect: 14}

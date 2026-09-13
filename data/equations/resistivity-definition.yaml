@@ -1,0 +1,21 @@
+id: resistivity-definition
+name: Resistance from Resistivity
+description: A wire's electrical resistance grows with its length and its material's intrinsic resistivity, and shrinks as its cross-sectional area increases.
+expr: "R - rho*L/A"
+latex: "R = \\frac{\\rho L}{A}"
+variables:
+  R: {quantity: resistance}
+  rho: {quantity: resistivity}
+  L: {quantity: length}
+  A: {quantity: area}
+topic: electricity
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "20.3"
+  url: "https://openstax.org/books/college-physics-2e/pages/20-3-resistance-and-resistivity"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Electrical_resistivity_and_conductivity#Resistivity"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/electrical-engineering/ee-circuit-analysis-topic/ee-resistor-circuits/a/ee-resistivity"}
+checks:
+  - {given: {rho: 1.68e-8, L: 10, A: 0.0001}, solve_for: R, expect: 0.00168}

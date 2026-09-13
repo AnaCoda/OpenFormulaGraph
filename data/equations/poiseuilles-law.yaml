@@ -1,0 +1,22 @@
+id: poiseuilles-law
+name: Poiseuille's Law
+description: The flow rate of a viscous fluid through a cylindrical tube depends on the fourth power of the tube's radius, making even small changes in radius have a large effect on flow.
+expr: "Q - pi*dP*r**4/(8*eta*l)"
+latex: "Q = \\frac{\\pi \\Delta P r^4}{8 \\eta l}"
+variables:
+  Q: {quantity: flow-rate}
+  dP: {quantity: pressure, role: drop}
+  r: {quantity: radius}
+  eta: {quantity: viscosity}
+  l: {quantity: length, role: tube}
+topic: fluid-dynamics
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "12.4"
+  url: "https://openstax.org/books/college-physics-2e/pages/12-4-viscosity-and-laminar-flow-poiseuilles-law"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Hagen%E2%80%93Poiseuille_equation"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/fluids/fluid-dynamics/a/what-is-laminar-flow"}
+checks:
+  - {given: {dP: 1000, r: 0.01, eta: 0.001, l: 2}, solve_for: Q, expect: 0.0019634954084936204}

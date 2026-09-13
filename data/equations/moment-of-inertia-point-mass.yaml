@@ -1,0 +1,20 @@
+id: moment-of-inertia-point-mass
+name: Moment of Inertia of a Point Mass
+description: The rotational inertia of a single point mass revolving at a fixed distance from an axis, the building block for the moment of inertia of any rigid body.
+expr: "I - m*r**2"
+latex: "I = mr^2"
+variables:
+  I: {quantity: moment-of-inertia}
+  m: {quantity: mass}
+  r: {quantity: radius}
+topic: rotational-motion
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "10.3"
+  url: "https://openstax.org/books/college-physics-2e/pages/10-3-dynamics-of-rotational-motion-rotational-inertia"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Moment_of_inertia#Definition"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/torque-angular-momentum/torque-tutorial/a/rotational-inertia"}
+checks:
+  - {given: {m: 2, r: 3}, solve_for: I, expect: 18}

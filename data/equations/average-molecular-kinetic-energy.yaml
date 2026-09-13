@@ -1,0 +1,20 @@
+id: average-molecular-kinetic-energy
+name: Average Kinetic Energy of Gas Molecules
+description: The average translational kinetic energy of the molecules in an ideal gas depends only on the gas's absolute temperature, not on the type of molecule.
+expr: "KE - 3*k_B*T/2"
+latex: "\\overline{KE} = \\tfrac{3}{2} k_B T"
+variables:
+  KE: {quantity: energy, role: avg-molecular-kinetic}
+  k_B: {quantity: boltzmann-constant}
+  T: {quantity: temperature}
+topic: thermodynamics
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "13.4"
+  url: "https://openstax.org/books/college-physics-2e/pages/13-4-kinetic-theory-atomic-and-molecular-explanation-of-pressure-and-temperature"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Kinetic_theory_of_gases#Temperature_and_kinetic_energy"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/ap-physics-2/thermodynamics-ap/kinetic-molecular-theory-ap/a/what-is-the-kinetic-molecular-theory-of-gases"}
+checks:
+  - {given: {k_B: 1.380649e-23, T: 300}, solve_for: KE, expect: 6.2129205e-21}

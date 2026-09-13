@@ -1,0 +1,22 @@
+id: ideal-gas-law-molecules
+name: Ideal Gas Law (Molecular Form)
+description: Relates the pressure, volume, and temperature of an ideal gas to the number of molecules it contains, via the Boltzmann constant.
+expr: "P*V - N*k_B*T"
+latex: "PV = Nk_BT"
+variables:
+  P: {quantity: pressure}
+  V: {quantity: volume}
+  N: {quantity: count}
+  k_B: {quantity: boltzmann-constant}
+  T: {quantity: temperature}
+topic: thermodynamics
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "13.3"
+  url: "https://openstax.org/books/college-physics-2e/pages/13-3-the-ideal-gas-law"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Ideal_gas_law"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/ap-physics-2/thermodynamics-ap/ideal-gas-laws-ap/a/what-is-the-ideal-gas-law"}
+checks:
+  - {given: {V: 0.01, N: 2.5e23, k_B: 1.380649e-23, T: 300}, solve_for: P, expect: 103548.675}

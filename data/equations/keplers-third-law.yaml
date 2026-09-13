@@ -1,0 +1,21 @@
+id: keplers-third-law
+name: Kepler's Third Law
+description: For a body orbiting a much larger central mass, the square of its orbital period is proportional to the cube of its orbital radius.
+expr: "T - 2*pi*sqrt(r**3/(G*M))"
+latex: "T = 2\\pi\\sqrt{\\frac{r^3}{GM}}"
+variables:
+  T: {quantity: period, role: orbital}
+  r: {quantity: radius}
+  G: {quantity: gravitational-constant}
+  M: {quantity: mass, role: central-body}
+topic: gravitation
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "6.6"
+  url: "https://openstax.org/books/college-physics-2e/pages/6-6-satellites-and-keplers-laws-an-argument-for-simplicity"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Kepler%27s_laws_of_planetary_motion#Third_law"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/centripetal-force-and-gravitation/gravity-newtonian/a/what-is-keplers-third-law"}
+checks:
+  - {given: {r: 6.771e6, G: 6.674e-11, M: 5.972e24}, solve_for: T, expect: 5545.057939243552}

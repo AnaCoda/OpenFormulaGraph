@@ -1,0 +1,20 @@
+id: photon-energy
+name: Photon Energy
+description: The energy carried by a single photon of light is proportional to its frequency, the relationship that launched quantum mechanics.
+expr: "E - h*f"
+latex: "E = hf"
+variables:
+  E: {quantity: energy, role: photon}
+  h: {quantity: planck-constant}
+  f: {quantity: frequency}
+topic: quantum-physics
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "29.3"
+  url: "https://openstax.org/books/college-physics-2e/pages/29-3-photon-energies-and-the-electromagnetic-spectrum"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Photon_energy"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/quantum-physics/photons/a/photon-energy"}
+checks:
+  - {given: {h: 6.62607015e-34, f: 5e14}, solve_for: E, expect: 3.313035075e-19}

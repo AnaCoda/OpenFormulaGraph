@@ -1,0 +1,20 @@
+id: first-law-of-thermodynamics
+name: First Law of Thermodynamics
+description: The change in a system's internal energy equals the heat added to it minus the work it does on its surroundings, an accounting statement of energy conservation.
+expr: "dU - Q + W"
+latex: "\\Delta U = Q - W"
+variables:
+  dU: {quantity: energy, role: internal-energy-change}
+  Q: {quantity: energy, role: heat}
+  W: {quantity: work}
+topic: thermodynamics
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "15.1"
+  url: "https://openstax.org/books/college-physics-2e/pages/15-1-the-first-law-of-thermodynamics"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/First_law_of_thermodynamics"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/ap-physics-2/thermodynamics-ap/first-law-thermodynamics-ap/a/what-is-the-first-law-of-thermodynamics"}
+checks:
+  - {given: {Q: 500, W: 200}, solve_for: dU, expect: 300}

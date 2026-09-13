@@ -1,0 +1,20 @@
+id: arc-length
+name: Arc Length from Rotation Angle
+description: The distance traveled along a circular path, equal to the radius times the angle swept, when the angle is measured in radians.
+expr: "s - r*theta"
+latex: "\\Delta s = r\\theta"
+variables:
+  s: {quantity: displacement, role: arc-length}
+  r: {quantity: radius}
+  theta: {quantity: angle}
+topic: circular-motion
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "6.1"
+  url: "https://openstax.org/books/college-physics-2e/pages/6-1-rotation-angle-and-angular-velocity"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Arc_length"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/torque-angular-momentum/rotational-motion/a/rotational-vs-linear-relationships"}
+checks:
+  - {given: {r: 2, theta: 1.5}, solve_for: s, expect: 3.0}

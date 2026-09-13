@@ -1,0 +1,22 @@
+id: conductive-heat-transfer
+name: Rate of Conductive Heat Transfer
+description: The rate at which heat conducts through a slab of material depends on the material's thermal conductivity, its cross-sectional area, the temperature difference across it, and inversely on its thickness.
+expr: "P - k*A*dT/d"
+latex: "\\frac{Q}{t} = \\frac{kA\\Delta T}{d}"
+variables:
+  P: {quantity: power, role: conductive}
+  k: {quantity: thermal-conductivity}
+  A: {quantity: area}
+  dT: {quantity: temperature, role: change}
+  d: {quantity: length, role: thickness}
+topic: thermodynamics
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "14.5"
+  url: "https://openstax.org/books/college-physics-2e/pages/14-5-conduction"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Thermal_conduction#Fourier's_law"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/ap-physics-2/thermodynamics-ap/heat-transfer-ap/a/what-is-thermal-conductivity"}
+checks:
+  - {given: {k: 0.04, A: 2, dT: 20, d: 0.1}, solve_for: P, expect: 16}

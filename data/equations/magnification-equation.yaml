@@ -1,0 +1,20 @@
+id: magnification-equation
+name: Magnification
+description: The ratio of an image's height to the object's height, related to how the image and object distances from the lens compare; a negative value indicates an inverted image.
+expr: "m + di/do"
+latex: "m = -\\frac{d_i}{d_o}"
+variables:
+  m: {quantity: magnification}
+  di: {quantity: length, role: image-distance}
+  do: {quantity: length, role: object-distance}
+topic: optics
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "25.7"
+  url: "https://openstax.org/books/college-physics-2e/pages/25-7-image-formation-by-mirrors"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Magnification#Single_lens"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/geometric-optics/lenses-and-mirror/a/lens-and-mirror-equation-and-magnification"}
+checks:
+  - {given: {di: 15, do: 30}, solve_for: m, expect: -0.5}

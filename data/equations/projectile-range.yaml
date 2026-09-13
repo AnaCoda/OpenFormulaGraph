@@ -1,0 +1,21 @@
+id: projectile-range
+name: Range of a Projectile
+description: The horizontal distance a projectile launched and landing at the same height travels, which depends on its launch speed and angle above the horizontal.
+expr: "R - v**2*sin(2*theta)/g"
+latex: "R = \\frac{v^2 \\sin(2\\theta)}{g}"
+variables:
+  R: {quantity: displacement, role: range}
+  v: {quantity: velocity, role: launch}
+  theta: {quantity: angle, role: launch}
+  g: {quantity: gravitational-acceleration}
+topic: kinematics
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "3.4"
+  url: "https://openstax.org/books/college-physics-2e/pages/3-4-projectile-motion"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Projectile_motion#Range_and_height"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/two-dimensional-motion/two-dimensional-projectile-mot/a/what-are-velocity-components"}
+checks:
+  - {given: {v: 20, theta: 0.7853981633974483, g: 9.80}, solve_for: R, expect: 40.816326530612244}

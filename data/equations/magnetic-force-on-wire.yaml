@@ -1,0 +1,22 @@
+id: magnetic-force-on-wire
+name: Magnetic Force on a Current-Carrying Wire
+description: A current-carrying wire in a magnetic field feels a force proportional to the current, the wire's length, and the field strength, maximized when the wire is perpendicular to the field.
+expr: "F - B*I*L*sin(theta)"
+latex: "F = BIL\\sin\\theta"
+variables:
+  F: {quantity: force, role: magnetic}
+  B: {quantity: magnetic-field}
+  I: {quantity: current}
+  L: {quantity: length}
+  theta: {quantity: angle}
+topic: magnetism
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "22.7"
+  url: "https://openstax.org/books/college-physics-2e/pages/22-7-magnetic-force-on-a-current-carrying-conductor"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Laplace_force"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/magnetic-forces-and-magnetic-fields/magnetism-tutorial/a/what-is-magnetism"}
+checks:
+  - {given: {B: 0.5, I: 3, L: 2, theta: 1.5707963267948966}, solve_for: F, expect: 3.0}

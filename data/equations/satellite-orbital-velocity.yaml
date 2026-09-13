@@ -1,0 +1,21 @@
+id: satellite-orbital-velocity
+name: Satellite Orbital Velocity
+description: The speed a satellite must maintain in a circular orbit at a given radius so that gravity supplies exactly the centripetal force needed.
+expr: "v - sqrt(G*M/r)"
+latex: "v = \\sqrt{\\frac{GM}{r}}"
+variables:
+  v: {quantity: velocity, role: orbital}
+  G: {quantity: gravitational-constant}
+  M: {quantity: mass, role: central-body}
+  r: {quantity: radius}
+topic: gravitation
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "6.5"
+  url: "https://openstax.org/books/college-physics-2e/pages/6-5-newtons-universal-law-of-gravitation"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Orbital_speed"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/centripetal-force-and-gravitation/gravity-newtonian/a/gravity-newtonian-gravity"}
+checks:
+  - {given: {G: 6.674e-11, M: 5.972e24, r: 6.771e6}, solve_for: v, expect: 7672.317977748072}

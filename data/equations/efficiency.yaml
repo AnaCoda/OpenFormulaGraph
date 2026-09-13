@@ -1,0 +1,20 @@
+id: efficiency
+name: Efficiency
+description: The fraction of energy put into a system that comes out as useful work or output, rather than being lost, often to heat.
+expr: "Eff - W_out/W_in"
+latex: "\\text{Eff} = \\frac{W_{out}}{W_{in}}"
+variables:
+  Eff: {quantity: efficiency}
+  W_out: {quantity: work, role: output}
+  W_in: {quantity: work, role: input}
+topic: energy
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "7.13"
+  url: "https://openstax.org/books/college-physics-2e/pages/7-13-energy-and-power-in-humans"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Energy_conversion_efficiency"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/work-and-energy/work-and-energy-tutorial/a/what-is-efficiency"}
+checks:
+  - {given: {W_out: 30, W_in: 100}, solve_for: Eff, expect: 0.3}

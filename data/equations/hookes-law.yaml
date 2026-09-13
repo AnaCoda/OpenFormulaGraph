@@ -1,0 +1,20 @@
+id: hookes-law
+name: Hooke's Law
+description: The force needed to stretch or compress a spring by some distance from its equilibrium length is proportional to that distance, for deformations small enough that the spring remains elastic.
+expr: "F - k*x"
+latex: "F = kx"
+variables:
+  F: {quantity: force}
+  k: {quantity: spring-constant}
+  x: {quantity: displacement}
+topic: waves
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "16.1"
+  url: "https://openstax.org/books/college-physics-2e/pages/16-1-hookes-law-stress-and-strain-revisited"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Hooke%27s_law"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/work-and-energy/hookes-law/a/what-is-hookes-law"}
+checks:
+  - {given: {k: 200, x: 0.05}, solve_for: F, expect: 10}

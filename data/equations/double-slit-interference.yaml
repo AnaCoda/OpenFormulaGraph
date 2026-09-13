@@ -1,0 +1,21 @@
+id: double-slit-interference
+name: Double-Slit Interference
+description: Light passing through two closely-spaced slits produces bright fringes wherever the path difference between the slits is a whole number of wavelengths.
+expr: "d*sin(theta) - m*lam"
+latex: "d\\sin\\theta = m\\lambda"
+variables:
+  d: {quantity: length, role: slit-spacing}
+  theta: {quantity: angle}
+  m: {quantity: order-number}
+  lam: {quantity: wavelength}
+topic: optics
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "27.3"
+  url: "https://openstax.org/books/college-physics-2e/pages/27-3-youngs-double-slit-experiment"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Double-slit_experiment#Diffraction_of_a_double_slit"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/light-waves/interference-of-light-waves/a/light-interference"}
+checks:
+  - {given: {d: 0.00002, theta: 0.030004501823476932, m: 1}, solve_for: lam, expect: 6e-7}

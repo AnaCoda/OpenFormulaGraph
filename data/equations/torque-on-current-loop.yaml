@@ -1,0 +1,23 @@
+id: torque-on-current-loop
+name: Torque on a Current Loop in a Magnetic Field
+description: A current-carrying coil placed in a magnetic field experiences a torque that tends to rotate it, the operating principle behind electric motors and galvanometers.
+expr: "tau - N*I*A*B*sin(theta)"
+latex: "\\tau = NIAB\\sin\\theta"
+variables:
+  tau: {quantity: torque}
+  N: {quantity: count, role: turns}
+  I: {quantity: current}
+  A: {quantity: area}
+  B: {quantity: magnetic-field}
+  theta: {quantity: angle}
+topic: magnetism
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "22.10"
+  url: "https://openstax.org/books/college-physics-2e/pages/22-10-torque-on-a-current-loop-motors-and-meters"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Lorentz_force#Torque_on_a_current_loop"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/magnetic-forces-and-magnetic-fields/magnetism-tutorial/a/what-is-magnetism"}
+checks:
+  - {given: {N: 50, I: 2, A: 0.01, B: 0.3, theta: 1.5707963267948966}, solve_for: tau, expect: 0.3}

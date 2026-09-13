@@ -1,0 +1,22 @@
+id: magnetic-force-on-charge
+name: Magnetic Force on a Moving Charge
+description: A charged particle moving through a magnetic field feels a force proportional to its charge, speed, and the field strength, maximized when it moves perpendicular to the field.
+expr: "F - q*v*B*sin(theta)"
+latex: "F = qvB\\sin\\theta"
+variables:
+  F: {quantity: force, role: magnetic}
+  q: {quantity: charge}
+  v: {quantity: velocity}
+  B: {quantity: magnetic-field}
+  theta: {quantity: angle}
+topic: magnetism
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "22.3"
+  url: "https://openstax.org/books/college-physics-2e/pages/22-3-magnetic-fields-and-magnetic-field-lines"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Lorentz_force#Charged_particle"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/magnetic-forces-and-magnetic-fields/magnetism-tutorial/a/what-is-magnetism"}
+checks:
+  - {given: {q: 0.002, v: 100, B: 0.5, theta: 1.5707963267948966}, solve_for: F, expect: 0.1}

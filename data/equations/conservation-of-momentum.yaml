@@ -1,0 +1,23 @@
+id: conservation-of-momentum
+name: Conservation of Momentum in a Two-Body Collision
+description: In a collision between two bodies with no net external force, the total momentum before the collision equals the total momentum after, however it is redistributed between them.
+expr: "m1*v1 + m2*v2 - m1*v1f - m2*v2f"
+latex: "m_1 v_1 + m_2 v_2 = m_1 v_1' + m_2 v_2'"
+variables:
+  m1: {quantity: mass, role: body-1}
+  v1: {quantity: velocity, role: body-1-before}
+  m2: {quantity: mass, role: body-2}
+  v2: {quantity: velocity, role: body-2-before}
+  v1f: {quantity: velocity, role: body-1-after}
+  v2f: {quantity: velocity, role: body-2-after}
+topic: momentum
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "8.3"
+  url: "https://openstax.org/books/college-physics-2e/pages/8-3-conservation-of-momentum"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Momentum#Conservation"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/linear-momentum/momentum-tutorial/a/what-is-conservation-of-momentum"}
+checks:
+  - {given: {m1: 2, v1: 3, m2: 1, v2: 0, v1f: 1}, solve_for: v2f, expect: 4}

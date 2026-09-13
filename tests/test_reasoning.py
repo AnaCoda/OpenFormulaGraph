@@ -13,7 +13,12 @@ def test_only_the_derivable_quantity_is_returned():
 
     baseline = {("mass", None), ("force", None), ("time", None)} | CONSTANT_SLOTS
     new_slots = {s for s in result.known if s not in baseline}
-    assert new_slots == {("acceleration", None), ("force", "weight"), ("impulse", None)}
+    assert new_slots == {
+        ("acceleration", None),
+        ("force", "weight"),
+        ("impulse", None),
+        ("energy", "rest-mass"),
+    }
 
     resolved = {step.resolved for step in result.steps}
     assert resolved == new_slots
@@ -36,6 +41,14 @@ def test_initial_velocity_unlocks_the_rest_of_the_chain():
         ("power", None),
         ("force", "weight"),
         ("impulse", None),
+        ("spring-constant", None),
+        ("period", None),
+        ("frequency", None),
+        ("length", None),
+        ("energy", "elastic-potential"),
+        ("angular-velocity", None),
+        ("energy", "rest-mass"),
+        ("energy", "photon"),
     }
 
 

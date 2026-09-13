@@ -1,0 +1,21 @@
+id: volume-thermal-expansion
+name: Volume Thermal Expansion
+description: A substance's volume changes in proportion to its original volume and the temperature change it undergoes, with a coefficient roughly three times the linear expansion coefficient for solids.
+expr: "dV - beta*V0*dT"
+latex: "\\Delta V = \\beta V_0 \\Delta T"
+variables:
+  dV: {quantity: volume, role: change}
+  beta: {quantity: volume-expansion-coefficient}
+  V0: {quantity: volume, role: initial}
+  dT: {quantity: temperature, role: change}
+topic: thermodynamics
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "13.2"
+  url: "https://openstax.org/books/college-physics-2e/pages/13-2-thermal-expansion-of-solids-and-liquids"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Thermal_expansion#Area_expansion"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/ap-physics-2/thermodynamics-ap/temperature-thermal-equilibrium-ap/a/thermal-expansion"}
+checks:
+  - {given: {beta: 3.6e-5, V0: 2, dT: 50}, solve_for: dV, expect: 0.0036}

@@ -1,0 +1,20 @@
+id: carnot-efficiency
+name: Carnot Efficiency
+description: The maximum possible efficiency any heat engine can achieve operating between two temperatures, set purely by the ratio of the cold and hot reservoir temperatures.
+expr: "Eff - 1 + Tc/Th"
+latex: "\\text{Eff}_{Carnot} = 1 - \\frac{T_c}{T_h}"
+variables:
+  Eff: {quantity: efficiency, role: carnot}
+  Tc: {quantity: temperature, role: cold-reservoir}
+  Th: {quantity: temperature, role: hot-reservoir}
+topic: thermodynamics
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "15.4"
+  url: "https://openstax.org/books/college-physics-2e/pages/15-4-carnots-perfect-heat-engine-the-second-law-of-thermodynamics-restated"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Carnot_heat_engine#Carnot's_theorem"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/ap-physics-2/thermodynamics-ap/second-law-thermodynamics-ap/a/what-is-the-carnot-cycle"}
+checks:
+  - {given: {Tc: 300, Th: 500}, solve_for: Eff, expect: 0.4}

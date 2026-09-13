@@ -1,0 +1,21 @@
+id: magnetic-field-long-wire
+name: Magnetic Field Around a Long Straight Wire
+description: The strength of the magnetic field circling a long, straight current-carrying wire falls off with distance from the wire.
+expr: "B - mu0*I/(2*pi*r)"
+latex: "B = \\frac{\\mu_0 I}{2\\pi r}"
+variables:
+  B: {quantity: magnetic-field}
+  mu0: {quantity: permeability-of-free-space}
+  I: {quantity: current}
+  r: {quantity: radius}
+topic: magnetism
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "22.9"
+  url: "https://openstax.org/books/college-physics-2e/pages/22-9-magnetic-fields-produced-by-currents-amperes-law"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Amp%C3%A8re%27s_circuital_law#Magnetic_field_due_to_a_long_straight_wire"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/magnetic-forces-and-magnetic-fields/magnetic-field-current-carrying-wire/a/what-are-magnetic-fields"}
+checks:
+  - {given: {mu0: 1.25663706e-6, I: 10, r: 0.05}, solve_for: B, expect: 3.999999995429333e-05}

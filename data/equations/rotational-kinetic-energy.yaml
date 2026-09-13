@@ -1,0 +1,20 @@
+id: rotational-kinetic-energy
+name: Rotational Kinetic Energy
+description: The kinetic energy a rotating rigid body has due to its spin, the rotational analog of one-half mass times velocity squared.
+expr: "KE - I*omega**2/2"
+latex: "KE_{rot} = \\tfrac{1}{2} I \\omega^2"
+variables:
+  KE: {quantity: energy, role: rotational-kinetic}
+  I: {quantity: moment-of-inertia}
+  omega: {quantity: angular-velocity}
+topic: rotational-motion
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "10.5"
+  url: "https://openstax.org/books/college-physics-2e/pages/10-5-angular-momentum-and-its-conservation"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Rotational_energy"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/torque-angular-momentum/rotational-kinetic-energy/a/rotational-kinetic-energy-and-work-review"}
+checks:
+  - {given: {I: 4, omega: 3}, solve_for: KE, expect: 18}

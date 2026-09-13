@@ -1,0 +1,19 @@
+id: half-life-decay-constant
+name: Half-Life from Decay Constant
+description: The time it takes for half of a radioactive sample to decay, related inversely to the isotope's decay constant.
+expr: "t_half - log(2)/lam"
+latex: "t_{1/2} = \\frac{\\ln 2}{\\lambda}"
+variables:
+  t_half: {quantity: time, role: half-life}
+  lam: {quantity: decay-constant}
+topic: nuclear-physics
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "31.4"
+  url: "https://openstax.org/books/college-physics-2e/pages/31-4-half-life-and-activity"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Half-life#Formulas_for_half-life_in_exponential_decay"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/chemistry/nuclear-chemistry/radioactive-decay/a/rates-of-radioactive-decay"}
+checks:
+  - {given: {lam: 0.1}, solve_for: t_half, expect: 6.931471805599453}

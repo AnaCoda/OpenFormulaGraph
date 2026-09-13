@@ -1,0 +1,20 @@
+id: thin-lens-equation
+name: Thin Lens Equation
+description: Relates the distances from a thin lens (or curved mirror) to an object and its image to the lens's focal length.
+expr: "1/do + 1/di - 1/f"
+latex: "\\frac{1}{d_o} + \\frac{1}{d_i} = \\frac{1}{f}"
+variables:
+  do: {quantity: length, role: object-distance}
+  di: {quantity: length, role: image-distance}
+  f: {quantity: length, role: focal-length}
+topic: optics
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "25.6"
+  url: "https://openstax.org/books/college-physics-2e/pages/25-6-image-formation-by-lenses"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Lens#Thin_lens_equation"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/geometric-optics/lenses-and-mirror/a/lens-and-mirror-equation-and-magnification"}
+checks:
+  - {given: {do: 30, f: 10}, solve_for: di, expect: 15}

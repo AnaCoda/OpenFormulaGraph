@@ -1,0 +1,20 @@
+id: parallel-resistance
+name: Resistors in Parallel
+description: When resistors are connected across the same two points, the voltage across each is the same, and their combined resistance is found by adding the reciprocals of each.
+expr: "1/Rp - 1/R1 - 1/R2"
+latex: "\\frac{1}{R_p} = \\frac{1}{R_1} + \\frac{1}{R_2}"
+variables:
+  Rp: {quantity: resistance, role: parallel}
+  R1: {quantity: resistance, role: 1}
+  R2: {quantity: resistance, role: 2}
+topic: circuits
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "21.1"
+  url: "https://openstax.org/books/college-physics-2e/pages/21-1-resistors-in-series-and-parallel"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Series_and_parallel_circuits#Resistors_2"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/electrical-engineering/ee-circuit-analysis-topic/ee-resistor-circuits/a/ee-resistors-in-parallel"}
+checks:
+  - {given: {R1: 4, R2: 4}, solve_for: Rp, expect: 2}

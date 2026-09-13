@@ -1,0 +1,20 @@
+id: wave-speed-on-string
+name: Wave Speed on a Stretched String
+description: The speed of a transverse wave traveling along a stretched string increases with the tension in the string and decreases with how much mass it has per unit length.
+expr: "v - sqrt(F/mu)"
+latex: "v = \\sqrt{\\frac{F_T}{\\mu}}"
+variables:
+  v: {quantity: velocity, role: wave}
+  F: {quantity: force, role: tension}
+  mu: {quantity: linear-mass-density}
+topic: waves
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "16.7"
+  url: "https://openstax.org/books/college-physics-2e/pages/16-7-waves"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Vibrating_string#Wave_speed"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/ap-physics-1/ap-mechanical-waves/introduction-to-mechanical-waves-ap/a/wave-speed-on-a-string"}
+checks:
+  - {given: {F: 100, mu: 0.04}, solve_for: v, expect: 50.0}

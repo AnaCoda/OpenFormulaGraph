@@ -1,0 +1,21 @@
+id: length-contraction
+name: Length Contraction
+description: An object moving at relativistic speed appears shortened along its direction of motion, as measured by an observer at rest.
+expr: "L - L0*sqrt(1 - v**2/c**2)"
+latex: "L = L_0\\sqrt{1 - v^2/c^2}"
+variables:
+  L: {quantity: length, role: contracted}
+  L0: {quantity: length, role: proper}
+  v: {quantity: velocity}
+  c: {quantity: speed-of-light}
+topic: relativity
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "28.4"
+  url: "https://openstax.org/books/college-physics-2e/pages/28-4-relativistic-addition-of-velocities"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Length_contraction"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/special-relativity/length-contraction/a/length-contraction-intro"}
+checks:
+  - {given: {L0: 2, v: 259627884.49097934, c: 299792458}, solve_for: L, expect: 1.0}

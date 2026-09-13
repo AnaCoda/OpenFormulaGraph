@@ -1,0 +1,20 @@
+id: series-resistance
+name: Resistors in Series
+description: When resistors are connected end to end in a single path, the same current flows through each, and their resistances simply add.
+expr: "Rs - R1 - R2"
+latex: "R_s = R_1 + R_2"
+variables:
+  Rs: {quantity: resistance, role: series}
+  R1: {quantity: resistance, role: 1}
+  R2: {quantity: resistance, role: 2}
+topic: circuits
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "21.1"
+  url: "https://openstax.org/books/college-physics-2e/pages/21-1-resistors-in-series-and-parallel"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Series_and_parallel_circuits#Resistors"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/electrical-engineering/ee-circuit-analysis-topic/ee-resistor-circuits/a/ee-resistors-in-series"}
+checks:
+  - {given: {R1: 3, R2: 5}, solve_for: Rs, expect: 8}

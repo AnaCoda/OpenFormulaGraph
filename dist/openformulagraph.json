@@ -567,9 +567,971 @@
           "url": "https://en.wikipedia.org/wiki/Angular_velocity"
         }
       ]
+    },
+    {
+      "id": "spring-constant",
+      "name": "Spring Constant",
+      "symbol": "k",
+      "dimension": {
+        "M": 1,
+        "T": -2
+      },
+      "si_unit": "N/m",
+      "constant": false,
+      "value": null,
+      "description": "A measure of a spring's stiffness, defined as the ratio of the force applied to a spring to the resulting displacement.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Hooke%27s_law"
+        }
+      ]
+    },
+    {
+      "id": "angle",
+      "name": "Angle",
+      "symbol": "theta",
+      "dimension": {},
+      "si_unit": "rad",
+      "constant": false,
+      "value": null,
+      "description": "A measure of rotation or the amount of turn between two rays sharing an endpoint.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Angle"
+        }
+      ]
+    },
+    {
+      "id": "angular-acceleration",
+      "name": "Angular Acceleration",
+      "symbol": "alpha",
+      "dimension": {
+        "T": -2
+      },
+      "si_unit": "rad/s^2",
+      "constant": false,
+      "value": null,
+      "description": "The rate of change of angular velocity.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Angular_acceleration"
+        }
+      ]
+    },
+    {
+      "id": "torque",
+      "name": "Torque",
+      "symbol": "tau",
+      "dimension": {
+        "M": 1,
+        "L": 2,
+        "T": -2
+      },
+      "si_unit": "N*m",
+      "constant": false,
+      "value": null,
+      "description": "A measure of the twisting force that tends to cause rotation about an axis, equal to the product of a force and its lever arm.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Torque"
+        }
+      ]
+    },
+    {
+      "id": "moment-of-inertia",
+      "name": "Moment of Inertia",
+      "symbol": "I",
+      "dimension": {
+        "M": 1,
+        "L": 2
+      },
+      "si_unit": "kg*m^2",
+      "constant": false,
+      "value": null,
+      "description": "A rotating body's resistance to a change in its angular velocity, analogous to mass in linear motion, and dependent on how its mass is distributed about the axis.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Moment_of_inertia"
+        }
+      ]
+    },
+    {
+      "id": "angular-momentum",
+      "name": "Angular Momentum",
+      "symbol": "L",
+      "dimension": {
+        "M": 1,
+        "L": 2,
+        "T": -1
+      },
+      "si_unit": "kg*m^2/s",
+      "constant": false,
+      "value": null,
+      "description": "A measure of a rotating object's tendency to keep rotating, equal to the product of its moment of inertia and angular velocity.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Angular_momentum"
+        }
+      ]
+    },
+    {
+      "id": "drag-coefficient",
+      "name": "Drag Coefficient",
+      "symbol": "C",
+      "dimension": {},
+      "si_unit": "",
+      "constant": false,
+      "value": null,
+      "description": "A unitless number quantifying the drag or resistance of an object moving through a fluid, dependent on its shape.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Drag_coefficient"
+        }
+      ]
+    },
+    {
+      "id": "young-modulus",
+      "name": "Young's Modulus",
+      "symbol": "Y",
+      "dimension": {
+        "M": 1,
+        "L": -1,
+        "T": -2
+      },
+      "si_unit": "Pa",
+      "constant": false,
+      "value": null,
+      "description": "A measure of a material's stiffness, defined as the ratio of tensile stress to tensile strain along an axis.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Young%27s_modulus"
+        }
+      ]
+    },
+    {
+      "id": "stress",
+      "name": "Stress",
+      "symbol": "sigma",
+      "dimension": {
+        "M": 1,
+        "L": -1,
+        "T": -2
+      },
+      "si_unit": "Pa",
+      "constant": false,
+      "value": null,
+      "description": "The force per unit cross-sectional area within a material that arises from an applied load.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Stress_(mechanics)"
+        }
+      ]
+    },
+    {
+      "id": "strain",
+      "name": "Strain",
+      "symbol": "epsilon",
+      "dimension": {},
+      "si_unit": "",
+      "constant": false,
+      "value": null,
+      "description": "The fractional deformation of a material, defined as the change in length divided by the original length.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Deformation_(physics)#Strain"
+        }
+      ]
+    },
+    {
+      "id": "temperature",
+      "name": "Temperature",
+      "symbol": "T",
+      "dimension": {
+        "Theta": 1
+      },
+      "si_unit": "K",
+      "constant": false,
+      "value": null,
+      "description": "A measure of the average kinetic energy of the particles in a substance.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Temperature"
+        }
+      ]
+    },
+    {
+      "id": "linear-expansion-coefficient",
+      "name": "Coefficient of Linear Expansion",
+      "symbol": "alpha",
+      "dimension": {
+        "Theta": -1
+      },
+      "si_unit": "1/K",
+      "constant": false,
+      "value": null,
+      "description": "A material-specific constant giving the fractional change in length per degree of temperature change.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Thermal_expansion"
+        }
+      ]
+    },
+    {
+      "id": "volume-expansion-coefficient",
+      "name": "Coefficient of Volume Expansion",
+      "symbol": "beta",
+      "dimension": {
+        "Theta": -1
+      },
+      "si_unit": "1/K",
+      "constant": false,
+      "value": null,
+      "description": "A material-specific constant giving the fractional change in volume per degree of temperature change.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Thermal_expansion"
+        }
+      ]
+    },
+    {
+      "id": "boltzmann-constant",
+      "name": "Boltzmann Constant",
+      "symbol": "k_B",
+      "dimension": {
+        "M": 1,
+        "L": 2,
+        "T": -2,
+        "Theta": -1
+      },
+      "si_unit": "J/K",
+      "constant": true,
+      "value": 1.380649e-23,
+      "description": "The proportionality constant relating the average kinetic energy of particles in a gas to its temperature.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Boltzmann_constant"
+        }
+      ]
+    },
+    {
+      "id": "count",
+      "name": "Number of Particles",
+      "symbol": "N",
+      "dimension": {},
+      "si_unit": "",
+      "constant": false,
+      "value": null,
+      "description": "A count of discrete particles, such as molecules or atomic nuclei, with no associated unit.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Particle_number"
+        }
+      ]
+    },
+    {
+      "id": "gas-constant",
+      "name": "Universal Gas Constant",
+      "symbol": "R",
+      "dimension": {
+        "M": 1,
+        "L": 2,
+        "T": -2,
+        "Theta": -1,
+        "N": -1
+      },
+      "si_unit": "J/(mol*K)",
+      "constant": true,
+      "value": 8.314,
+      "description": "The proportionality constant relating pressure, volume, amount, and temperature of an ideal gas, the same for every gas.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Gas_constant"
+        }
+      ]
+    },
+    {
+      "id": "amount-of-substance",
+      "name": "Amount of Substance",
+      "symbol": "n",
+      "dimension": {
+        "N": 1
+      },
+      "si_unit": "mol",
+      "constant": false,
+      "value": null,
+      "description": "A count of elementary entities (atoms, molecules) in a sample, measured in moles.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Amount_of_substance"
+        }
+      ]
+    },
+    {
+      "id": "specific-heat",
+      "name": "Specific Heat",
+      "symbol": "c",
+      "dimension": {
+        "L": 2,
+        "T": -2,
+        "Theta": -1
+      },
+      "si_unit": "J/(kg*K)",
+      "constant": false,
+      "value": null,
+      "description": "The amount of heat needed to raise the temperature of one kilogram of a substance by one degree.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Specific_heat_capacity"
+        }
+      ]
+    },
+    {
+      "id": "latent-heat",
+      "name": "Latent Heat",
+      "symbol": "Lh",
+      "dimension": {
+        "L": 2,
+        "T": -2
+      },
+      "si_unit": "J/kg",
+      "constant": false,
+      "value": null,
+      "description": "The energy per unit mass absorbed or released when a substance changes phase at constant temperature.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Latent_heat"
+        }
+      ]
+    },
+    {
+      "id": "thermal-conductivity",
+      "name": "Thermal Conductivity",
+      "symbol": "k",
+      "dimension": {
+        "M": 1,
+        "L": 1,
+        "T": -3,
+        "Theta": -1
+      },
+      "si_unit": "W/(m*K)",
+      "constant": false,
+      "value": null,
+      "description": "A material's ability to conduct heat, defined as the rate of heat transfer through a unit thickness per unit temperature difference.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Thermal_conductivity_and_resistivity"
+        }
+      ]
+    },
+    {
+      "id": "stefan-boltzmann-constant",
+      "name": "Stefan-Boltzmann Constant",
+      "symbol": "sigma",
+      "dimension": {
+        "M": 1,
+        "T": -3,
+        "Theta": -4
+      },
+      "si_unit": "W/(m^2*K^4)",
+      "constant": true,
+      "value": 5.67e-08,
+      "description": "The proportionality constant relating the power radiated by a black body to the fourth power of its temperature.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Stefan%E2%80%93Boltzmann_constant"
+        }
+      ]
+    },
+    {
+      "id": "emissivity",
+      "name": "Emissivity",
+      "symbol": "e",
+      "dimension": {},
+      "si_unit": "",
+      "constant": false,
+      "value": null,
+      "description": "A unitless measure, between 0 and 1, of how effectively a surface radiates energy compared to an ideal black body.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Emissivity"
+        }
+      ]
+    },
+    {
+      "id": "efficiency",
+      "name": "Efficiency",
+      "symbol": "Eff",
+      "dimension": {},
+      "si_unit": "",
+      "constant": false,
+      "value": null,
+      "description": "The ratio of useful output to total input for a process, such as work output to energy input.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Energy_conversion_efficiency"
+        }
+      ]
+    },
+    {
+      "id": "linear-mass-density",
+      "name": "Linear Mass Density",
+      "symbol": "mu",
+      "dimension": {
+        "M": 1,
+        "L": -1
+      },
+      "si_unit": "kg/m",
+      "constant": false,
+      "value": null,
+      "description": "The mass per unit length of a one-dimensional object, such as a string or rod.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Linear_density"
+        }
+      ]
+    },
+    {
+      "id": "viscosity",
+      "name": "Viscosity",
+      "symbol": "eta",
+      "dimension": {
+        "M": 1,
+        "L": -1,
+        "T": -1
+      },
+      "si_unit": "Pa*s",
+      "constant": false,
+      "value": null,
+      "description": "A fluid's resistance to flow, relating the shear stress within it to the rate of shear strain.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Viscosity"
+        }
+      ]
+    },
+    {
+      "id": "flow-rate",
+      "name": "Volume Flow Rate",
+      "symbol": "Q",
+      "dimension": {
+        "L": 3,
+        "T": -1
+      },
+      "si_unit": "m^3/s",
+      "constant": false,
+      "value": null,
+      "description": "The volume of fluid that passes through a cross-section per unit time.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Volumetric_flow_rate"
+        }
+      ]
+    },
+    {
+      "id": "reynolds-number",
+      "name": "Reynolds Number",
+      "symbol": "NR",
+      "dimension": {},
+      "si_unit": "",
+      "constant": false,
+      "value": null,
+      "description": "A unitless number predicting whether fluid flow will be laminar or turbulent, based on the fluid's speed, density, viscosity, and the size of the flow.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Reynolds_number"
+        }
+      ]
+    },
+    {
+      "id": "sound-intensity",
+      "name": "Sound Intensity",
+      "symbol": "I",
+      "dimension": {
+        "M": 1,
+        "T": -3
+      },
+      "si_unit": "W/m^2",
+      "constant": false,
+      "value": null,
+      "description": "The power carried by a sound wave per unit area.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Sound_intensity"
+        }
+      ]
+    },
+    {
+      "id": "reference-sound-intensity",
+      "name": "Reference Sound Intensity",
+      "symbol": "I0",
+      "dimension": {
+        "M": 1,
+        "T": -3
+      },
+      "si_unit": "W/m^2",
+      "constant": true,
+      "value": "1e-12",
+      "description": "The standard reference intensity, roughly the faintest sound audible to humans, against which sound intensity levels in decibels are measured.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Sound_intensity#Sound_intensity_level"
+        }
+      ]
+    },
+    {
+      "id": "sound-intensity-level",
+      "name": "Sound Intensity Level",
+      "symbol": "beta",
+      "dimension": {},
+      "si_unit": "dB",
+      "constant": false,
+      "value": null,
+      "description": "A logarithmic measure of sound intensity relative to a standard reference intensity, expressed in decibels.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Sound_intensity#Sound_intensity_level"
+        }
+      ]
+    },
+    {
+      "id": "electric-field",
+      "name": "Electric Field",
+      "symbol": "E",
+      "dimension": {
+        "M": 1,
+        "L": 1,
+        "T": -3,
+        "I": -1
+      },
+      "si_unit": "N/C",
+      "constant": false,
+      "value": null,
+      "description": "The electric force per unit charge that would be exerted on a small positive test charge at a given point.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Electric_field"
+        }
+      ]
+    },
+    {
+      "id": "capacitance",
+      "name": "Capacitance",
+      "symbol": "C",
+      "dimension": {
+        "M": -1,
+        "L": -2,
+        "T": 4,
+        "I": 2
+      },
+      "si_unit": "F",
+      "constant": false,
+      "value": null,
+      "description": "A conductor's ability to store charge per unit of electric potential difference across it.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Capacitance"
+        }
+      ]
+    },
+    {
+      "id": "permittivity-of-free-space",
+      "name": "Permittivity of Free Space",
+      "symbol": "epsilon0",
+      "dimension": {
+        "M": -1,
+        "L": -3,
+        "T": 4,
+        "I": 2
+      },
+      "si_unit": "F/m",
+      "constant": true,
+      "value": 8.854e-12,
+      "description": "A physical constant describing how an electric field permeates a vacuum.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Vacuum_permittivity"
+        }
+      ]
+    },
+    {
+      "id": "resistivity",
+      "name": "Resistivity",
+      "symbol": "rho",
+      "dimension": {
+        "M": 1,
+        "L": 3,
+        "T": -3,
+        "I": -2
+      },
+      "si_unit": "ohm*m",
+      "constant": false,
+      "value": null,
+      "description": "An intrinsic material property describing how strongly it opposes the flow of electric current.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Electrical_resistivity_and_conductivity"
+        }
+      ]
+    },
+    {
+      "id": "magnetic-field",
+      "name": "Magnetic Field",
+      "symbol": "B",
+      "dimension": {
+        "M": 1,
+        "T": -2,
+        "I": -1
+      },
+      "si_unit": "T",
+      "constant": false,
+      "value": null,
+      "description": "A vector field describing the magnetic influence on moving electric charges, electric currents, and magnetic materials.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Magnetic_field"
+        }
+      ]
+    },
+    {
+      "id": "permeability-of-free-space",
+      "name": "Permeability of Free Space",
+      "symbol": "mu0",
+      "dimension": {
+        "M": 1,
+        "L": 1,
+        "T": -2,
+        "I": -2
+      },
+      "si_unit": "T*m/A",
+      "constant": true,
+      "value": 1.25663706e-06,
+      "description": "A physical constant describing the ability of a vacuum to support the formation of a magnetic field.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Vacuum_permeability"
+        }
+      ]
+    },
+    {
+      "id": "inductance",
+      "name": "Inductance",
+      "symbol": "L",
+      "dimension": {
+        "M": 1,
+        "L": 2,
+        "T": -2,
+        "I": -2
+      },
+      "si_unit": "H",
+      "constant": false,
+      "value": null,
+      "description": "A conductor's property of opposing a change in the current flowing through it, by inducing a voltage proportional to that rate of change.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Inductance"
+        }
+      ]
+    },
+    {
+      "id": "index-of-refraction",
+      "name": "Index of Refraction",
+      "symbol": "n",
+      "dimension": {},
+      "si_unit": "",
+      "constant": false,
+      "value": null,
+      "description": "A unitless ratio of the speed of light in a vacuum to its speed in a given medium, describing how much the medium bends light.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Refractive_index"
+        }
+      ]
+    },
+    {
+      "id": "magnification",
+      "name": "Magnification",
+      "symbol": "m",
+      "dimension": {},
+      "si_unit": "",
+      "constant": false,
+      "value": null,
+      "description": "The ratio of an image's size (or apparent size) to the size of the object producing it.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Magnification"
+        }
+      ]
+    },
+    {
+      "id": "order-number",
+      "name": "Order Number",
+      "symbol": "m",
+      "dimension": {},
+      "si_unit": "",
+      "constant": false,
+      "value": null,
+      "description": "The integer counting which interference maximum or fringe is being described, in diffraction and interference patterns.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Diffraction#Diffraction_grating"
+        }
+      ]
+    },
+    {
+      "id": "speed-of-light",
+      "name": "Speed of Light",
+      "symbol": "c",
+      "dimension": {
+        "L": 1,
+        "T": -1
+      },
+      "si_unit": "m/s",
+      "constant": true,
+      "value": 299792458,
+      "description": "The speed at which light and all other electromagnetic radiation travel in a vacuum, a universal physical constant.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Speed_of_light"
+        }
+      ]
+    },
+    {
+      "id": "planck-constant",
+      "name": "Planck's Constant",
+      "symbol": "h",
+      "dimension": {
+        "M": 1,
+        "L": 2,
+        "T": -1
+      },
+      "si_unit": "J*s",
+      "constant": true,
+      "value": 6.62607015e-34,
+      "description": "The proportionality constant relating a photon's energy to its frequency, fundamental to quantum mechanics.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Planck_constant"
+        }
+      ]
+    },
+    {
+      "id": "decay-constant",
+      "name": "Decay Constant",
+      "symbol": "lam",
+      "dimension": {
+        "T": -1
+      },
+      "si_unit": "1/s",
+      "constant": false,
+      "value": null,
+      "description": "The probability per unit time that a given radioactive nucleus will decay, characteristic of a particular isotope.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Exponential_decay#Decay_rate"
+        }
+      ]
     }
   ],
   "equations": [
+    {
+      "id": "angular-displacement",
+      "name": "Angular Displacement Under Constant Angular Acceleration",
+      "latex": "\\theta = \\omega_0 t + \\tfrac{1}{2}\\alpha t^2",
+      "topic": "rotational-motion",
+      "variables": {
+        "theta": {
+          "quantity": "angle",
+          "role": null
+        },
+        "omega0": {
+          "quantity": "angular-velocity",
+          "role": "initial"
+        },
+        "alpha": {
+          "quantity": "angular-acceleration",
+          "role": null
+        },
+        "t": {
+          "quantity": "time",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "10.1",
+        "url": "https://openstax.org/books/college-physics-2e/pages/10-1-angular-acceleration"
+      },
+      "description": "Under constant angular acceleration, the angle swept grows with both the initial angular velocity and the acceleration, mirroring displacement under constant linear acceleration.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Equations_of_motion#Uniform_circular_motion"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/torque-angular-momentum/rotational-motion/a/rotational-vs-linear-relationships"
+        }
+      ]
+    },
+    {
+      "id": "angular-frequency-spring",
+      "name": "Angular Frequency of a Mass on a Spring",
+      "latex": "\\omega = \\sqrt{\\frac{k}{m}}",
+      "topic": "waves",
+      "variables": {
+        "omega": {
+          "quantity": "angular-velocity",
+          "role": null
+        },
+        "k": {
+          "quantity": "spring-constant",
+          "role": null
+        },
+        "m": {
+          "quantity": "mass",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "16.2",
+        "url": "https://openstax.org/books/college-physics-2e/pages/16-2-period-and-frequency-in-oscillations"
+      },
+      "description": "The natural angular frequency of a mass oscillating on a spring, set by the spring's stiffness and the mass attached to it.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Harmonic_oscillator#Simple_harmonic_oscillator"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/ap-physics-1/ap-simple-harmonic-motion/period-of-mass-spring/a/period-of-mass-spring-systems-ap1"
+        }
+      ]
+    },
+    {
+      "id": "angular-momentum",
+      "name": "Angular Momentum",
+      "latex": "L = I\\omega",
+      "topic": "rotational-motion",
+      "variables": {
+        "L": {
+          "quantity": "angular-momentum",
+          "role": null
+        },
+        "I": {
+          "quantity": "moment-of-inertia",
+          "role": null
+        },
+        "omega": {
+          "quantity": "angular-velocity",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "10.6",
+        "url": "https://openstax.org/books/college-physics-2e/pages/10-6-collisions-of-extended-bodies-in-two-dimensions"
+      },
+      "description": "A measure of a rotating body's tendency to keep spinning, equal to the product of its moment of inertia and angular velocity, conserved when no net external torque acts.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Angular_momentum"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/torque-angular-momentum/angular-momentum/a/what-is-angular-momentum"
+        }
+      ]
+    },
+    {
+      "id": "angular-velocity-time",
+      "name": "Angular Velocity as a Function of Time",
+      "latex": "\\omega = \\omega_0 + \\alpha t",
+      "topic": "rotational-motion",
+      "variables": {
+        "omega": {
+          "quantity": "angular-velocity",
+          "role": "final"
+        },
+        "omega0": {
+          "quantity": "angular-velocity",
+          "role": "initial"
+        },
+        "alpha": {
+          "quantity": "angular-acceleration",
+          "role": null
+        },
+        "t": {
+          "quantity": "time",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "10.1",
+        "url": "https://openstax.org/books/college-physics-2e/pages/10-1-angular-acceleration"
+      },
+      "description": "Under constant angular acceleration, an object's angular velocity grows linearly with time, the rotational analog of velocity under constant linear acceleration.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Angular_acceleration"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/torque-angular-momentum/rotational-motion/a/rotational-vs-linear-relationships"
+        }
+      ]
+    },
     {
       "id": "angular-velocity",
       "name": "Linear Velocity from Angular Velocity",
@@ -608,6 +1570,80 @@
       ]
     },
     {
+      "id": "arc-length",
+      "name": "Arc Length from Rotation Angle",
+      "latex": "\\Delta s = r\\theta",
+      "topic": "circular-motion",
+      "variables": {
+        "s": {
+          "quantity": "displacement",
+          "role": "arc-length"
+        },
+        "r": {
+          "quantity": "radius",
+          "role": null
+        },
+        "theta": {
+          "quantity": "angle",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "6.1",
+        "url": "https://openstax.org/books/college-physics-2e/pages/6-1-rotation-angle-and-angular-velocity"
+      },
+      "description": "The distance traveled along a circular path, equal to the radius times the angle swept, when the angle is measured in radians.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Arc_length"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/torque-angular-momentum/rotational-motion/a/rotational-vs-linear-relationships"
+        }
+      ]
+    },
+    {
+      "id": "average-molecular-kinetic-energy",
+      "name": "Average Kinetic Energy of Gas Molecules",
+      "latex": "\\overline{KE} = \\tfrac{3}{2} k_B T",
+      "topic": "thermodynamics",
+      "variables": {
+        "KE": {
+          "quantity": "energy",
+          "role": "avg-molecular-kinetic"
+        },
+        "k_B": {
+          "quantity": "boltzmann-constant",
+          "role": null
+        },
+        "T": {
+          "quantity": "temperature",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "13.4",
+        "url": "https://openstax.org/books/college-physics-2e/pages/13-4-kinetic-theory-atomic-and-molecular-explanation-of-pressure-and-temperature"
+      },
+      "description": "The average translational kinetic energy of the molecules in an ideal gas depends only on the gas's absolute temperature, not on the type of molecule.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Kinetic_theory_of_gases#Temperature_and_kinetic_energy"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/ap-physics-2/thermodynamics-ap/kinetic-molecular-theory-ap/a/what-is-the-kinetic-molecular-theory-of-gases"
+        }
+      ]
+    },
+    {
       "id": "average-velocity",
       "name": "Average Velocity",
       "latex": "\\bar{v} = \\frac{\\Delta x}{t}",
@@ -641,6 +1677,158 @@
         {
           "label": "Khan Academy",
           "url": "https://www.khanacademy.org/science/physics/one-dimensional-motion/displacement-velocity-time/a/what-is-average-velocity"
+        }
+      ]
+    },
+    {
+      "id": "buoyant-force",
+      "name": "Buoyant Force (Archimedes' Principle)",
+      "latex": "F_B = \\rho V g",
+      "topic": "fluids",
+      "variables": {
+        "F": {
+          "quantity": "force",
+          "role": "buoyant"
+        },
+        "rho": {
+          "quantity": "density",
+          "role": "fluid"
+        },
+        "V": {
+          "quantity": "volume",
+          "role": "displaced"
+        },
+        "g": {
+          "quantity": "gravitational-acceleration",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "11.7",
+        "url": "https://openstax.org/books/college-physics-2e/pages/11-7-archimedes-principle"
+      },
+      "description": "An object submerged in a fluid experiences an upward buoyant force equal to the weight of the fluid it displaces.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Archimedes%27_principle"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/fluids/buoyant-force-and-archimedes-principle/a/buoyant-force-and-archimedes-principle-article"
+        }
+      ]
+    },
+    {
+      "id": "capacitance-definition",
+      "name": "Capacitance",
+      "latex": "C = \\frac{Q}{V}",
+      "topic": "electricity",
+      "variables": {
+        "C": {
+          "quantity": "capacitance",
+          "role": null
+        },
+        "Q": {
+          "quantity": "charge",
+          "role": null
+        },
+        "V": {
+          "quantity": "voltage",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "19.5",
+        "url": "https://openstax.org/books/college-physics-2e/pages/19-5-capacitors-and-dielectrics"
+      },
+      "description": "A capacitor's capacitance is the amount of charge it stores per unit of voltage applied across it.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Capacitance"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/electrical-engineering/ee-electrostatics/ee-capacitance/a/ee-capacitance"
+        }
+      ]
+    },
+    {
+      "id": "capacitor-energy",
+      "name": "Energy Stored in a Capacitor",
+      "latex": "E = \\tfrac{1}{2} C V^2",
+      "topic": "electricity",
+      "variables": {
+        "E": {
+          "quantity": "energy",
+          "role": "capacitor"
+        },
+        "C": {
+          "quantity": "capacitance",
+          "role": null
+        },
+        "V": {
+          "quantity": "voltage",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "19.6",
+        "url": "https://openstax.org/books/college-physics-2e/pages/19-6-capacitors-in-series-and-parallel"
+      },
+      "description": "The electrical potential energy stored in a charged capacitor, which grows with the square of the voltage across it.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Capacitor#Energy_of_electric_field"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/electrical-engineering/ee-electrostatics/ee-capacitance/a/ee-capacitance"
+        }
+      ]
+    },
+    {
+      "id": "carnot-efficiency",
+      "name": "Carnot Efficiency",
+      "latex": "\\text{Eff}_{Carnot} = 1 - \\frac{T_c}{T_h}",
+      "topic": "thermodynamics",
+      "variables": {
+        "Eff": {
+          "quantity": "efficiency",
+          "role": "carnot"
+        },
+        "Tc": {
+          "quantity": "temperature",
+          "role": "cold-reservoir"
+        },
+        "Th": {
+          "quantity": "temperature",
+          "role": "hot-reservoir"
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "15.4",
+        "url": "https://openstax.org/books/college-physics-2e/pages/15-4-carnots-perfect-heat-engine-the-second-law-of-thermodynamics-restated"
+      },
+      "description": "The maximum possible efficiency any heat engine can achieve operating between two temperatures, set purely by the ratio of the cold and hot reservoir temperatures.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Carnot_heat_engine#Carnot's_theorem"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/ap-physics-2/thermodynamics-ap/second-law-thermodynamics-ap/a/what-is-the-carnot-cycle"
         }
       ]
     },
@@ -723,6 +1911,141 @@
       ]
     },
     {
+      "id": "conductive-heat-transfer",
+      "name": "Rate of Conductive Heat Transfer",
+      "latex": "\\frac{Q}{t} = \\frac{kA\\Delta T}{d}",
+      "topic": "thermodynamics",
+      "variables": {
+        "P": {
+          "quantity": "power",
+          "role": "conductive"
+        },
+        "k": {
+          "quantity": "thermal-conductivity",
+          "role": null
+        },
+        "A": {
+          "quantity": "area",
+          "role": null
+        },
+        "dT": {
+          "quantity": "temperature",
+          "role": "change"
+        },
+        "d": {
+          "quantity": "length",
+          "role": "thickness"
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "14.5",
+        "url": "https://openstax.org/books/college-physics-2e/pages/14-5-conduction"
+      },
+      "description": "The rate at which heat conducts through a slab of material depends on the material's thermal conductivity, its cross-sectional area, the temperature difference across it, and inversely on its thickness.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Thermal_conduction#Fourier's_law"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/ap-physics-2/thermodynamics-ap/heat-transfer-ap/a/what-is-thermal-conductivity"
+        }
+      ]
+    },
+    {
+      "id": "conservation-of-momentum",
+      "name": "Conservation of Momentum in a Two-Body Collision",
+      "latex": "m_1 v_1 + m_2 v_2 = m_1 v_1' + m_2 v_2'",
+      "topic": "momentum",
+      "variables": {
+        "m1": {
+          "quantity": "mass",
+          "role": "body-1"
+        },
+        "v1": {
+          "quantity": "velocity",
+          "role": "body-1-before"
+        },
+        "m2": {
+          "quantity": "mass",
+          "role": "body-2"
+        },
+        "v2": {
+          "quantity": "velocity",
+          "role": "body-2-before"
+        },
+        "v1f": {
+          "quantity": "velocity",
+          "role": "body-1-after"
+        },
+        "v2f": {
+          "quantity": "velocity",
+          "role": "body-2-after"
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "8.3",
+        "url": "https://openstax.org/books/college-physics-2e/pages/8-3-conservation-of-momentum"
+      },
+      "description": "In a collision between two bodies with no net external force, the total momentum before the collision equals the total momentum after, however it is redistributed between them.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Momentum#Conservation"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/linear-momentum/momentum-tutorial/a/what-is-conservation-of-momentum"
+        }
+      ]
+    },
+    {
+      "id": "continuity-equation",
+      "name": "Equation of Continuity",
+      "latex": "A_1 v_1 = A_2 v_2",
+      "topic": "fluid-dynamics",
+      "variables": {
+        "A1": {
+          "quantity": "area",
+          "role": "inlet"
+        },
+        "v1": {
+          "quantity": "velocity",
+          "role": "inlet"
+        },
+        "A2": {
+          "quantity": "area",
+          "role": "outlet"
+        },
+        "v2": {
+          "quantity": "velocity",
+          "role": "outlet"
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "12.1",
+        "url": "https://openstax.org/books/college-physics-2e/pages/12-1-flow-rate-and-its-relation-to-velocity"
+      },
+      "description": "For an incompressible fluid flowing through a pipe of varying cross-section, the flow rate is the same everywhere, so the fluid speeds up where the pipe narrows.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Continuity_equation#Fluid_dynamics"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/fluids/fluid-dynamics/a/what-is-the-continuity-equation"
+        }
+      ]
+    },
+    {
       "id": "coulombs-law",
       "name": "Coulomb's Law",
       "latex": "F = \\frac{kq_1q_2}{r^2}",
@@ -764,6 +2087,80 @@
         {
           "label": "Khan Academy",
           "url": "https://www.khanacademy.org/science/hs-physics/x215e29cb31244fa1:types-of-interactions/x215e29cb31244fa1:coulomb-s-law/a/coulombs-law-and-electric-force-ap-physics-1"
+        }
+      ]
+    },
+    {
+      "id": "current-definition",
+      "name": "Electric Current",
+      "latex": "I = \\frac{Q}{t}",
+      "topic": "electricity",
+      "variables": {
+        "I": {
+          "quantity": "current",
+          "role": null
+        },
+        "Q": {
+          "quantity": "charge",
+          "role": null
+        },
+        "t": {
+          "quantity": "time",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "20.1",
+        "url": "https://openstax.org/books/college-physics-2e/pages/20-1-current"
+      },
+      "description": "Electric current is the rate at which charge flows past a point in a circuit.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Electric_current#Definition"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/electrical-engineering/ee-circuit-analysis-topic/ee-resistor-circuits/a/ee-current"
+        }
+      ]
+    },
+    {
+      "id": "de-broglie-wavelength",
+      "name": "De Broglie Wavelength",
+      "latex": "\\lambda = \\frac{h}{p}",
+      "topic": "quantum-physics",
+      "variables": {
+        "lam": {
+          "quantity": "wavelength",
+          "role": null
+        },
+        "h": {
+          "quantity": "planck-constant",
+          "role": null
+        },
+        "p": {
+          "quantity": "momentum",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "29.6",
+        "url": "https://openstax.org/books/college-physics-2e/pages/29-6-de-broglies-hypothesis-electrons-as-waves"
+      },
+      "description": "Every moving particle has an associated wavelength inversely proportional to its momentum, revealing the wave nature of matter.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Matter_wave#De_Broglie_relations"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/quantum-physics/photons/a/photon-momentum"
         }
       ]
     },
@@ -887,6 +2284,363 @@
       ]
     },
     {
+      "id": "double-slit-interference",
+      "name": "Double-Slit Interference",
+      "latex": "d\\sin\\theta = m\\lambda",
+      "topic": "optics",
+      "variables": {
+        "d": {
+          "quantity": "length",
+          "role": "slit-spacing"
+        },
+        "theta": {
+          "quantity": "angle",
+          "role": null
+        },
+        "m": {
+          "quantity": "order-number",
+          "role": null
+        },
+        "lam": {
+          "quantity": "wavelength",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "27.3",
+        "url": "https://openstax.org/books/college-physics-2e/pages/27-3-youngs-double-slit-experiment"
+      },
+      "description": "Light passing through two closely-spaced slits produces bright fringes wherever the path difference between the slits is a whole number of wavelengths.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Double-slit_experiment#Diffraction_of_a_double_slit"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/light-waves/interference-of-light-waves/a/light-interference"
+        }
+      ]
+    },
+    {
+      "id": "drag-force",
+      "name": "Drag Force",
+      "latex": "F_D = \\tfrac{1}{2} C \\rho A v^2",
+      "topic": "dynamics",
+      "variables": {
+        "F": {
+          "quantity": "force",
+          "role": "drag"
+        },
+        "C": {
+          "quantity": "drag-coefficient",
+          "role": null
+        },
+        "rho": {
+          "quantity": "density",
+          "role": "fluid"
+        },
+        "A": {
+          "quantity": "area",
+          "role": "cross-section"
+        },
+        "v": {
+          "quantity": "velocity",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "5.2",
+        "url": "https://openstax.org/books/college-physics-2e/pages/5-2-drag-forces"
+      },
+      "description": "The resistive force a fluid exerts on an object moving through it, growing with the square of the object's speed.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Drag_(physics)#The_drag_equation"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/ap-physics-1/ap-forces-newtons-laws/newtons-laws-of-motion-ap/a/frictional-forces-ap1"
+        }
+      ]
+    },
+    {
+      "id": "efficiency",
+      "name": "Efficiency",
+      "latex": "\\text{Eff} = \\frac{W_{out}}{W_{in}}",
+      "topic": "energy",
+      "variables": {
+        "Eff": {
+          "quantity": "efficiency",
+          "role": null
+        },
+        "W_out": {
+          "quantity": "work",
+          "role": "output"
+        },
+        "W_in": {
+          "quantity": "work",
+          "role": "input"
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "7.13",
+        "url": "https://openstax.org/books/college-physics-2e/pages/7-13-energy-and-power-in-humans"
+      },
+      "description": "The fraction of energy put into a system that comes out as useful work or output, rather than being lost, often to heat.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Energy_conversion_efficiency"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/work-and-energy/work-and-energy-tutorial/a/what-is-efficiency"
+        }
+      ]
+    },
+    {
+      "id": "elastic-potential-energy",
+      "name": "Elastic Potential Energy",
+      "latex": "PE_s = \\tfrac{1}{2} k x^2",
+      "topic": "energy",
+      "variables": {
+        "PE": {
+          "quantity": "energy",
+          "role": "elastic-potential"
+        },
+        "k": {
+          "quantity": "spring-constant",
+          "role": null
+        },
+        "x": {
+          "quantity": "displacement",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "16.3",
+        "url": "https://openstax.org/books/college-physics-2e/pages/16-3-simple-harmonic-motion-a-special-periodic-motion"
+      },
+      "description": "The energy stored in a spring (or other elastic object) when it is stretched or compressed from its equilibrium position.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Elastic_energy"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/work-and-energy/hookes-law/a/spring-potential-energy-and-hookes-law-review"
+        }
+      ]
+    },
+    {
+      "id": "electric-field-force",
+      "name": "Electric Field from Force per Charge",
+      "latex": "E = \\frac{F}{q}",
+      "topic": "electricity",
+      "variables": {
+        "E": {
+          "quantity": "electric-field",
+          "role": null
+        },
+        "F": {
+          "quantity": "force",
+          "role": null
+        },
+        "q": {
+          "quantity": "charge",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "18.4",
+        "url": "https://openstax.org/books/college-physics-2e/pages/18-4-electric-field-concept-of-a-field-revisited"
+      },
+      "description": "The electric field at a point, defined operationally as the force a small positive test charge would feel there, divided by the size of that charge.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Electric_field#Definition"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/electric-charge-electric-force-and-voltage/electric-field/a/electric-field"
+        }
+      ]
+    },
+    {
+      "id": "electric-field-point-charge",
+      "name": "Electric Field of a Point Charge",
+      "latex": "E = \\frac{kq}{r^2}",
+      "topic": "electricity",
+      "variables": {
+        "E": {
+          "quantity": "electric-field",
+          "role": null
+        },
+        "k": {
+          "quantity": "coulombs-constant",
+          "role": null
+        },
+        "q": {
+          "quantity": "charge",
+          "role": null
+        },
+        "r": {
+          "quantity": "radius",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "18.5",
+        "url": "https://openstax.org/books/college-physics-2e/pages/18-5-electric-field-concept-of-a-field-revisited"
+      },
+      "description": "The strength of the electric field surrounding a point charge, falling off with the square of the distance from it.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Electric_field#Field_due_to_a_point_charge"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/electric-charge-electric-force-and-voltage/electric-field/a/electric-field"
+        }
+      ]
+    },
+    {
+      "id": "electric-potential-energy",
+      "name": "Electric Potential Energy Between Two Charges",
+      "latex": "PE = \\frac{kq_1q_2}{r}",
+      "topic": "electricity",
+      "variables": {
+        "PE": {
+          "quantity": "energy",
+          "role": "electric-potential"
+        },
+        "k": {
+          "quantity": "coulombs-constant",
+          "role": null
+        },
+        "q1": {
+          "quantity": "charge",
+          "role": 1
+        },
+        "q2": {
+          "quantity": "charge",
+          "role": 2
+        },
+        "r": {
+          "quantity": "radius",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "19.1",
+        "url": "https://openstax.org/books/college-physics-2e/pages/19-1-electric-potential-energy-potential-difference"
+      },
+      "description": "The potential energy stored between two point charges, which decreases in magnitude as they're moved farther apart.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Electric_potential_energy#Electric_potential_energy_of_a_system_of_point_charges"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/electrical-engineering/ee-electrostatics/ee-electric-force-and-electric-field/a/ee-electric-potential-energy"
+        }
+      ]
+    },
+    {
+      "id": "electric-power-current-resistance",
+      "name": "Electric Power (Current and Resistance)",
+      "latex": "P = I^2R",
+      "topic": "electricity",
+      "variables": {
+        "P": {
+          "quantity": "power",
+          "role": null
+        },
+        "I": {
+          "quantity": "current",
+          "role": null
+        },
+        "R": {
+          "quantity": "resistance",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "20.5",
+        "url": "https://openstax.org/books/college-physics-2e/pages/20-5-electric-power-and-energy"
+      },
+      "description": "The power dissipated by a resistor, expressed in terms of the current through it and its resistance, useful when the current is known but the voltage is not.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Joule_heating"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/electrical-engineering/ee-circuit-analysis-topic/ee-resistor-circuits/a/ee-power"
+        }
+      ]
+    },
+    {
+      "id": "electric-power-voltage-resistance",
+      "name": "Electric Power (Voltage and Resistance)",
+      "latex": "P = \\frac{V^2}{R}",
+      "topic": "electricity",
+      "variables": {
+        "P": {
+          "quantity": "power",
+          "role": null
+        },
+        "V": {
+          "quantity": "voltage",
+          "role": null
+        },
+        "R": {
+          "quantity": "resistance",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "20.5",
+        "url": "https://openstax.org/books/college-physics-2e/pages/20-5-electric-power-and-energy"
+      },
+      "description": "The power dissipated by a resistor, expressed in terms of the voltage across it and its resistance, useful when the current is not directly known.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Joule_heating"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/electrical-engineering/ee-circuit-analysis-topic/ee-resistor-circuits/a/ee-power"
+        }
+      ]
+    },
+    {
       "id": "electric-power",
       "name": "Electric Power",
       "latex": "P = IV",
@@ -920,6 +2674,80 @@
         {
           "label": "Khan Academy",
           "url": "https://www.khanacademy.org/science/high-school-physics/dc-circuits/electric-power-and-dc-circuits/v/electric-power"
+        }
+      ]
+    },
+    {
+      "id": "first-law-of-thermodynamics",
+      "name": "First Law of Thermodynamics",
+      "latex": "\\Delta U = Q - W",
+      "topic": "thermodynamics",
+      "variables": {
+        "dU": {
+          "quantity": "energy",
+          "role": "internal-energy-change"
+        },
+        "Q": {
+          "quantity": "energy",
+          "role": "heat"
+        },
+        "W": {
+          "quantity": "work",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "15.1",
+        "url": "https://openstax.org/books/college-physics-2e/pages/15-1-the-first-law-of-thermodynamics"
+      },
+      "description": "The change in a system's internal energy equals the heat added to it minus the work it does on its surroundings, an accounting statement of energy conservation.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/First_law_of_thermodynamics"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/ap-physics-2/thermodynamics-ap/first-law-thermodynamics-ap/a/what-is-the-first-law-of-thermodynamics"
+        }
+      ]
+    },
+    {
+      "id": "flow-rate",
+      "name": "Volume Flow Rate",
+      "latex": "Q = Av",
+      "topic": "fluid-dynamics",
+      "variables": {
+        "Q": {
+          "quantity": "flow-rate",
+          "role": null
+        },
+        "A": {
+          "quantity": "area",
+          "role": null
+        },
+        "v": {
+          "quantity": "velocity",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "12.1",
+        "url": "https://openstax.org/books/college-physics-2e/pages/12-1-flow-rate-and-its-relation-to-velocity"
+      },
+      "description": "The volume of fluid passing a cross-section of a pipe per unit time, equal to the cross-sectional area times the fluid's speed.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Volumetric_flow_rate"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/fluids/fluid-dynamics/a/what-is-volume-flow-rate"
         }
       ]
     },
@@ -965,6 +2793,248 @@
       ]
     },
     {
+      "id": "half-life-decay-constant",
+      "name": "Half-Life from Decay Constant",
+      "latex": "t_{1/2} = \\frac{\\ln 2}{\\lambda}",
+      "topic": "nuclear-physics",
+      "variables": {
+        "t_half": {
+          "quantity": "time",
+          "role": "half-life"
+        },
+        "lam": {
+          "quantity": "decay-constant",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "31.4",
+        "url": "https://openstax.org/books/college-physics-2e/pages/31-4-half-life-and-activity"
+      },
+      "description": "The time it takes for half of a radioactive sample to decay, related inversely to the isotope's decay constant.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Half-life#Formulas_for_half-life_in_exponential_decay"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/chemistry/nuclear-chemistry/radioactive-decay/a/rates-of-radioactive-decay"
+        }
+      ]
+    },
+    {
+      "id": "heat-transfer-specific-heat",
+      "name": "Heat Transfer and Specific Heat",
+      "latex": "Q = mc\\Delta T",
+      "topic": "thermodynamics",
+      "variables": {
+        "Q": {
+          "quantity": "energy",
+          "role": "heat"
+        },
+        "m": {
+          "quantity": "mass",
+          "role": null
+        },
+        "c": {
+          "quantity": "specific-heat",
+          "role": null
+        },
+        "dT": {
+          "quantity": "temperature",
+          "role": "change"
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "14.1",
+        "url": "https://openstax.org/books/college-physics-2e/pages/14-1-heat"
+      },
+      "description": "The heat needed to change a substance's temperature depends on its mass, its specific heat, and the size of the temperature change.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Specific_heat_capacity"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/ap-physics-2/thermodynamics-ap/temperature-thermal-equilibrium-ap/a/what-is-specific-heat-capacity"
+        }
+      ]
+    },
+    {
+      "id": "hookes-law",
+      "name": "Hooke's Law",
+      "latex": "F = kx",
+      "topic": "waves",
+      "variables": {
+        "F": {
+          "quantity": "force",
+          "role": null
+        },
+        "k": {
+          "quantity": "spring-constant",
+          "role": null
+        },
+        "x": {
+          "quantity": "displacement",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "16.1",
+        "url": "https://openstax.org/books/college-physics-2e/pages/16-1-hookes-law-stress-and-strain-revisited"
+      },
+      "description": "The force needed to stretch or compress a spring by some distance from its equilibrium length is proportional to that distance, for deformations small enough that the spring remains elastic.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Hooke%27s_law"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/work-and-energy/hookes-law/a/what-is-hookes-law"
+        }
+      ]
+    },
+    {
+      "id": "ideal-banking-angle",
+      "name": "Ideal Banking Angle",
+      "latex": "\\tan\\theta = \\frac{v^2}{rg}",
+      "topic": "circular-motion",
+      "variables": {
+        "theta": {
+          "quantity": "angle",
+          "role": "banking"
+        },
+        "v": {
+          "quantity": "velocity",
+          "role": null
+        },
+        "r": {
+          "quantity": "radius",
+          "role": null
+        },
+        "g": {
+          "quantity": "gravitational-acceleration",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "6.3",
+        "url": "https://openstax.org/books/college-physics-2e/pages/6-3-centripetal-force"
+      },
+      "description": "The angle at which a curve must be banked so that a vehicle can round it at a given speed without relying on friction at all.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Banked_turn"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/centripetal-force-and-gravitation/banked-inclines/a/what-are-banked-turns"
+        }
+      ]
+    },
+    {
+      "id": "ideal-gas-law-molecules",
+      "name": "Ideal Gas Law (Molecular Form)",
+      "latex": "PV = Nk_BT",
+      "topic": "thermodynamics",
+      "variables": {
+        "P": {
+          "quantity": "pressure",
+          "role": null
+        },
+        "V": {
+          "quantity": "volume",
+          "role": null
+        },
+        "N": {
+          "quantity": "count",
+          "role": null
+        },
+        "k_B": {
+          "quantity": "boltzmann-constant",
+          "role": null
+        },
+        "T": {
+          "quantity": "temperature",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "13.3",
+        "url": "https://openstax.org/books/college-physics-2e/pages/13-3-the-ideal-gas-law"
+      },
+      "description": "Relates the pressure, volume, and temperature of an ideal gas to the number of molecules it contains, via the Boltzmann constant.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Ideal_gas_law"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/ap-physics-2/thermodynamics-ap/ideal-gas-laws-ap/a/what-is-the-ideal-gas-law"
+        }
+      ]
+    },
+    {
+      "id": "ideal-gas-law-moles",
+      "name": "Ideal Gas Law (Molar Form)",
+      "latex": "PV = nRT",
+      "topic": "thermodynamics",
+      "variables": {
+        "P": {
+          "quantity": "pressure",
+          "role": null
+        },
+        "V": {
+          "quantity": "volume",
+          "role": null
+        },
+        "n": {
+          "quantity": "amount-of-substance",
+          "role": null
+        },
+        "R": {
+          "quantity": "gas-constant",
+          "role": null
+        },
+        "T": {
+          "quantity": "temperature",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "13.3",
+        "url": "https://openstax.org/books/college-physics-2e/pages/13-3-the-ideal-gas-law"
+      },
+      "description": "Relates the pressure, volume, and temperature of an ideal gas to the amount of gas present, measured in moles, via the universal gas constant.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Ideal_gas_law"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/ap-physics-2/thermodynamics-ap/ideal-gas-laws-ap/a/what-is-the-ideal-gas-law"
+        }
+      ]
+    },
+    {
       "id": "impulse-momentum-theorem",
       "name": "Impulse-Momentum Theorem",
       "latex": "J = F\\Delta t",
@@ -998,6 +3068,47 @@
         {
           "label": "Khan Academy",
           "url": "https://www.khanacademy.org/science/physics/linear-momentum/momentum-tutorial/a/what-are-momentum-and-impulse"
+        }
+      ]
+    },
+    {
+      "id": "keplers-third-law",
+      "name": "Kepler's Third Law",
+      "latex": "T = 2\\pi\\sqrt{\\frac{r^3}{GM}}",
+      "topic": "gravitation",
+      "variables": {
+        "T": {
+          "quantity": "period",
+          "role": "orbital"
+        },
+        "r": {
+          "quantity": "radius",
+          "role": null
+        },
+        "G": {
+          "quantity": "gravitational-constant",
+          "role": null
+        },
+        "M": {
+          "quantity": "mass",
+          "role": "central-body"
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "6.6",
+        "url": "https://openstax.org/books/college-physics-2e/pages/6-6-satellites-and-keplers-laws-an-argument-for-simplicity"
+      },
+      "description": "For a body orbiting a much larger central mass, the square of its orbital period is proportional to the cube of its orbital radius.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Kepler%27s_laws_of_planetary_motion#Third_law"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/centripetal-force-and-gravitation/gravity-newtonian/a/what-is-keplers-third-law"
         }
       ]
     },
@@ -1076,6 +3187,367 @@
       ]
     },
     {
+      "id": "latent-heat",
+      "name": "Heat of Phase Change",
+      "latex": "Q = mL",
+      "topic": "thermodynamics",
+      "variables": {
+        "Q": {
+          "quantity": "energy",
+          "role": "phase-change-heat"
+        },
+        "m": {
+          "quantity": "mass",
+          "role": null
+        },
+        "Lh": {
+          "quantity": "latent-heat",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "14.2",
+        "url": "https://openstax.org/books/college-physics-2e/pages/14-2-temperature-change-and-heat-capacity"
+      },
+      "description": "The heat absorbed or released when a substance changes phase (melting, freezing, vaporizing, condensing) at constant temperature depends on its mass and its latent heat.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Latent_heat"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/ap-physics-2/thermodynamics-ap/temperature-thermal-equilibrium-ap/a/what-is-thermal-energy"
+        }
+      ]
+    },
+    {
+      "id": "length-contraction",
+      "name": "Length Contraction",
+      "latex": "L = L_0\\sqrt{1 - v^2/c^2}",
+      "topic": "relativity",
+      "variables": {
+        "L": {
+          "quantity": "length",
+          "role": "contracted"
+        },
+        "L0": {
+          "quantity": "length",
+          "role": "proper"
+        },
+        "v": {
+          "quantity": "velocity",
+          "role": null
+        },
+        "c": {
+          "quantity": "speed-of-light",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "28.4",
+        "url": "https://openstax.org/books/college-physics-2e/pages/28-4-relativistic-addition-of-velocities"
+      },
+      "description": "An object moving at relativistic speed appears shortened along its direction of motion, as measured by an observer at rest.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Length_contraction"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/special-relativity/length-contraction/a/length-contraction-intro"
+        }
+      ]
+    },
+    {
+      "id": "linear-thermal-expansion",
+      "name": "Linear Thermal Expansion",
+      "latex": "\\Delta L = \\alpha L_0 \\Delta T",
+      "topic": "thermodynamics",
+      "variables": {
+        "dL": {
+          "quantity": "length",
+          "role": "change"
+        },
+        "alpha": {
+          "quantity": "linear-expansion-coefficient",
+          "role": null
+        },
+        "L0": {
+          "quantity": "length",
+          "role": "initial"
+        },
+        "dT": {
+          "quantity": "temperature",
+          "role": "change"
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "13.2",
+        "url": "https://openstax.org/books/college-physics-2e/pages/13-2-thermal-expansion-of-solids-and-liquids"
+      },
+      "description": "A solid's length changes in proportion to its original length and the temperature change it undergoes, with the constant of proportionality depending on the material.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Thermal_expansion#Linear_expansion"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/ap-physics-2/thermodynamics-ap/temperature-thermal-equilibrium-ap/a/thermal-expansion"
+        }
+      ]
+    },
+    {
+      "id": "magnetic-field-long-wire",
+      "name": "Magnetic Field Around a Long Straight Wire",
+      "latex": "B = \\frac{\\mu_0 I}{2\\pi r}",
+      "topic": "magnetism",
+      "variables": {
+        "B": {
+          "quantity": "magnetic-field",
+          "role": null
+        },
+        "mu0": {
+          "quantity": "permeability-of-free-space",
+          "role": null
+        },
+        "I": {
+          "quantity": "current",
+          "role": null
+        },
+        "r": {
+          "quantity": "radius",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "22.9",
+        "url": "https://openstax.org/books/college-physics-2e/pages/22-9-magnetic-fields-produced-by-currents-amperes-law"
+      },
+      "description": "The strength of the magnetic field circling a long, straight current-carrying wire falls off with distance from the wire.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Amp%C3%A8re%27s_circuital_law#Magnetic_field_due_to_a_long_straight_wire"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/magnetic-forces-and-magnetic-fields/magnetic-field-current-carrying-wire/a/what-are-magnetic-fields"
+        }
+      ]
+    },
+    {
+      "id": "magnetic-force-on-charge",
+      "name": "Magnetic Force on a Moving Charge",
+      "latex": "F = qvB\\sin\\theta",
+      "topic": "magnetism",
+      "variables": {
+        "F": {
+          "quantity": "force",
+          "role": "magnetic"
+        },
+        "q": {
+          "quantity": "charge",
+          "role": null
+        },
+        "v": {
+          "quantity": "velocity",
+          "role": null
+        },
+        "B": {
+          "quantity": "magnetic-field",
+          "role": null
+        },
+        "theta": {
+          "quantity": "angle",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "22.3",
+        "url": "https://openstax.org/books/college-physics-2e/pages/22-3-magnetic-fields-and-magnetic-field-lines"
+      },
+      "description": "A charged particle moving through a magnetic field feels a force proportional to its charge, speed, and the field strength, maximized when it moves perpendicular to the field.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Lorentz_force#Charged_particle"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/magnetic-forces-and-magnetic-fields/magnetism-tutorial/a/what-is-magnetism"
+        }
+      ]
+    },
+    {
+      "id": "magnetic-force-on-wire",
+      "name": "Magnetic Force on a Current-Carrying Wire",
+      "latex": "F = BIL\\sin\\theta",
+      "topic": "magnetism",
+      "variables": {
+        "F": {
+          "quantity": "force",
+          "role": "magnetic"
+        },
+        "B": {
+          "quantity": "magnetic-field",
+          "role": null
+        },
+        "I": {
+          "quantity": "current",
+          "role": null
+        },
+        "L": {
+          "quantity": "length",
+          "role": null
+        },
+        "theta": {
+          "quantity": "angle",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "22.7",
+        "url": "https://openstax.org/books/college-physics-2e/pages/22-7-magnetic-force-on-a-current-carrying-conductor"
+      },
+      "description": "A current-carrying wire in a magnetic field feels a force proportional to the current, the wire's length, and the field strength, maximized when the wire is perpendicular to the field.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Laplace_force"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/magnetic-forces-and-magnetic-fields/magnetism-tutorial/a/what-is-magnetism"
+        }
+      ]
+    },
+    {
+      "id": "magnification-equation",
+      "name": "Magnification",
+      "latex": "m = -\\frac{d_i}{d_o}",
+      "topic": "optics",
+      "variables": {
+        "m": {
+          "quantity": "magnification",
+          "role": null
+        },
+        "di": {
+          "quantity": "length",
+          "role": "image-distance"
+        },
+        "do": {
+          "quantity": "length",
+          "role": "object-distance"
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "25.7",
+        "url": "https://openstax.org/books/college-physics-2e/pages/25-7-image-formation-by-mirrors"
+      },
+      "description": "The ratio of an image's height to the object's height, related to how the image and object distances from the lens compare; a negative value indicates an inverted image.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Magnification#Single_lens"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/geometric-optics/lenses-and-mirror/a/lens-and-mirror-equation-and-magnification"
+        }
+      ]
+    },
+    {
+      "id": "mass-energy-equivalence",
+      "name": "Mass-Energy Equivalence",
+      "latex": "E = mc^2",
+      "topic": "relativity",
+      "variables": {
+        "E": {
+          "quantity": "energy",
+          "role": "rest-mass"
+        },
+        "m": {
+          "quantity": "mass",
+          "role": null
+        },
+        "c": {
+          "quantity": "speed-of-light",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "28.7",
+        "url": "https://openstax.org/books/college-physics-2e/pages/28-7-relativistic-energy"
+      },
+      "description": "Mass and energy are interchangeable; the rest energy locked in an object's mass is that mass times the speed of light squared.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Mass%E2%80%93energy_equivalence"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/special-relativity/relativistic-energy/a/relativistic-energy"
+        }
+      ]
+    },
+    {
+      "id": "moment-of-inertia-point-mass",
+      "name": "Moment of Inertia of a Point Mass",
+      "latex": "I = mr^2",
+      "topic": "rotational-motion",
+      "variables": {
+        "I": {
+          "quantity": "moment-of-inertia",
+          "role": null
+        },
+        "m": {
+          "quantity": "mass",
+          "role": null
+        },
+        "r": {
+          "quantity": "radius",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "10.3",
+        "url": "https://openstax.org/books/college-physics-2e/pages/10-3-dynamics-of-rotational-motion-rotational-inertia"
+      },
+      "description": "The rotational inertia of a single point mass revolving at a fixed distance from an axis, the building block for the moment of inertia of any rigid body.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Moment_of_inertia#Definition"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/torque-angular-momentum/torque-tutorial/a/rotational-inertia"
+        }
+      ]
+    },
+    {
       "id": "momentum",
       "name": "Linear Momentum",
       "latex": "p = mv",
@@ -1109,6 +3581,47 @@
         {
           "label": "Khan Academy",
           "url": "https://www.khanacademy.org/science/physics/linear-momentum/momentum-tutorial/a/what-are-momentum-and-impulse"
+        }
+      ]
+    },
+    {
+      "id": "motional-emf",
+      "name": "Motional EMF",
+      "latex": "\\text{emf} = BLv",
+      "topic": "electromagnetic-induction",
+      "variables": {
+        "emf": {
+          "quantity": "voltage",
+          "role": "emf"
+        },
+        "B": {
+          "quantity": "magnetic-field",
+          "role": null
+        },
+        "L": {
+          "quantity": "length",
+          "role": null
+        },
+        "v": {
+          "quantity": "velocity",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "23.2",
+        "url": "https://openstax.org/books/college-physics-2e/pages/23-2-faradays-law-of-induction-lenzs-law"
+      },
+      "description": "A conducting rod moving through a magnetic field develops a voltage across its ends, proportional to the field strength, the rod's length, and its speed.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Faraday%27s_law_of_induction#Motional_EMF"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/magnetic-forces-and-magnetic-fields/magnetic-flux-faradays-law/a/what-is-faradays-law"
         }
       ]
     },
@@ -1232,6 +3745,125 @@
       ]
     },
     {
+      "id": "parallel-plate-capacitor",
+      "name": "Parallel Plate Capacitor",
+      "latex": "C = \\frac{\\epsilon_0 A}{d}",
+      "topic": "electricity",
+      "variables": {
+        "C": {
+          "quantity": "capacitance",
+          "role": null
+        },
+        "epsilon0": {
+          "quantity": "permittivity-of-free-space",
+          "role": null
+        },
+        "A": {
+          "quantity": "area",
+          "role": null
+        },
+        "d": {
+          "quantity": "length",
+          "role": "plate-separation"
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "19.5",
+        "url": "https://openstax.org/books/college-physics-2e/pages/19-5-capacitors-and-dielectrics"
+      },
+      "description": "The capacitance of a parallel-plate capacitor grows with the area of its plates and shrinks with the distance between them.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Capacitor#Parallel_plate_model"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/electrical-engineering/ee-electrostatics/ee-capacitance/a/ee-capacitance"
+        }
+      ]
+    },
+    {
+      "id": "parallel-resistance",
+      "name": "Resistors in Parallel",
+      "latex": "\\frac{1}{R_p} = \\frac{1}{R_1} + \\frac{1}{R_2}",
+      "topic": "circuits",
+      "variables": {
+        "Rp": {
+          "quantity": "resistance",
+          "role": "parallel"
+        },
+        "R1": {
+          "quantity": "resistance",
+          "role": 1
+        },
+        "R2": {
+          "quantity": "resistance",
+          "role": 2
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "21.1",
+        "url": "https://openstax.org/books/college-physics-2e/pages/21-1-resistors-in-series-and-parallel"
+      },
+      "description": "When resistors are connected across the same two points, the voltage across each is the same, and their combined resistance is found by adding the reciprocals of each.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Series_and_parallel_circuits#Resistors_2"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/electrical-engineering/ee-circuit-analysis-topic/ee-resistor-circuits/a/ee-resistors-in-parallel"
+        }
+      ]
+    },
+    {
+      "id": "pascals-principle",
+      "name": "Pascal's Principle (Hydraulic Lift)",
+      "latex": "\\frac{F_1}{A_1} = \\frac{F_2}{A_2}",
+      "topic": "fluids",
+      "variables": {
+        "F1": {
+          "quantity": "force",
+          "role": "input"
+        },
+        "A1": {
+          "quantity": "area",
+          "role": "input"
+        },
+        "F2": {
+          "quantity": "force",
+          "role": "output"
+        },
+        "A2": {
+          "quantity": "area",
+          "role": "output"
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "11.5",
+        "url": "https://openstax.org/books/college-physics-2e/pages/11-5-pascals-principle"
+      },
+      "description": "A change in pressure applied to an enclosed, incompressible fluid is transmitted undiminished to every point in the fluid, letting a small input force produce a much larger output force over a larger area.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Pascal%27s_law"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/fluids/pressure-and-pascals-principle-topic/a/pascals-principle-and-hydraulics"
+        }
+      ]
+    },
+    {
       "id": "period-frequency",
       "name": "Period-Frequency Relation",
       "latex": "f = \\frac{1}{T}",
@@ -1261,6 +3893,88 @@
         {
           "label": "Khan Academy",
           "url": "https://www.khanacademy.org/science/physics/mechanical-waves-and-sound/mechanical-waves/v/amplitude-period-frequency-and-wavelength-of-periodic-waves"
+        }
+      ]
+    },
+    {
+      "id": "photon-energy",
+      "name": "Photon Energy",
+      "latex": "E = hf",
+      "topic": "quantum-physics",
+      "variables": {
+        "E": {
+          "quantity": "energy",
+          "role": "photon"
+        },
+        "h": {
+          "quantity": "planck-constant",
+          "role": null
+        },
+        "f": {
+          "quantity": "frequency",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "29.3",
+        "url": "https://openstax.org/books/college-physics-2e/pages/29-3-photon-energies-and-the-electromagnetic-spectrum"
+      },
+      "description": "The energy carried by a single photon of light is proportional to its frequency, the relationship that launched quantum mechanics.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Photon_energy"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/quantum-physics/photons/a/photon-energy"
+        }
+      ]
+    },
+    {
+      "id": "poiseuilles-law",
+      "name": "Poiseuille's Law",
+      "latex": "Q = \\frac{\\pi \\Delta P r^4}{8 \\eta l}",
+      "topic": "fluid-dynamics",
+      "variables": {
+        "Q": {
+          "quantity": "flow-rate",
+          "role": null
+        },
+        "dP": {
+          "quantity": "pressure",
+          "role": "drop"
+        },
+        "r": {
+          "quantity": "radius",
+          "role": null
+        },
+        "eta": {
+          "quantity": "viscosity",
+          "role": null
+        },
+        "l": {
+          "quantity": "length",
+          "role": "tube"
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "12.4",
+        "url": "https://openstax.org/books/college-physics-2e/pages/12-4-viscosity-and-laminar-flow-poiseuilles-law"
+      },
+      "description": "The flow rate of a viscous fluid through a cylindrical tube depends on the fourth power of the tube's radius, making even small changes in radius have a large effect on flow.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Hagen%E2%80%93Poiseuille_equation"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/fluids/fluid-dynamics/a/what-is-laminar-flow"
         }
       ]
     },
@@ -1302,6 +4016,51 @@
       ]
     },
     {
+      "id": "pressure-depth",
+      "name": "Pressure as a Function of Depth",
+      "latex": "P = P_0 + \\rho g h",
+      "topic": "fluids",
+      "variables": {
+        "P": {
+          "quantity": "pressure",
+          "role": "total"
+        },
+        "P0": {
+          "quantity": "pressure",
+          "role": "surface"
+        },
+        "rho": {
+          "quantity": "density",
+          "role": null
+        },
+        "g": {
+          "quantity": "gravitational-acceleration",
+          "role": null
+        },
+        "h": {
+          "quantity": "height",
+          "role": "depth"
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "11.4",
+        "url": "https://openstax.org/books/college-physics-2e/pages/11-4-variation-of-pressure-with-depth-in-a-fluid"
+      },
+      "description": "The pressure in a static fluid increases linearly with depth, as the weight of the fluid above adds to whatever pressure already exists at the surface.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Fluid_statics#Hydrostatic_pressure"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/fluids/pressure-and-pascals-principle-topic/a/what-is-pressure"
+        }
+      ]
+    },
+    {
       "id": "pressure",
       "name": "Pressure",
       "latex": "P = \\frac{F}{A}",
@@ -1335,6 +4094,527 @@
         {
           "label": "Khan Academy",
           "url": "https://www.khanacademy.org/science/physics/fluids/density-and-pressure/a/pressure-article"
+        }
+      ]
+    },
+    {
+      "id": "projectile-range",
+      "name": "Range of a Projectile",
+      "latex": "R = \\frac{v^2 \\sin(2\\theta)}{g}",
+      "topic": "kinematics",
+      "variables": {
+        "R": {
+          "quantity": "displacement",
+          "role": "range"
+        },
+        "v": {
+          "quantity": "velocity",
+          "role": "launch"
+        },
+        "theta": {
+          "quantity": "angle",
+          "role": "launch"
+        },
+        "g": {
+          "quantity": "gravitational-acceleration",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "3.4",
+        "url": "https://openstax.org/books/college-physics-2e/pages/3-4-projectile-motion"
+      },
+      "description": "The horizontal distance a projectile launched and landing at the same height travels, which depends on its launch speed and angle above the horizontal.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Projectile_motion#Range_and_height"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/two-dimensional-motion/two-dimensional-projectile-mot/a/what-are-velocity-components"
+        }
+      ]
+    },
+    {
+      "id": "radiative-heat-transfer",
+      "name": "Stefan-Boltzmann Law of Radiation",
+      "latex": "P = \\sigma e A T^4",
+      "topic": "thermodynamics",
+      "variables": {
+        "P": {
+          "quantity": "power",
+          "role": "radiated"
+        },
+        "sigma": {
+          "quantity": "stefan-boltzmann-constant",
+          "role": null
+        },
+        "e": {
+          "quantity": "emissivity",
+          "role": null
+        },
+        "A": {
+          "quantity": "area",
+          "role": null
+        },
+        "T": {
+          "quantity": "temperature",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "14.6",
+        "url": "https://openstax.org/books/college-physics-2e/pages/14-6-radiation-heat-transfer-by-electromagnetic-waves"
+      },
+      "description": "The power an object radiates due to its temperature grows with the fourth power of its absolute temperature, and depends on its surface area and emissivity.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Stefan%E2%80%93Boltzmann_law"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/ap-physics-2/thermodynamics-ap/heat-transfer-ap/a/what-is-thermal-radiation"
+        }
+      ]
+    },
+    {
+      "id": "radioactive-decay",
+      "name": "Radioactive Decay",
+      "latex": "N = N_0 e^{-\\lambda t}",
+      "topic": "nuclear-physics",
+      "variables": {
+        "N": {
+          "quantity": "count",
+          "role": "remaining"
+        },
+        "N0": {
+          "quantity": "count",
+          "role": "initial"
+        },
+        "lam": {
+          "quantity": "decay-constant",
+          "role": null
+        },
+        "t": {
+          "quantity": "time",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "31.4",
+        "url": "https://openstax.org/books/college-physics-2e/pages/31-4-half-life-and-activity"
+      },
+      "description": "The number of undecayed radioactive nuclei in a sample shrinks exponentially with time, at a rate set by the isotope's decay constant.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Exponential_decay#Solution_of_the_differential_equation"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/chemistry/nuclear-chemistry/radioactive-decay/a/rates-of-radioactive-decay"
+        }
+      ]
+    },
+    {
+      "id": "rc-time-constant",
+      "name": "RC Time Constant",
+      "latex": "\\tau = RC",
+      "topic": "circuits",
+      "variables": {
+        "tau": {
+          "quantity": "time",
+          "role": "rc-constant"
+        },
+        "R": {
+          "quantity": "resistance",
+          "role": null
+        },
+        "C": {
+          "quantity": "capacitance",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "21.4",
+        "url": "https://openstax.org/books/college-physics-2e/pages/21-4-dc-circuits-containing-resistors-and-capacitors"
+      },
+      "description": "The characteristic time scale over which a capacitor charges or discharges through a resistor, after which about 63% of the change has occurred.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/RC_time_constant"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/electrical-engineering/ee-circuit-analysis-topic/ee-natural-and-forced-response/a/ee-rc-natural-response-intuition"
+        }
+      ]
+    },
+    {
+      "id": "relativistic-momentum",
+      "name": "Relativistic Momentum",
+      "latex": "p = \\frac{mv}{\\sqrt{1 - v^2/c^2}}",
+      "topic": "relativity",
+      "variables": {
+        "p": {
+          "quantity": "momentum",
+          "role": null
+        },
+        "m": {
+          "quantity": "mass",
+          "role": null
+        },
+        "v": {
+          "quantity": "velocity",
+          "role": null
+        },
+        "c": {
+          "quantity": "speed-of-light",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "28.6",
+        "url": "https://openstax.org/books/college-physics-2e/pages/28-6-relativistic-momentum"
+      },
+      "description": "At speeds approaching the speed of light, an object's momentum grows faster than mass times velocity, diverging as its speed approaches c.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Relativistic_momentum"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/special-relativity/relativistic-momentum/a/what-is-relativistic-momentum"
+        }
+      ]
+    },
+    {
+      "id": "relativistic-total-energy",
+      "name": "Relativistic Total Energy",
+      "latex": "E = \\frac{mc^2}{\\sqrt{1 - v^2/c^2}}",
+      "topic": "relativity",
+      "variables": {
+        "E": {
+          "quantity": "energy",
+          "role": "relativistic-total"
+        },
+        "m": {
+          "quantity": "mass",
+          "role": null
+        },
+        "c": {
+          "quantity": "speed-of-light",
+          "role": null
+        },
+        "v": {
+          "quantity": "velocity",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "28.7",
+        "url": "https://openstax.org/books/college-physics-2e/pages/28-7-relativistic-energy"
+      },
+      "description": "The total energy of a moving object, combining its rest energy and kinetic energy, which grows without bound as its speed approaches the speed of light.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Mass%E2%80%93energy_equivalence#Relativistic_energy-momentum_equation"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/special-relativity/relativistic-energy/a/relativistic-energy"
+        }
+      ]
+    },
+    {
+      "id": "resistivity-definition",
+      "name": "Resistance from Resistivity",
+      "latex": "R = \\frac{\\rho L}{A}",
+      "topic": "electricity",
+      "variables": {
+        "R": {
+          "quantity": "resistance",
+          "role": null
+        },
+        "rho": {
+          "quantity": "resistivity",
+          "role": null
+        },
+        "L": {
+          "quantity": "length",
+          "role": null
+        },
+        "A": {
+          "quantity": "area",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "20.3",
+        "url": "https://openstax.org/books/college-physics-2e/pages/20-3-resistance-and-resistivity"
+      },
+      "description": "A wire's electrical resistance grows with its length and its material's intrinsic resistivity, and shrinks as its cross-sectional area increases.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Electrical_resistivity_and_conductivity#Resistivity"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/electrical-engineering/ee-circuit-analysis-topic/ee-resistor-circuits/a/ee-resistivity"
+        }
+      ]
+    },
+    {
+      "id": "reynolds-number",
+      "name": "Reynolds Number",
+      "latex": "N_R = \\frac{2\\rho v r}{\\eta}",
+      "topic": "fluid-dynamics",
+      "variables": {
+        "NR": {
+          "quantity": "reynolds-number",
+          "role": null
+        },
+        "rho": {
+          "quantity": "density",
+          "role": null
+        },
+        "v": {
+          "quantity": "velocity",
+          "role": null
+        },
+        "r": {
+          "quantity": "radius",
+          "role": null
+        },
+        "eta": {
+          "quantity": "viscosity",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "12.5",
+        "url": "https://openstax.org/books/college-physics-2e/pages/12-5-the-onset-of-turbulence"
+      },
+      "description": "A unitless number combining a fluid's speed, density, and viscosity with the size of the flow to predict whether the flow will be smooth (laminar) or chaotic (turbulent).",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Reynolds_number"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/fluids/fluid-dynamics/a/what-is-laminar-flow"
+        }
+      ]
+    },
+    {
+      "id": "rotational-kinetic-energy",
+      "name": "Rotational Kinetic Energy",
+      "latex": "KE_{rot} = \\tfrac{1}{2} I \\omega^2",
+      "topic": "rotational-motion",
+      "variables": {
+        "KE": {
+          "quantity": "energy",
+          "role": "rotational-kinetic"
+        },
+        "I": {
+          "quantity": "moment-of-inertia",
+          "role": null
+        },
+        "omega": {
+          "quantity": "angular-velocity",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "10.5",
+        "url": "https://openstax.org/books/college-physics-2e/pages/10-5-angular-momentum-and-its-conservation"
+      },
+      "description": "The kinetic energy a rotating rigid body has due to its spin, the rotational analog of one-half mass times velocity squared.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Rotational_energy"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/torque-angular-momentum/rotational-kinetic-energy/a/rotational-kinetic-energy-and-work-review"
+        }
+      ]
+    },
+    {
+      "id": "rotational-power",
+      "name": "Rotational Power",
+      "latex": "P = \\tau\\omega",
+      "topic": "rotational-motion",
+      "variables": {
+        "P": {
+          "quantity": "power",
+          "role": "rotational"
+        },
+        "tau": {
+          "quantity": "torque",
+          "role": null
+        },
+        "omega": {
+          "quantity": "angular-velocity",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "10.5",
+        "url": "https://openstax.org/books/college-physics-2e/pages/10-5-angular-momentum-and-its-conservation"
+      },
+      "description": "The rate at which a torque does work on a rotating body, the rotational analog of force times velocity.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Power_(physics)#Mechanical_power"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/torque-angular-momentum/rotational-kinetic-energy/a/rotational-kinetic-energy-and-work-review"
+        }
+      ]
+    },
+    {
+      "id": "rotational-work",
+      "name": "Rotational Work",
+      "latex": "W = \\tau\\theta",
+      "topic": "rotational-motion",
+      "variables": {
+        "W": {
+          "quantity": "work",
+          "role": "rotational"
+        },
+        "tau": {
+          "quantity": "torque",
+          "role": null
+        },
+        "theta": {
+          "quantity": "angle",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "10.5",
+        "url": "https://openstax.org/books/college-physics-2e/pages/10-5-angular-momentum-and-its-conservation"
+      },
+      "description": "The work done by a constant torque acting through an angular displacement, the rotational analog of force times distance.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Work_(physics)#Torque_and_rotation"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/torque-angular-momentum/rotational-kinetic-energy/a/rotational-kinetic-energy-and-work-review"
+        }
+      ]
+    },
+    {
+      "id": "satellite-orbital-velocity",
+      "name": "Satellite Orbital Velocity",
+      "latex": "v = \\sqrt{\\frac{GM}{r}}",
+      "topic": "gravitation",
+      "variables": {
+        "v": {
+          "quantity": "velocity",
+          "role": "orbital"
+        },
+        "G": {
+          "quantity": "gravitational-constant",
+          "role": null
+        },
+        "M": {
+          "quantity": "mass",
+          "role": "central-body"
+        },
+        "r": {
+          "quantity": "radius",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "6.5",
+        "url": "https://openstax.org/books/college-physics-2e/pages/6-5-newtons-universal-law-of-gravitation"
+      },
+      "description": "The speed a satellite must maintain in a circular orbit at a given radius so that gravity supplies exactly the centripetal force needed.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Orbital_speed"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/centripetal-force-and-gravitation/gravity-newtonian/a/gravity-newtonian-gravity"
+        }
+      ]
+    },
+    {
+      "id": "series-resistance",
+      "name": "Resistors in Series",
+      "latex": "R_s = R_1 + R_2",
+      "topic": "circuits",
+      "variables": {
+        "Rs": {
+          "quantity": "resistance",
+          "role": "series"
+        },
+        "R1": {
+          "quantity": "resistance",
+          "role": 1
+        },
+        "R2": {
+          "quantity": "resistance",
+          "role": 2
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "21.1",
+        "url": "https://openstax.org/books/college-physics-2e/pages/21-1-resistors-in-series-and-parallel"
+      },
+      "description": "When resistors are connected end to end in a single path, the same current flows through each, and their resistances simply add.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Series_and_parallel_circuits#Resistors"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/electrical-engineering/ee-circuit-analysis-topic/ee-resistor-circuits/a/ee-resistors-in-series"
         }
       ]
     },
@@ -1376,6 +4656,158 @@
       ]
     },
     {
+      "id": "snells-law",
+      "name": "Snell's Law",
+      "latex": "n_1 \\sin\\theta_1 = n_2 \\sin\\theta_2",
+      "topic": "optics",
+      "variables": {
+        "n1": {
+          "quantity": "index-of-refraction",
+          "role": "incident"
+        },
+        "theta1": {
+          "quantity": "angle",
+          "role": "incidence"
+        },
+        "n2": {
+          "quantity": "index-of-refraction",
+          "role": "refracted"
+        },
+        "theta2": {
+          "quantity": "angle",
+          "role": "refraction"
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "25.4",
+        "url": "https://openstax.org/books/college-physics-2e/pages/25-4-the-law-of-refraction"
+      },
+      "description": "When light crosses the boundary between two media, the angle it bends by is set by the ratio of the two media's indices of refraction.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Snell%27s_law"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/geometric-optics/refraction-in-lenses/a/refraction-at-boundaries"
+        }
+      ]
+    },
+    {
+      "id": "sound-intensity-level",
+      "name": "Sound Intensity Level",
+      "latex": "\\beta = 10\\log_{10}\\left(\\frac{I}{I_0}\\right)",
+      "topic": "sound",
+      "variables": {
+        "beta": {
+          "quantity": "sound-intensity-level",
+          "role": null
+        },
+        "I": {
+          "quantity": "sound-intensity",
+          "role": null
+        },
+        "I0": {
+          "quantity": "reference-sound-intensity",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "17.3",
+        "url": "https://openstax.org/books/college-physics-2e/pages/17-3-sound-intensity-and-sound-level"
+      },
+      "description": "A logarithmic scale, in decibels, comparing a sound's intensity to the faintest audible reference intensity, matching how loudness is actually perceived.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Sound_intensity#Sound_intensity_level"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/mechanical-waves-and-sound/sound-topic/a/what-is-intensity-of-sound"
+        }
+      ]
+    },
+    {
+      "id": "sound-intensity",
+      "name": "Sound Intensity",
+      "latex": "I = \\frac{P}{A}",
+      "topic": "sound",
+      "variables": {
+        "I": {
+          "quantity": "sound-intensity",
+          "role": null
+        },
+        "P": {
+          "quantity": "power",
+          "role": null
+        },
+        "A": {
+          "quantity": "area",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "17.3",
+        "url": "https://openstax.org/books/college-physics-2e/pages/17-3-sound-intensity-and-sound-level"
+      },
+      "description": "The power a sound wave carries per unit area, which determines how loud the sound is perceived to be.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Sound_intensity"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/mechanical-waves-and-sound/sound-topic/a/what-is-intensity-of-sound"
+        }
+      ]
+    },
+    {
+      "id": "spring-mass-period",
+      "name": "Period of a Mass on a Spring",
+      "latex": "T = 2\\pi\\sqrt{\\frac{m}{k}}",
+      "topic": "waves",
+      "variables": {
+        "T": {
+          "quantity": "period",
+          "role": null
+        },
+        "m": {
+          "quantity": "mass",
+          "role": null
+        },
+        "k": {
+          "quantity": "spring-constant",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "16.2",
+        "url": "https://openstax.org/books/college-physics-2e/pages/16-2-period-and-frequency-in-oscillations"
+      },
+      "description": "For a mass attached to a spring undergoing simple harmonic motion, the period of oscillation depends only on the mass and the spring's stiffness, not on the amplitude.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Harmonic_oscillator#Simple_harmonic_oscillator"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/ap-physics-1/ap-simple-harmonic-motion/period-of-mass-spring/a/period-of-mass-spring-systems-ap1"
+        }
+      ]
+    },
+    {
       "id": "static-friction",
       "name": "Maximum Static Friction",
       "latex": "f_{s(max)} = \\mu_s N",
@@ -1409,6 +4841,252 @@
         {
           "label": "Khan Academy",
           "url": "https://www.khanacademy.org/science/physics/forces-newtons-laws/inclined-planes-friction/a/what-is-static-friction"
+        }
+      ]
+    },
+    {
+      "id": "thin-lens-equation",
+      "name": "Thin Lens Equation",
+      "latex": "\\frac{1}{d_o} + \\frac{1}{d_i} = \\frac{1}{f}",
+      "topic": "optics",
+      "variables": {
+        "do": {
+          "quantity": "length",
+          "role": "object-distance"
+        },
+        "di": {
+          "quantity": "length",
+          "role": "image-distance"
+        },
+        "f": {
+          "quantity": "length",
+          "role": "focal-length"
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "25.6",
+        "url": "https://openstax.org/books/college-physics-2e/pages/25-6-image-formation-by-lenses"
+      },
+      "description": "Relates the distances from a thin lens (or curved mirror) to an object and its image to the lens's focal length.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Lens#Thin_lens_equation"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/geometric-optics/lenses-and-mirror/a/lens-and-mirror-equation-and-magnification"
+        }
+      ]
+    },
+    {
+      "id": "time-dilation",
+      "name": "Time Dilation",
+      "latex": "\\Delta t = \\frac{\\Delta t_0}{\\sqrt{1 - v^2/c^2}}",
+      "topic": "relativity",
+      "variables": {
+        "dt": {
+          "quantity": "time",
+          "role": "dilated"
+        },
+        "dt0": {
+          "quantity": "time",
+          "role": "proper"
+        },
+        "v": {
+          "quantity": "velocity",
+          "role": null
+        },
+        "c": {
+          "quantity": "speed-of-light",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "28.3",
+        "url": "https://openstax.org/books/college-physics-2e/pages/28-3-relativistic-effects"
+      },
+      "description": "A moving clock runs slow compared to one at rest, by a factor depending on how close its speed is to the speed of light.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Time_dilation"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/special-relativity/time-dilation/a/time-dilation-intro"
+        }
+      ]
+    },
+    {
+      "id": "torque-angular-acceleration",
+      "name": "Newton's Second Law for Rotation",
+      "latex": "\\tau = I\\alpha",
+      "topic": "rotational-motion",
+      "variables": {
+        "tau": {
+          "quantity": "torque",
+          "role": null
+        },
+        "I": {
+          "quantity": "moment-of-inertia",
+          "role": null
+        },
+        "alpha": {
+          "quantity": "angular-acceleration",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "10.3",
+        "url": "https://openstax.org/books/college-physics-2e/pages/10-3-dynamics-of-rotational-motion-rotational-inertia"
+      },
+      "description": "A net torque applied to a rigid body produces an angular acceleration inversely proportional to the body's moment of inertia, the rotational analog of F = ma.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Torque#Torque,_moment_of_inertia,_and_angular_acceleration"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/torque-angular-momentum/torque-tutorial/a/rotational-inertia"
+        }
+      ]
+    },
+    {
+      "id": "torque-on-current-loop",
+      "name": "Torque on a Current Loop in a Magnetic Field",
+      "latex": "\\tau = NIAB\\sin\\theta",
+      "topic": "magnetism",
+      "variables": {
+        "tau": {
+          "quantity": "torque",
+          "role": null
+        },
+        "N": {
+          "quantity": "count",
+          "role": "turns"
+        },
+        "I": {
+          "quantity": "current",
+          "role": null
+        },
+        "A": {
+          "quantity": "area",
+          "role": null
+        },
+        "B": {
+          "quantity": "magnetic-field",
+          "role": null
+        },
+        "theta": {
+          "quantity": "angle",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "22.10",
+        "url": "https://openstax.org/books/college-physics-2e/pages/22-10-torque-on-a-current-loop-motors-and-meters"
+      },
+      "description": "A current-carrying coil placed in a magnetic field experiences a torque that tends to rotate it, the operating principle behind electric motors and galvanometers.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Lorentz_force#Torque_on_a_current_loop"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/magnetic-forces-and-magnetic-fields/magnetism-tutorial/a/what-is-magnetism"
+        }
+      ]
+    },
+    {
+      "id": "torque",
+      "name": "Torque",
+      "latex": "\\tau = rF\\sin\\theta",
+      "topic": "rotational-motion",
+      "variables": {
+        "tau": {
+          "quantity": "torque",
+          "role": null
+        },
+        "r": {
+          "quantity": "radius",
+          "role": "lever-arm"
+        },
+        "F": {
+          "quantity": "force",
+          "role": null
+        },
+        "theta": {
+          "quantity": "angle",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "9.2",
+        "url": "https://openstax.org/books/college-physics-2e/pages/9-2-the-second-condition-for-equilibrium"
+      },
+      "description": "The rotating effect of a force applied at a distance from a pivot, maximized when the force is applied perpendicular to the lever arm.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Torque"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/torque-angular-momentum/torque-tutorial/a/torque"
+        }
+      ]
+    },
+    {
+      "id": "transformer-equation",
+      "name": "Transformer Equation",
+      "latex": "\\frac{V_s}{V_p} = \\frac{N_s}{N_p}",
+      "topic": "electromagnetic-induction",
+      "variables": {
+        "Vs": {
+          "quantity": "voltage",
+          "role": "secondary"
+        },
+        "Vp": {
+          "quantity": "voltage",
+          "role": "primary"
+        },
+        "Ns": {
+          "quantity": "count",
+          "role": "secondary-turns"
+        },
+        "Np": {
+          "quantity": "count",
+          "role": "primary-turns"
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "23.10",
+        "url": "https://openstax.org/books/college-physics-2e/pages/23-10-electrical-safety-systems-and-devices"
+      },
+      "description": "An ideal transformer steps voltage up or down in the same ratio as the number of turns in its secondary coil compares to its primary coil.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Transformer#Basic_principles"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/physics/magnetic-forces-and-magnetic-fields/magnetic-flux-faradays-law/a/what-is-faradays-law"
         }
       ]
     },
@@ -1491,6 +5169,121 @@
         {
           "label": "Khan Academy",
           "url": "https://www.khanacademy.org/science/physics/one-dimensional-motion/kinematic-formulas/a/what-are-the-kinematic-formulas"
+        }
+      ]
+    },
+    {
+      "id": "voltage-definition",
+      "name": "Voltage from Potential Energy per Charge",
+      "latex": "V = \\frac{PE}{q}",
+      "topic": "electricity",
+      "variables": {
+        "V": {
+          "quantity": "voltage",
+          "role": null
+        },
+        "PE": {
+          "quantity": "energy",
+          "role": "electric-potential"
+        },
+        "q": {
+          "quantity": "charge",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "19.1",
+        "url": "https://openstax.org/books/college-physics-2e/pages/19-1-electric-potential-energy-potential-difference"
+      },
+      "description": "Voltage, or electric potential, is defined as the electric potential energy per unit charge at a point in a circuit or field.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Voltage"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/electrical-engineering/ee-electrostatics/ee-voltage/a/ee-voltage"
+        }
+      ]
+    },
+    {
+      "id": "volume-thermal-expansion",
+      "name": "Volume Thermal Expansion",
+      "latex": "\\Delta V = \\beta V_0 \\Delta T",
+      "topic": "thermodynamics",
+      "variables": {
+        "dV": {
+          "quantity": "volume",
+          "role": "change"
+        },
+        "beta": {
+          "quantity": "volume-expansion-coefficient",
+          "role": null
+        },
+        "V0": {
+          "quantity": "volume",
+          "role": "initial"
+        },
+        "dT": {
+          "quantity": "temperature",
+          "role": "change"
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "13.2",
+        "url": "https://openstax.org/books/college-physics-2e/pages/13-2-thermal-expansion-of-solids-and-liquids"
+      },
+      "description": "A substance's volume changes in proportion to its original volume and the temperature change it undergoes, with a coefficient roughly three times the linear expansion coefficient for solids.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Thermal_expansion#Area_expansion"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/ap-physics-2/thermodynamics-ap/temperature-thermal-equilibrium-ap/a/thermal-expansion"
+        }
+      ]
+    },
+    {
+      "id": "wave-speed-on-string",
+      "name": "Wave Speed on a Stretched String",
+      "latex": "v = \\sqrt{\\frac{F_T}{\\mu}}",
+      "topic": "waves",
+      "variables": {
+        "v": {
+          "quantity": "velocity",
+          "role": "wave"
+        },
+        "F": {
+          "quantity": "force",
+          "role": "tension"
+        },
+        "mu": {
+          "quantity": "linear-mass-density",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "16.7",
+        "url": "https://openstax.org/books/college-physics-2e/pages/16-7-waves"
+      },
+      "description": "The speed of a transverse wave traveling along a stretched string increases with the tension in the string and decreases with how much mass it has per unit length.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Vibrating_string#Wave_speed"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/ap-physics-1/ap-mechanical-waves/introduction-to-mechanical-waves-ap/a/wave-speed-on-a-string"
         }
       ]
     },
@@ -1602,6 +5395,43 @@
         {
           "label": "Khan Academy",
           "url": "https://www.khanacademy.org/science/physics/work-and-energy/work-and-energy-tutorial/a/what-is-work"
+        }
+      ]
+    },
+    {
+      "id": "youngs-modulus",
+      "name": "Young's Modulus",
+      "latex": "\\sigma = Y \\epsilon",
+      "topic": "dynamics",
+      "variables": {
+        "sigma": {
+          "quantity": "stress",
+          "role": null
+        },
+        "Y": {
+          "quantity": "young-modulus",
+          "role": null
+        },
+        "epsilon": {
+          "quantity": "strain",
+          "role": null
+        }
+      },
+      "requires": [],
+      "source": {
+        "ref": "openstax-college-physics-2e",
+        "section": "5.3",
+        "url": "https://openstax.org/books/college-physics-2e/pages/5-3-elasticity-stress-and-strain"
+      },
+      "description": "Relates the stress on a material to the strain it produces, for deformation along a single axis within the material's elastic range.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Young%27s_modulus"
+        },
+        {
+          "label": "Khan Academy",
+          "url": "https://www.khanacademy.org/science/ap-physics-1/ap-simple-harmonic-motion/introduction-to-springs/a/hookes-law"
         }
       ]
     }

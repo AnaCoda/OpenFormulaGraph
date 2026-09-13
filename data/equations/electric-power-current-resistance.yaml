@@ -1,0 +1,20 @@
+id: electric-power-current-resistance
+name: Electric Power (Current and Resistance)
+description: The power dissipated by a resistor, expressed in terms of the current through it and its resistance, useful when the current is known but the voltage is not.
+expr: "P - I**2*R"
+latex: "P = I^2R"
+variables:
+  P: {quantity: power}
+  I: {quantity: current}
+  R: {quantity: resistance}
+topic: electricity
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "20.5"
+  url: "https://openstax.org/books/college-physics-2e/pages/20-5-electric-power-and-energy"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Joule_heating"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/electrical-engineering/ee-circuit-analysis-topic/ee-resistor-circuits/a/ee-power"}
+checks:
+  - {given: {I: 2, R: 5}, solve_for: P, expect: 20}

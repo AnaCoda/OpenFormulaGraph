@@ -1,0 +1,21 @@
+id: relativistic-total-energy
+name: Relativistic Total Energy
+description: The total energy of a moving object, combining its rest energy and kinetic energy, which grows without bound as its speed approaches the speed of light.
+expr: "E - m*c**2/sqrt(1 - v**2/c**2)"
+latex: "E = \\frac{mc^2}{\\sqrt{1 - v^2/c^2}}"
+variables:
+  E: {quantity: energy, role: relativistic-total}
+  m: {quantity: mass}
+  c: {quantity: speed-of-light}
+  v: {quantity: velocity}
+topic: relativity
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "28.7"
+  url: "https://openstax.org/books/college-physics-2e/pages/28-7-relativistic-energy"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Mass%E2%80%93energy_equivalence#Relativistic_energy-momentum_equation"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/special-relativity/relativistic-energy/a/relativistic-energy"}
+checks:
+  - {given: {m: 0.001, c: 299792458, v: 259627884.49097934}, solve_for: E, expect: 179751035747362.78}

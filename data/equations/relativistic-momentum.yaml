@@ -1,0 +1,21 @@
+id: relativistic-momentum
+name: Relativistic Momentum
+description: At speeds approaching the speed of light, an object's momentum grows faster than mass times velocity, diverging as its speed approaches c.
+expr: "p - m*v/sqrt(1 - v**2/c**2)"
+latex: "p = \\frac{mv}{\\sqrt{1 - v^2/c^2}}"
+variables:
+  p: {quantity: momentum}
+  m: {quantity: mass}
+  v: {quantity: velocity}
+  c: {quantity: speed-of-light}
+topic: relativity
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "28.6"
+  url: "https://openstax.org/books/college-physics-2e/pages/28-6-relativistic-momentum"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Relativistic_momentum"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/special-relativity/relativistic-momentum/a/what-is-relativistic-momentum"}
+checks:
+  - {given: {m: 1, v: 259627884.49097934, c: 299792458}, solve_for: p, expect: 519255768.9819558}

@@ -1,0 +1,21 @@
+id: parallel-plate-capacitor
+name: Parallel Plate Capacitor
+description: The capacitance of a parallel-plate capacitor grows with the area of its plates and shrinks with the distance between them.
+expr: "C - epsilon0*A/d"
+latex: "C = \\frac{\\epsilon_0 A}{d}"
+variables:
+  C: {quantity: capacitance}
+  epsilon0: {quantity: permittivity-of-free-space}
+  A: {quantity: area}
+  d: {quantity: length, role: plate-separation}
+topic: electricity
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "19.5"
+  url: "https://openstax.org/books/college-physics-2e/pages/19-5-capacitors-and-dielectrics"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Capacitor#Parallel_plate_model"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/electrical-engineering/ee-electrostatics/ee-capacitance/a/ee-capacitance"}
+checks:
+  - {given: {epsilon0: 8.854e-12, A: 0.01, d: 0.001}, solve_for: C, expect: 8.854e-11}

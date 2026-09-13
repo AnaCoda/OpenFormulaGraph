@@ -1,0 +1,22 @@
+id: reynolds-number
+name: Reynolds Number
+description: A unitless number combining a fluid's speed, density, and viscosity with the size of the flow to predict whether the flow will be smooth (laminar) or chaotic (turbulent).
+expr: "NR - 2*rho*v*r/eta"
+latex: "N_R = \\frac{2\\rho v r}{\\eta}"
+variables:
+  NR: {quantity: reynolds-number}
+  rho: {quantity: density}
+  v: {quantity: velocity}
+  r: {quantity: radius}
+  eta: {quantity: viscosity}
+topic: fluid-dynamics
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "12.5"
+  url: "https://openstax.org/books/college-physics-2e/pages/12-5-the-onset-of-turbulence"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Reynolds_number"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/fluids/fluid-dynamics/a/what-is-laminar-flow"}
+checks:
+  - {given: {rho: 1000, v: 0.5, r: 0.01, eta: 0.001}, solve_for: NR, expect: 10000}

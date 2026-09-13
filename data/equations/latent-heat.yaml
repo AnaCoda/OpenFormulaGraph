@@ -1,0 +1,20 @@
+id: latent-heat
+name: Heat of Phase Change
+description: The heat absorbed or released when a substance changes phase (melting, freezing, vaporizing, condensing) at constant temperature depends on its mass and its latent heat.
+expr: "Q - m*Lh"
+latex: "Q = mL"
+variables:
+  Q: {quantity: energy, role: phase-change-heat}
+  m: {quantity: mass}
+  Lh: {quantity: latent-heat}
+topic: thermodynamics
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "14.2"
+  url: "https://openstax.org/books/college-physics-2e/pages/14-2-temperature-change-and-heat-capacity"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Latent_heat"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/ap-physics-2/thermodynamics-ap/temperature-thermal-equilibrium-ap/a/what-is-thermal-energy"}
+checks:
+  - {given: {m: 0.5, Lh: 334000}, solve_for: Q, expect: 167000}

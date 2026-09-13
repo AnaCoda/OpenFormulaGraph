@@ -1,0 +1,20 @@
+id: torque-angular-acceleration
+name: Newton's Second Law for Rotation
+description: A net torque applied to a rigid body produces an angular acceleration inversely proportional to the body's moment of inertia, the rotational analog of F = ma.
+expr: "tau - I*alpha"
+latex: "\\tau = I\\alpha"
+variables:
+  tau: {quantity: torque}
+  I: {quantity: moment-of-inertia}
+  alpha: {quantity: angular-acceleration}
+topic: rotational-motion
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "10.3"
+  url: "https://openstax.org/books/college-physics-2e/pages/10-3-dynamics-of-rotational-motion-rotational-inertia"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Torque#Torque,_moment_of_inertia,_and_angular_acceleration"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/torque-angular-momentum/torque-tutorial/a/rotational-inertia"}
+checks:
+  - {given: {I: 4, alpha: 2.5}, solve_for: tau, expect: 10}

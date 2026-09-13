@@ -1,0 +1,21 @@
+id: angular-displacement
+name: Angular Displacement Under Constant Angular Acceleration
+description: Under constant angular acceleration, the angle swept grows with both the initial angular velocity and the acceleration, mirroring displacement under constant linear acceleration.
+expr: "theta - omega0*t - alpha*t**2/2"
+latex: "\\theta = \\omega_0 t + \\tfrac{1}{2}\\alpha t^2"
+variables:
+  theta: {quantity: angle}
+  omega0: {quantity: angular-velocity, role: initial}
+  alpha: {quantity: angular-acceleration}
+  t: {quantity: time}
+topic: rotational-motion
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "10.1"
+  url: "https://openstax.org/books/college-physics-2e/pages/10-1-angular-acceleration"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Equations_of_motion#Uniform_circular_motion"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/torque-angular-momentum/rotational-motion/a/rotational-vs-linear-relationships"}
+checks:
+  - {given: {omega0: 0, alpha: 2, t: 3}, solve_for: theta, expect: 9}

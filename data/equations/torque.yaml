@@ -1,0 +1,21 @@
+id: torque
+name: Torque
+description: The rotating effect of a force applied at a distance from a pivot, maximized when the force is applied perpendicular to the lever arm.
+expr: "tau - r*F*sin(theta)"
+latex: "\\tau = rF\\sin\\theta"
+variables:
+  tau: {quantity: torque}
+  r: {quantity: radius, role: lever-arm}
+  F: {quantity: force}
+  theta: {quantity: angle}
+topic: rotational-motion
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "9.2"
+  url: "https://openstax.org/books/college-physics-2e/pages/9-2-the-second-condition-for-equilibrium"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Torque"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/torque-angular-momentum/torque-tutorial/a/torque"}
+checks:
+  - {given: {r: 0.5, F: 20, theta: 1.5707963267948966}, solve_for: tau, expect: 10.0}

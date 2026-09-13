@@ -1,0 +1,21 @@
+id: buoyant-force
+name: Buoyant Force (Archimedes' Principle)
+description: An object submerged in a fluid experiences an upward buoyant force equal to the weight of the fluid it displaces.
+expr: "F - rho*V*g"
+latex: "F_B = \\rho V g"
+variables:
+  F: {quantity: force, role: buoyant}
+  rho: {quantity: density, role: fluid}
+  V: {quantity: volume, role: displaced}
+  g: {quantity: gravitational-acceleration}
+topic: fluids
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "11.7"
+  url: "https://openstax.org/books/college-physics-2e/pages/11-7-archimedes-principle"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Archimedes%27_principle"}
+  - {label: Khan Academy, url: "https://www.khanacademy.org/science/physics/fluids/buoyant-force-and-archimedes-principle/a/buoyant-force-and-archimedes-principle-article"}
+checks:
+  - {given: {rho: 1000, V: 0.002, g: 9.80}, solve_for: F, expect: 19.6}
