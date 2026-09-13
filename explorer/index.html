@@ -18,21 +18,11 @@
       <span class="brand-mark">&fnof;</span>
       <span class="brand-name">OpenFormulaGraph</span>
     </div>
-    <div class="topbar-hint">click a quantity or an equation to explore its connections</div>
+    <div class="topbar-hint">click a quantity or an equation to explore its details and connections</div>
   </header>
 
   <main class="layout">
-    <div id="graph" class="graph"></div>
-
-    <div id="panel-resizer" class="panel-resizer" title="Drag to resize"></div>
-
-    <aside class="panel">
-      <div class="tabs">
-        <button class="tab" :class="{ active: activeTab === 'explore' }" @click="activeTab = 'explore'">Explore</button>
-        <button class="tab" :class="{ active: activeTab === 'curriculum' }" @click="activeTab = 'curriculum'">Curriculum</button>
-      </div>
-
-      <div class="panel-body" x-show="activeTab === 'explore'">
+    <aside class="panel panel-body panel-explore">
         <template x-if="!selected">
           <section class="panel-block hint">
             <h2>Explore</h2>
@@ -113,40 +103,65 @@
             </ul>
           </section>
         </template>
-      </div>
+    </aside>
 
-      <div class="panel-body" x-show="activeTab === 'curriculum'">
+    <div id="explore-resizer" class="panel-resizer" title="Drag to resize"></div>
+
+    <div id="graph" class="graph"></div>
+
+    <div id="curriculum-resizer" class="panel-resizer" title="Drag to resize"></div>
+
+    <aside class="panel panel-body panel-curriculum">
         <section class="panel-block">
           <h2>Curriculum order</h2>
-          <p class="curriculum-hint">Equations grouped by chapter, in the order they're introduced in OpenStax College Physics 2e.</p>
-          <template x-for="group in curriculumGroups" :key="group.topic">
-            <div class="curriculum-group">
-              <h4 class="curriculum-group-label" x-text="group.label"></h4>
-              <ul class="curriculum-list">
-                <template x-for="eq in group.items" :key="eq.id">
-                  <li
-                    class="curriculum-row"
-                    :class="{ active: selected?.type === 'equation' && selected.id === eq.id }"
-                    @click="selectEquation(eq.id)"
-                  >
-                    <span class="curriculum-section" x-text="'§' + eq.section"></span>
-                    <div class="curriculum-main">
-                      <span class="curriculum-katex" x-html="eq.katex"></span>
-                      <span class="curriculum-name" x-text="eq.name"></span>
-                    </div>
-                  </li>
+          <p class="curriculum-hint">Equations grouped by chapter, in the order they're introduced in OpenStax College Physics 2e. Click a chapter to add or remove it from the graph.</p>
+          <div class="curriculum-list">
+            <template x-for="topic in topicOrder" :key="topic">
+              <div class="curriculum-item">
+                <div class="curriculum-group-row">
+                  <h4
+                    class="curriculum-group-label"
+                    :class="{ active: activeTopics.has(topic) }"
+                    :style="activeTopics.has(topic) ? { background: topicColor(topic) } : {}"
+                    :title="activeTopics.has(topic) ? 'Click to remove ' + topicLabel(topic) + ' from the graph' : 'Click to add ' + topicLabel(topic) + ' to the graph'"
+                    @click="toggleTopic(topic)"
+                    x-text="topicLabel(topic)"
+                  ></h4>
+                  <button
+                    type="button"
+                    class="curriculum-chevron"
+                    :class="{ expanded: expandedTopics.has(topic) }"
+                    :title="expandedTopics.has(topic) ? 'Collapse' : 'Expand to browse'"
+                    @click="toggleExpanded(topic)"
+                  ><svg width="10" height="10" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                </div>
+                <template x-if="expandedTopics.has(topic)">
+                  <div class="curriculum-sublist">
+                    <template x-for="row in curriculumByTopic.get(topic)" :key="row.id">
+                      <div
+                        class="curriculum-row"
+                        :class="{ active: selected?.type === 'equation' && selected.id === row.id }"
+                        @click="selectEquation(row.id)"
+                      >
+                        <span class="curriculum-section" x-text="'§' + row.section"></span>
+                        <div class="curriculum-main">
+                          <span class="curriculum-katex" x-html="row.katex"></span>
+                          <span class="curriculum-name" x-text="row.name"></span>
+                        </div>
+                      </div>
+                    </template>
+                  </div>
                 </template>
-              </ul>
-            </div>
-          </template>
+              </div>
+            </template>
+          </div>
         </section>
-      </div>
     </aside>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/force-graph/dist/force-graph.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js" defer crossorigin="anonymous"></script>
   <script src="app.js"></script>
 </body>
 </html>

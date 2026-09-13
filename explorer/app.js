@@ -1,13 +1,19 @@
 // Fetches dist/openformulagraph.json and renders a clickable force-directed graph: click a quantity to see its equations, click an equation to see its variables.
 
 const COLORS = {
-  quantityFill: "#aab0cc",
+  quantityFill: "#767ea8",
   quantityText: "#2c3040",
   activeFill: "#4f6df5",
-  linkIdle: "rgba(60,66,90,0.16)",
-  linkActive: "rgba(79,109,245,0.55)",
-  particle: "#4f6df5",
+  linkIdle: "rgba(45,50,74,0.32)",
+  linkActive: "rgba(79,109,245,0.65)",
+  linkDim: "rgba(45,50,74,0.07)",
 };
+
+const TOPIC_COLOR_PALETTE = [
+  "#4f6df5", "#f5734f", "#3fb37f", "#c74fd6", "#e0a83f", "#3fa9d6",
+  "#d64f7a", "#7a5cf0", "#5cc2a6", "#d67c3f", "#5c8ff0", "#c4514f",
+  "#4fae8a", "#a85cf0", "#e0b23f", "#4f9de0",
+];
 
 const SOURCE_NAMES = {
   "openstax-college-physics-2e": "OpenStax College Physics 2e",
@@ -20,10 +26,36 @@ const TOPIC_LABELS = {
   energy: "Work & Energy",
   "circular-motion": "Circular Motion",
   gravitation: "Gravitation",
+  "rotational-motion": "Rotational Motion",
   fluids: "Fluid Statics",
+  "fluid-dynamics": "Fluid Dynamics",
+  thermodynamics: "Temperature, Heat & Thermodynamics",
   waves: "Oscillatory Motion & Waves",
+  sound: "Sound",
   electricity: "Electricity",
+  circuits: "Circuits",
+  magnetism: "Magnetism",
+  "electromagnetic-induction": "Electromagnetic Induction",
+  optics: "Optics",
+  relativity: "Special Relativity",
+  "quantum-physics": "Quantum Physics",
+  "nuclear-physics": "Nuclear Physics",
 };
+
+function topicColor(topic) {
+  const idx = Object.keys(TOPIC_LABELS).indexOf(topic);
+  return TOPIC_COLOR_PALETTE[(idx >= 0 ? idx : 0) % TOPIC_COLOR_PALETTE.length];
+}
+
+function topicLabel(topic) {
+  return TOPIC_LABELS[topic] ?? topic;
+}
+
+// "#4f6df5" -> "rgba(79,109,245,0.1)", for a cluster box's tinted background.
+function hexToRgba(hex, alpha) {
+  const n = parseInt(hex.slice(1), 16);
+  return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${alpha})`;
+}
 
 const HELP_LINKS = {
   siUnit: "https://en.wikipedia.org/wiki/International_System_of_Units",
@@ -31,23 +63,32 @@ const HELP_LINKS = {
 };
 
 const SUPERSCRIPT = { "-": "⁻", 0: "⁰", 1: "¹", 2: "²", 3: "³", 4: "⁴", 5: "⁵", 6: "⁶", 7: "⁷", 8: "⁸", 9: "⁹" };
+const SUBSCRIPT = { 0: "₀", 1: "₁", 2: "₂", 3: "₃", 4: "₄", 5: "₅", 6: "₆", 7: "₇", 8: "₈", 9: "₉" };
 
 // Quantity/variable symbols spelled out in ASCII (data can't use raw unicode identifiers everywhere).
 const GREEK = {
   lambda: "λ", lam: "λ", mu: "μ", rho: "ρ", theta: "θ", omega: "ω",
   delta: "δ", Delta: "Δ", sigma: "σ", tau: "τ", phi: "φ", psi: "ψ",
+  alpha: "α", beta: "β", eta: "η", epsilon: "ε",
 };
 
-// Renders an ASCII-spelled Greek name as its actual glyph, e.g. "lambda" -> "λ".
-function displaySymbol(symbol) {
-  return GREEK[symbol] ?? symbol;
+function toSubscript(digits) {
+  return digits.split("").map((c) => SUBSCRIPT[c] ?? c).join("");
 }
 
-// Turns "v0" into "v_{0}" so it renders as a subscript like it does in the equation itself.
-function symbolToLatex(symbol) {
+// Renders an ASCII-spelled symbol as its actual glyph, e.g. "lambda" -> "λ", "epsilon0" -> "ε₀".
+function displaySymbol(symbol) {
   if (GREEK[symbol]) return GREEK[symbol];
   const match = symbol.match(/^([a-zA-Z]+)(\d+)$/);
-  return match ? `${match[1]}_{${match[2]}}` : symbol;
+  if (!match) return symbol;
+  const base = GREEK[match[1]] ?? match[1];
+  return base + toSubscript(match[2]);
+}
+
+function symbolToLatex(symbol) {
+  const match = symbol.match(/^([a-zA-Z]+)(\d+)$/);
+  if (match) return `${GREEK[match[1]] ?? match[1]}_{${match[2]}}`;
+  return GREEK[symbol] ?? symbol;
 }
 
 function formatDimension(dimension) {
@@ -55,6 +96,14 @@ function formatDimension(dimension) {
     .filter(([, exp]) => exp !== 0)
     .map(([base, exp]) => (exp === 1 ? base : base + String(exp).split("").map((c) => SUPERSCRIPT[c] ?? c).join("")));
   return parts.length ? parts.join("·") : "dimensionless";
+}
+
+// Textbook sections look like "16.10" or "2.5" (chapter.subsection). parseFloat would
+// sort "16.10" before "16.2" since it reads as the number 16.1; this instead compares
+// chapter and subsection as separate integers so double-digit subsections sort correctly.
+function sectionSortKey(section) {
+  const [chapter, sub] = String(section ?? "0").split(".").map((n) => parseInt(n, 10) || 0);
+  return chapter * 1000 + sub;
 }
 
 // "kg*m/s^2" -> "kg·m/s²"; empty string (dimensionless quantities) -> "none".
@@ -88,13 +137,16 @@ function buildGraphData(bundle) {
   return { nodes, links };
 }
 
-// Gentle pull toward the origin so unlinked nodes (e.g. electric charge/current) don't drift off alone.
+// Gentle pull toward an anchor so loosely attached nodes (e.g. electric charge/current) don't drift off alone.
 function centerPullForce(strength) {
   let nodes = [];
   function force(alpha) {
     for (const n of nodes) {
-      n.vx -= n.x * strength * alpha;
-      n.vy -= n.y * strength * alpha;
+      if (n._clusterCenter) continue;
+      const ax = n._anchor ? n._anchor.x : 0;
+      const ay = n._anchor ? n._anchor.y : 0;
+      n.vx += (ax - n.x) * strength * alpha;
+      n.vy += (ay - n.y) * strength * alpha;
     }
   }
   force.initialize = (ns) => {
@@ -103,11 +155,45 @@ function centerPullForce(strength) {
   return force;
 }
 
-// Keeps cards and quantity labels from overlapping. Equation cards get a bigger effective
-// radius the longer their name is, since that's what drives the card's actual width.
-function nodeCollideForce(padding) {
+// Holds each node inside its assigned section's cell (see _assignClusters), so nodes from the same
+// curriculum topic read as one group when several topics are in the graph.
+function clusterForce(strength) {
   let nodes = [];
-  const radiusOf = (n) => (n.type === "equation" ? 55 + n.name.length * 3.2 : 40);
+  let k = strength;
+  function force(alpha) {
+    for (const n of nodes) {
+      const c = n._clusterCenter;
+      if (!c) continue;
+      const dx = c.x - n.x;
+      const dy = c.y - n.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const pull = dist > (n._clusterRadius || 0) ? k : k * 0.06;
+      n.vx += dx * pull * alpha;
+      n.vy += dy * pull * alpha;
+    }
+  }
+  force.initialize = (ns) => {
+    nodes = ns;
+  };
+  force.strength = (v) => {
+    if (v === undefined) return k;
+    k = v;
+    return force;
+  };
+  return force;
+}
+
+// How much room a node actually takes up on screen, as half-width/half-height in graph units
+function nodeExtent(n) {
+  if (n.type === "equation") {
+    return { hw: (n._el?.offsetWidth || 220) / 2, hh: (n._el?.offsetHeight || 76) / 2 };
+  }
+  return { hw: Math.max(30, n.name.length * 4.2), hh: 38 };
+}
+
+// Keeps cards and quantity labels from overlapping.
+function nodeCollideForce(padX, padY) {
+  let nodes = [];
   function force() {
     // Several passes per tick so overlaps resolve within the simulation's shorter, calmer settle time.
     for (let pass = 0; pass < 3; pass++) {
@@ -115,16 +201,21 @@ function nodeCollideForce(padding) {
         for (let j = i + 1; j < nodes.length; j++) {
           const a = nodes[i];
           const b = nodes[j];
-          const minDist = radiusOf(a) + radiusOf(b) + padding;
+          const ea = nodeExtent(a);
+          const eb = nodeExtent(b);
           const dx = b.x - a.x || 0.01;
           const dy = b.y - a.y || 0.01;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < minDist) {
-            const move = ((minDist - dist) / dist) * 0.5;
-            a.x -= dx * move;
-            a.y -= dy * move;
-            b.x += dx * move;
-            b.y += dy * move;
+          const overlapX = ea.hw + eb.hw + padX - Math.abs(dx);
+          const overlapY = ea.hh + eb.hh + padY - Math.abs(dy);
+          if (overlapX <= 0 || overlapY <= 0) continue;
+          if (overlapX < overlapY) {
+            const move = (Math.sign(dx) * overlapX) / 2;
+            a.x -= move;
+            b.x += move;
+          } else {
+            const move = (Math.sign(dy) * overlapY) / 2;
+            a.y -= move;
+            b.y += move;
           }
         }
       }
@@ -139,24 +230,44 @@ function nodeCollideForce(padding) {
 function explorer() {
   return {
     selected: null, // { type: 'quantity'|'equation', id } | null
-    activeTab: "explore", // 'explore' | 'curriculum'
+    activeTopics: new Set(), // curriculum topics currently filtering/clustering the graph
+    _userMoved: false, // true once the user has panned/zoomed, which stops the view auto-fitting
+    expandedTopics: new Set(), // curriculum topics whose equation list is expanded in the panel
     _bundle: null,
     _graphData: null,
     _graph: null,
-    _activeIds: null, // Set of graph node ids ("q:x" / "e:y"), or null = nothing dimmed
+    _activeIds: null, // Set of graph node ids ("q:x" / "e:y") highlighted by the current selection, or null
+    _topicNodeIds: null, // Set of graph node ids visible under the current topic filter, or null = no filter
 
     async init() {
       // Deployed, the bundle sits next to index.html; in local dev it's one level up.
       let res = await fetch("dist/openformulagraph.json");
       if (!res.ok) res = await fetch("../dist/openformulagraph.json");
       this._bundle = await res.json();
+      // KaTeX rendering (a full LaTeX parse) is not cheap; do it once per equation/symbol up front
+      this._eqKatex = new Map(
+        this._bundle.equations.map((eq) => [eq.id, window.katex.renderToString(eq.latex, { throwOnError: false })])
+      );
+      this._symbolKatex = new Map();
       this._graphData = buildGraphData(this._bundle);
+      this.activeTopics = new Set(this.topicOrder.slice(0, 3));
+      this.expandedTopics = new Set(this.activeTopics);
       this._renderGraph();
+      this._applyTopicFilter();
     },
 
     formatDimension,
     formatUnit,
+    topicColor,
+    topicLabel,
     helpLinks: HELP_LINKS,
+
+    _symbolKatexFor(symbol) {
+      if (!this._symbolKatex.has(symbol)) {
+        this._symbolKatex.set(symbol, window.katex.renderToString(symbolToLatex(symbol), { throwOnError: false }));
+      }
+      return this._symbolKatex.get(symbol);
+    },
 
     get selectedQuantity() {
       if (this.selected?.type !== "quantity") return null;
@@ -167,7 +278,7 @@ function explorer() {
       if (this.selected?.type !== "equation") return null;
       const eq = this._bundle.equations.find((e) => e.id === this.selected.id);
       if (!eq) return null;
-      return { ...eq, katex: window.katex.renderToString(eq.latex, { throwOnError: false }) };
+      return { ...eq, katex: this._eqKatex.get(eq.id) };
     },
 
     get curriculum() {
@@ -178,21 +289,31 @@ function explorer() {
           name: eq.name,
           topic: eq.topic,
           section: eq.source?.section ?? "?",
-          sectionNum: parseFloat(eq.source?.section ?? "0"),
-          katex: window.katex.renderToString(eq.latex, { throwOnError: false }),
+          sectionNum: sectionSortKey(eq.source?.section),
+          katex: this._eqKatex.get(eq.id),
         }))
         .sort((a, b) => a.sectionNum - b.sectionNum);
     },
 
-    // Curriculum list grouped by textbook topic/chapter.
-    get curriculumGroups() {
-      const groups = [];
+    // Curriculum topics ordered by their earliest section, e.g. ["kinematics", "dynamics", ...].
+    get topicOrder() {
+      if (!this._bundle) return [];
+      const minSection = new Map();
       for (const eq of this.curriculum) {
-        const last = groups[groups.length - 1];
-        if (last && last.topic === eq.topic) last.items.push(eq);
-        else groups.push({ topic: eq.topic, label: TOPIC_LABELS[eq.topic] ?? eq.topic, items: [eq] });
+        if (!minSection.has(eq.topic) || eq.sectionNum < minSection.get(eq.topic)) minSection.set(eq.topic, eq.sectionNum);
       }
-      return groups;
+      return [...minSection.entries()].sort((a, b) => a[1] - b[1]).map(([topic]) => topic);
+    },
+
+    // Curriculum equations grouped by textbook topic/chapter, keyed for the panel's collapsible
+    // per-topic sections (see toggleExpanded).
+    get curriculumByTopic() {
+      const byTopic = new Map();
+      for (const eq of this.curriculum) {
+        if (!byTopic.has(eq.topic)) byTopic.set(eq.topic, []);
+        byTopic.get(eq.topic).push(eq);
+      }
+      return byTopic;
     },
 
     get relatedEquations() {
@@ -205,7 +326,7 @@ function explorer() {
           return {
             id: eq.id,
             name: eq.name,
-            katex: window.katex.renderToString(eq.latex, { throwOnError: false }),
+            katex: this._eqKatex.get(eq.id),
             role: variable.role ?? "",
           };
         });
@@ -217,7 +338,7 @@ function explorer() {
         const q = this._bundle.quantities.find((q) => q.id === v.quantity);
         return {
           symbol,
-          symbolKatex: window.katex.renderToString(symbolToLatex(symbol), { throwOnError: false }),
+          symbolKatex: this._symbolKatexFor(symbol),
           qid: q.id,
           name: q.name,
           role: v.role ?? "",
@@ -239,7 +360,6 @@ function explorer() {
         if (Object.values(eq.variables).some((v) => v.quantity === qid)) active.add(`e:${eq.id}`);
       }
       this._activeIds = active;
-      this.activeTab = "explore";
       this._refreshHighlight();
     },
 
@@ -249,8 +369,211 @@ function explorer() {
       const active = new Set([`e:${eqid}`]);
       for (const v of Object.values(eq.variables)) active.add(`q:${v.quantity}`);
       this._activeIds = active;
-      this.activeTab = "explore";
       this._refreshHighlight();
+    },
+
+    // Toggles a curriculum topic in/out of the multi-select filter
+    toggleTopic(topic) {
+      const next = new Set(this.activeTopics);
+      const nextExpanded = new Set(this.expandedTopics);
+      if (next.has(topic)) {
+        next.delete(topic);
+        nextExpanded.delete(topic);
+      } else {
+        next.add(topic);
+        nextExpanded.add(topic);
+      }
+      this.activeTopics = next;
+      this.expandedTopics = nextExpanded;
+      this._applyTopicFilter();
+    },
+
+    // Expands/collapses a topic's equation list in the curriculum panel
+    toggleExpanded(topic) {
+      const next = new Set(this.expandedTopics);
+      if (next.has(topic)) next.delete(topic);
+      else next.add(topic);
+      this.expandedTopics = next;
+    },
+
+    // Rebuilds the graph's node/link set from the active topic filter
+    _applyTopicFilter() {
+      const topics = this.activeTopics;
+      const filtered = topics.size > 0;
+      const activeEq = new Set();
+      const activeQ = new Set();
+      if (filtered) {
+        for (const eq of this._bundle.equations) {
+          if (!topics.has(eq.topic)) continue;
+          activeEq.add(eq.id);
+          for (const v of Object.values(eq.variables)) activeQ.add(v.quantity);
+        }
+      }
+      const nodes = filtered
+        ? this._graphData.nodes.filter(
+            (n) => (n.type === "equation" && activeEq.has(n.eqid)) || (n.type === "quantity" && activeQ.has(n.qid))
+          )
+        : this._graphData.nodes;
+      const nodeIds = new Set(nodes.map((n) => n.id));
+      const links = filtered
+        ? this._graphData.links.filter((l) => {
+            const s = typeof l.source === "object" ? l.source.id : l.source;
+            const t = typeof l.target === "object" ? l.target.id : l.target;
+            return nodeIds.has(s) && nodeIds.has(t);
+          })
+        : this._graphData.links;
+
+      this._topicNodeIds = filtered ? nodeIds : null;
+      this._userMoved = false;
+      this._assignClusters(filtered ? [...topics] : []);
+      this._syncForceStrengths();
+      this._buildClusterBoxes();
+      this._syncClusterStyles();
+      this._graph.graphData({ nodes, links });
+      this._refreshHighlight();
+    },
+
+    // Lays the active topics out as sections
+    _assignClusters(topicList) {
+      for (const n of this._graphData.nodes) {
+        n._clusterCenter = null;
+        n._clusterRadius = 0;
+        n._clusterColor = null;
+        n._clusterTopic = null;
+        n._anchor = null;
+      }
+      if (!topicList.length) return;
+
+      const byId = new Map(this._graphData.nodes.map((node) => [node.id, node]));
+      const eqByTopic = new Map(topicList.map((topic) => [topic, []]));
+      for (const eq of this._bundle.equations) {
+        eqByTopic.get(eq.topic)?.push(eq);
+      }
+
+      const GAP = 160;
+      const cells = topicList.map((topic) => {
+        const eqs = eqByTopic.get(topic) || [];
+        let area = 0;
+        let widest = 180;
+        for (const eq of eqs) {
+          const node = byId.get(`e:${eq.id}`);
+          const { hw, hh } = node ? nodeExtent(node) : { hw: 110, hh: 38 };
+          area += (hw * 2 + 26) * (hh * 2 + 16);
+          widest = Math.max(widest, hw * 2 + 26);
+        }
+        return { topic, eqs, size: Math.max(widest * 1.3, Math.sqrt(area / 0.6)) };
+      });
+
+      // Pack the cells into rows whose total shape matches the graph pane's aspect ratio
+      const paneW = this._graph?.width() || 1200;
+      const paneH = this._graph?.height() || 800;
+      const aspect = Math.max(0.5, Math.min(3, paneW / Math.max(1, paneH)));
+      const totalArea = cells.reduce((sum, c) => sum + (c.size + GAP) ** 2, 0);
+      const targetWidth = Math.sqrt(totalArea * aspect);
+
+      const rows = [];
+      let row = [];
+      let rowWidth = 0;
+      for (const cell of cells) {
+        const w = cell.size + GAP;
+        // Overshooting the target by less than half a cell packs tighter than dropping to a new row.
+        if (row.length && rowWidth + w / 2 > targetWidth) {
+          rows.push(row);
+          row = [];
+          rowWidth = 0;
+        }
+        row.push(cell);
+        rowWidth += w;
+      }
+      if (row.length) rows.push(row);
+
+      // Equation cards are HTML overlays drawn at a fixed pixel size whatever the zoom, so the
+      // layout is measured in graph units that equal screen pixels at zoom 1 (that's also what the
+      // cell sizes above are in) and the view avoids zooming past 1 (see _fitView). Which means the
+      // arrangement can be spread to fill the pane directly
+      const rowHeights = rows.map((r) => Math.max(...r.map((c) => c.size)) + GAP);
+      const totalHeight = rowHeights.reduce((a, b) => a + b, 0);
+      const totalWidth = Math.max(...rows.map((r) => r.reduce((sum, c) => sum + c.size + GAP, 0)));
+      const spread = Math.max(1, Math.min(1.45,
+        Math.min((paneW - 90) / Math.max(1, totalWidth), (paneH - 90) / Math.max(1, totalHeight))));
+
+      let y = (-totalHeight / 2) * spread;
+      rows.forEach((r, ri) => {
+        const rowW = r.reduce((sum, c) => sum + c.size + GAP, 0);
+        const cy = y + (rowHeights[ri] * spread) / 2;
+        let x = (-rowW / 2) * spread;
+        for (const cell of r) {
+          const center = { x: x + ((cell.size + GAP) * spread) / 2, y: cy };
+          x += (cell.size + GAP) * spread;
+          const color = topicColor(cell.topic);
+          for (const eq of cell.eqs) {
+            const node = byId.get(`e:${eq.id}`);
+            if (!node) continue;
+            node._clusterCenter = center;
+            node._clusterRadius = cell.size / 2;
+            node._clusterColor = color;
+            node._clusterTopic = cell.topic;
+          }
+        }
+        y += rowHeights[ri] * spread;
+      });
+
+      // Anchor each quantity at the average of the section centers it links into
+      const sums = new Map();
+      for (const link of this._graphData.links) {
+        const src = typeof link.source === "object" ? link.source : byId.get(link.source);
+        const tgt = typeof link.target === "object" ? link.target : byId.get(link.target);
+        if (!src || !tgt) continue;
+        const quantity = src.type === "quantity" ? src : tgt;
+        const equation = src.type === "quantity" ? tgt : src;
+        if (quantity.type !== "quantity" || !equation._clusterCenter) continue;
+        let sum = sums.get(quantity);
+        if (!sum) sums.set(quantity, (sum = { x: 0, y: 0, count: 0 }));
+        sum.x += equation._clusterCenter.x;
+        sum.y += equation._clusterCenter.y;
+        sum.count++;
+      }
+      for (const [quantity, sum] of sums) {
+        quantity._anchor = { x: sum.x / sum.count, y: sum.y / sum.count };
+      }
+    },
+
+    // With sections active the link force has to give: a quantity shared between two chapters would
+    // otherwise haul their cards into each other.
+    _syncForceStrengths() {
+      const clustered = this.activeTopics.size > 0;
+      const link = this._graph.d3Force("link");
+      link.strength(clustered ? 0.04 : this._defaultLinkStrength);
+      link.distance(clustered ? 110 : 70);
+      this._graph.d3Force("cluster").strength(clustered ? 1.1 : 0.6);
+    },
+
+    // Creates one "container" box per active topic
+    _buildClusterBoxes() {
+      this._clusterBoxLayer.innerHTML = "";
+      this._clusterBoxEls = [];
+      for (const topic of this.activeTopics) {
+        const color = topicColor(topic);
+        const box = document.createElement("div");
+        box.className = "cluster-box";
+        box.style.setProperty("--cluster-color", color);
+        box.style.setProperty("--cluster-bg", hexToRgba(color, 0.07));
+        const label = document.createElement("div");
+        label.className = "cluster-box-label";
+        label.textContent = topicLabel(topic);
+        box.appendChild(label);
+        this._clusterBoxLayer.appendChild(box);
+        this._clusterBoxEls.push({ topic, box });
+      }
+    },
+
+    // Tints each equation card's left edge to match its cluster color
+    _syncClusterStyles() {
+      for (const node of this._graphData.nodes) {
+        if (!node._el || node.type !== "equation") continue;
+        node._el.style.borderLeftColor = node._clusterColor || "";
+        node._el.style.borderLeftWidth = node._clusterColor ? "4px" : "";
+      }
     },
 
     clearSelection() {
@@ -260,14 +583,54 @@ function explorer() {
     },
 
     _refreshHighlight() {
+      const topicFiltered = !!this._topicNodeIds;
       for (const node of this._graphData.nodes) {
-        if (node.type !== "equation" || !node._el) continue;
+        if (!node._el) continue;
+        const inTopicFilter = !topicFiltered || this._topicNodeIds.has(node.id);
         const isActive = !this._activeIds || this._activeIds.has(node.id);
-        node._el.classList.toggle("dim", !isActive);
-        node._el.classList.toggle("highlight", isActive && !!this._activeIds);
+        // A topic filter removes non-matching nodes from the simulation entirely (see
+        // _applyTopicFilter); this just keeps their leftover DOM overlay elements out of the way.
+        // A single quantity/equation selection instead just dims the rest for context.
+        node._el.classList.toggle("hidden-node", !inTopicFilter);
+        if (node.type === "equation") {
+          node._el.classList.toggle("dim", inTopicFilter && !isActive);
+          node._el.classList.toggle("highlight", inTopicFilter && isActive && !!this._activeIds);
+        }
       }
       // Re-setting graphData() would force a redraw but also reheats the whole sim; this just flags a redraw instead.
       this._graph.zoom(this._graph.zoom());
+    },
+
+    // Measures the real content box  and solves for the zoom that makes it fill the
+    // pane, so the layout spreads into whatever room it has.
+    _fitView(duration = 0) {
+      const paneW = this._graph.width();
+      const paneH = this._graph.height();
+      if (!paneW || !paneH) return;
+
+      let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+      let found = false;
+      for (const node of this._graphData.nodes) {
+        if (!Number.isFinite(node.x) || !Number.isFinite(node.y)) continue;
+        if (this._topicNodeIds && !this._topicNodeIds.has(node.id)) continue;
+        // Excludes degree-0 quantities so a stray drifted node doesn't blow out the framing.
+        if (this._degree && !(this._degree.get(node.id) > 0)) continue;
+        const { hw, hh } = nodeExtent(node);
+        minX = Math.min(minX, node.x - hw);
+        maxX = Math.max(maxX, node.x + hw);
+        minY = Math.min(minY, node.y - hh);
+        maxY = Math.max(maxY, node.y + hh);
+        found = true;
+      }
+      if (!found) return;
+
+      // Section boxes add their own border and label around the cards.
+      const margin = this.activeTopics.size ? 46 : 20;
+      const availW = Math.max(60, paneW - margin * 2);
+      const availH = Math.max(60, paneH - margin * 2);
+      const scale = Math.min(availW / Math.max(1, maxX - minX), availH / Math.max(1, maxY - minY));
+      const k = Math.max(1, Math.min(1.25, scale));
+      this._graph.centerAt((minX + maxX) / 2, (minY + maxY) / 2, duration).zoom(k, duration);
     },
 
     _renderGraph() {
@@ -280,20 +643,23 @@ function explorer() {
         .nodeId("id")
         .backgroundColor("rgba(0,0,0,0)")
         .nodeLabel((n) => n.name)
-        .linkColor((l) => (self._isLinkActive(l) ? COLORS.linkActive : COLORS.linkIdle))
+        .linkColor((l) => {
+          if (self._isLinkActive(l)) return COLORS.linkActive;
+          return self.selected ? COLORS.linkDim : COLORS.linkIdle;
+        })
         .linkWidth((l) => (self._isLinkActive(l) ? 1.8 : 0.8))
-        .linkDirectionalParticles((l) => (self._isLinkActive(l) ? 3 : 0))
-        .linkDirectionalParticleWidth(2.4)
-        .linkDirectionalParticleColor(() => COLORS.particle)
         .d3AlphaDecay(0.05)
         .d3VelocityDecay(0.45)
         .nodeCanvasObjectMode(() => "replace")
         .nodeCanvasObject((node, ctx, scale) => {
           if (node.type === "equation") return; // rendered as an HTML card instead
-          const r = 9;
+          if (self._topicNodeIds && !self._topicNodeIds.has(node.id)) return; // topic filter hides it outright
           const isActive = !self._activeIds || self._activeIds.has(node.id);
+          // Radius grows with how many equations use this quantity, but logarithmically
+          const degree = self._degree.get(node.id) || 0;
+          const r = Math.min(26, 12 + 5 * Math.log2(1 + degree));
           const isSelected = self.selected?.type === "quantity" && self.selected.id === node.qid;
-          const fill = isSelected ? COLORS.activeFill : COLORS.quantityFill;
+          const fill = isSelected ? COLORS.activeFill : node._clusterColor || COLORS.quantityFill;
           const alpha = isActive ? 1 : 0.28;
 
           ctx.save();
@@ -307,28 +673,37 @@ function explorer() {
           ctx.fillStyle = fill;
           ctx.fill();
           ctx.shadowBlur = 0;
-          ctx.strokeStyle = "rgba(27,31,46,0.15)";
+          ctx.strokeStyle = "rgba(20,23,38,0.28)";
           ctx.lineWidth = 1;
           ctx.stroke();
 
-          ctx.font = `${Math.max(9, 11 / scale)}px Inter, sans-serif`;
+          ctx.font = `${Math.max(9, r * 1.1 / scale)}px Inter, sans-serif`;
           ctx.textAlign = "center";
           ctx.textBaseline = "middle";
-          ctx.fillStyle = isSelected ? "#ffffff" : COLORS.quantityText;
+          ctx.fillStyle = "#ffffff";
           ctx.fillText(displaySymbol(node.symbol), node.x, node.y);
 
-          ctx.font = `${Math.max(8, 9 / scale)}px Inter, sans-serif`;
+          ctx.font = `${Math.max(12, 14 / scale)}px Inter, sans-serif`;
           ctx.fillStyle = COLORS.quantityText;
-          ctx.fillText(node.name, node.x, node.y + r + 8);
+          ctx.fillText(node.name, node.x, node.y + r + 10);
           ctx.restore();
         })
         .onBackgroundClick(() => self.clearSelection())
         .onRenderFramePost(() => this._syncOverlays());
 
       this._graph.d3Force("charge").strength(-110);
+      this._defaultLinkStrength = this._graph.d3Force("link").strength();
       this._graph.d3Force("link").distance(70);
       this._graph.d3Force("pull", centerPullForce(0.045));
-      this._graph.d3Force("collide", nodeCollideForce(24));
+      this._graph.d3Force("collide", nodeCollideForce(26, 16));
+      this._graph.d3Force("cluster", clusterForce(0.6));
+
+      this._clusterBoxLayer = document.createElement("div");
+      this._clusterBoxLayer.className = "cluster-box-layer";
+      container.appendChild(this._clusterBoxLayer);
+
+      const fgWrapper = container.querySelector(":scope > div");
+      if (fgWrapper) container.appendChild(fgWrapper);
 
       this._equationLayer = document.createElement("div");
       this._equationLayer.className = "equation-layer";
@@ -340,9 +715,7 @@ function explorer() {
         const el = document.createElement("div");
         if (node.type === "equation") {
           el.className = "eq-card";
-          el.innerHTML =
-            `<div class="eq-card-label">${node.name}</div>` +
-            window.katex.renderToString(node.latex, { throwOnError: false });
+          el.innerHTML = `<div class="eq-card-label">${node.name}</div>` + self._eqKatex.get(node.eqid);
           el.addEventListener("click", () => self.selectEquation(node.eqid));
         } else {
           el.className = "q-hit";
@@ -352,67 +725,120 @@ function explorer() {
         node._el = el;
       }
 
+      // Re-fit on resize too
       const resize = () => {
         const rect = container.getBoundingClientRect();
         this._graph.width(rect.width).height(rect.height);
+        if (!this._userMoved) this._fitView(0);
       };
       new ResizeObserver(resize).observe(container);
       resize();
 
-      // Excludes degree-0 quantities from zoomToFit so a stray drifted node doesn't blow out the framing.
-      const degree = new Map();
+      this._degree = new Map();
       for (const l of this._graphData.links) {
         const s = typeof l.source === "object" ? l.source.id : l.source;
         const t = typeof l.target === "object" ? l.target.id : l.target;
-        degree.set(s, (degree.get(s) || 0) + 1);
-        degree.set(t, (degree.get(t) || 0) + 1);
+        this._degree.set(s, (this._degree.get(s) || 0) + 1);
+        this._degree.set(t, (this._degree.get(t) || 0) + 1);
       }
-      // A fixed padding can exceed a short container's own height, which forces zoomToFit
-      // to zoom out to its minimum; scale padding down for smaller containers instead.
-      const MIN_ZOOM = 0.6;
-      this._graph.onEngineStop(() => {
-        const padding = Math.max(20, Math.min(100, Math.min(this._graph.width(), this._graph.height()) * 0.15));
-        // Instant so the zoom it lands on can be read back immediately below (an animated
-        // zoomToFit doesn't reach its target until the transition finishes).
-        this._graph.zoomToFit(0, padding, (n) => (degree.get(n.id) || 0) > 0);
-        // Fitting the whole graph into a fixed-size container can shrink cards past legibility;
-        // floor the zoom instead and let panning reveal what doesn't fit.
-        if (this._graph.zoom() < MIN_ZOOM) this._graph.zoom(MIN_ZOOM, 300);
+
+      const markUserMoved = () => {
+        this._userMoved = true;
+      };
+      container.addEventListener("wheel", markUserMoved, { passive: true });
+      container.addEventListener("pointerdown", (down) => {
+        const onMove = (move) => {
+          if (Math.abs(move.clientX - down.clientX) > 4 || Math.abs(move.clientY - down.clientY) > 4) {
+            markUserMoved();
+            window.removeEventListener("pointermove", onMove);
+          }
+        };
+        window.addEventListener("pointermove", onMove);
+        window.addEventListener(
+          "pointerup",
+          () => window.removeEventListener("pointermove", onMove),
+          { once: true }
+        );
       });
+
+      const refit = (duration) => {
+        if (!this._userMoved) this._fitView(duration);
+      };
+
+      refit(0);
+      let tick = 0;
+      this._graph.onEngineTick(() => {
+        tick++;
+        if (tick % 12 === 0) refit(250);
+      });
+      this._graph.onEngineStop(() => refit(0));
     },
 
     _isLinkActive(link) {
       if (!this.selected) return false;
-      const selectedGraphId = `${this.selected.type === "quantity" ? "q" : "e"}:${this.selected.id}`;
       const sourceId = typeof link.source === "object" ? link.source.id : link.source;
       const targetId = typeof link.target === "object" ? link.target.id : link.target;
+      const selectedGraphId = `${this.selected.type === "quantity" ? "q" : "e"}:${this.selected.id}`;
       return sourceId === selectedGraphId || targetId === selectedGraphId;
     },
 
     _syncOverlays() {
+      // Cards and hit targets are HTML drawn over the canvas; scaling them with the view keeps them
+      // in proportion to the layout (which is sized in pixels-at-zoom-1) at every zoom level.
+      this._equationLayer.style.setProperty("--node-scale", this._graph.zoom());
       for (const node of this._graphData.nodes) {
         if (!node._el || node.x === undefined) continue;
         const { x, y } = this._graph.graph2ScreenCoords(node.x, node.y);
         node._el.style.left = `${x}px`;
         node._el.style.top = `${y}px`;
       }
+      this._syncClusterBoxes();
+    },
+
+    // Sizes/positions each active topic's container box to bound its equation cards' current
+    // screen positions, so the box tracks the cards as the simulation settles or the view pans/zooms.
+    _syncClusterBoxes() {
+      if (!this._clusterBoxEls?.length) return;
+      const zoom = this._graph.zoom();
+      const PAD = 22 * Math.max(0.5, zoom);
+      for (const { topic, box } of this._clusterBoxEls) {
+        let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+        for (const node of this._graphData.nodes) {
+          if (node._clusterTopic !== topic || node.x === undefined) continue;
+          const { x, y } = this._graph.graph2ScreenCoords(node.x, node.y);
+          const hw = ((node._el?.offsetWidth || 200) / 2) * zoom;
+          const hh = ((node._el?.offsetHeight || 76) / 2) * zoom;
+          minX = Math.min(minX, x - hw);
+          minY = Math.min(minY, y - hh);
+          maxX = Math.max(maxX, x + hw);
+          maxY = Math.max(maxY, y + hh);
+        }
+        if (!isFinite(minX)) {
+          box.style.display = "none";
+          continue;
+        }
+        box.style.display = "";
+        box.style.left = `${minX - PAD}px`;
+        box.style.top = `${minY - PAD}px`;
+        box.style.width = `${maxX - minX + PAD * 2}px`;
+        box.style.height = `${maxY - minY + PAD * 2}px`;
+      }
     },
   };
 }
 
-// Drag the handle between the graph and the side panel to resize the panel.
-function setupPanelResize() {
-  const resizer = document.getElementById("panel-resizer");
+// Drags the handle between the graph and one of the side panels to resize it. `edge` says which
+// side of the layout the panel is anchored to, so its width tracks the mouse from that edge in.
+function setupResizer(resizerId, cssVar, edge, minWidth, maxWidth) {
+  const resizer = document.getElementById(resizerId);
   const layout = document.querySelector(".layout");
   if (!resizer || !layout) return;
 
-  const MIN_WIDTH = 280;
-  const MAX_WIDTH = 720;
-
   const onMove = (e) => {
     const rect = layout.getBoundingClientRect();
-    const width = Math.min(MAX_WIDTH, Math.max(MIN_WIDTH, rect.right - e.clientX));
-    layout.style.setProperty("--panel-width", `${width}px`);
+    const raw = edge === "left" ? e.clientX - rect.left : rect.right - e.clientX;
+    const width = Math.min(maxWidth, Math.max(minWidth, raw));
+    layout.style.setProperty(cssVar, `${width}px`);
   };
   const stopDrag = () => {
     resizer.classList.remove("dragging");
@@ -428,6 +854,11 @@ function setupPanelResize() {
     window.addEventListener("mousemove", onMove);
     window.addEventListener("mouseup", stopDrag);
   });
+}
+
+function setupPanelResize() {
+  setupResizer("explore-resizer", "--explore-width", "left", 260, 560);
+  setupResizer("curriculum-resizer", "--curriculum-width", "right", 300, 640);
 }
 
 setupPanelResize();

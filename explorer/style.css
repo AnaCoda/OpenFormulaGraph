@@ -62,12 +62,13 @@ html, body {
 
 .layout {
   display: grid;
-  grid-template-columns: 1fr 6px var(--panel-width, 340px);
+  grid-template-columns: var(--explore-width, 320px) 6px 1fr 6px var(--curriculum-width, 380px);
   height: calc(100% - 62px);
 }
 
 .graph {
   position: relative;
+  min-width: 0;
   overflow: hidden;
   background:
     radial-gradient(circle at 1px 1px, #e6e9f5 1px, transparent 1px) 0 0 / 28px 28px,
@@ -80,9 +81,12 @@ html, body {
   pointer-events: none;
 }
 
+/* --node-scale is set on the layer each frame to the view's current zoom (see _syncOverlays), so
+   these HTML overlays shrink and grow with the canvas underneath them instead of staying a fixed
+   pixel size — otherwise a zoomed-out graph draws full-size cards piled on top of each other. */
 .q-hit {
   position: absolute;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) scale(var(--node-scale, 1));
   width: 24px;
   height: 24px;
   border-radius: 50%;
@@ -92,14 +96,14 @@ html, body {
 
 .eq-card {
   position: absolute;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) scale(var(--node-scale, 1));
   background: var(--bg-1);
   border: 1.5px solid var(--equation-border);
-  border-radius: 10px;
-  padding: 7px 12px;
+  border-radius: 11px;
+  padding: 9px 15px;
   box-shadow: var(--shadow);
   white-space: nowrap;
-  font-size: 15px;
+  font-size: 19px;
   color: var(--text);
   cursor: pointer;
   pointer-events: auto;
@@ -107,19 +111,57 @@ html, body {
   transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.15s ease, opacity 0.25s ease;
 }
 
+.cluster-box-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.cluster-box {
+  position: absolute;
+  border: 1.5px dashed var(--cluster-color, var(--accent));
+  background: var(--cluster-bg, transparent);
+  border-radius: 26px;
+  transition: left 0.1s linear, top 0.1s linear, width 0.1s linear, height 0.1s linear;
+}
+
+.cluster-box-label {
+  position: absolute;
+  top: -12px;
+  left: 18px;
+  padding: 3px 11px;
+  border-radius: 999px;
+  font-family: var(--font-brand);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--cluster-color, var(--accent));
+  white-space: nowrap;
+}
+
 .eq-card.highlight {
   border-color: var(--equation-border-highlight);
   box-shadow: 0 0 0 3px rgba(139, 108, 240, 0.15), var(--shadow);
-  transform: translate(-50%, -50%) scale(1.08);
+  transform: translate(-50%, -50%) scale(calc(var(--node-scale, 1) * 1.08));
 }
 
 .eq-card.dim {
   opacity: 0.3;
 }
 
+/* A chapter filter hides non-matching nodes outright (as opposed to .dim, which just fades
+   them for a single quantity/equation selection while keeping the rest of the graph visible). */
+.q-hit.hidden-node,
+.eq-card.hidden-node {
+  opacity: 0;
+  pointer-events: none;
+}
+
 .eq-card-label {
   font-family: var(--font-ui);
-  font-size: 10.5px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.02em;
   color: var(--text-dim);
@@ -156,37 +198,7 @@ html, body {
   background: var(--bg-1);
   padding: 22px 20px;
   overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
-}
-
-.tabs {
-  display: flex;
-  gap: 4px;
-  padding: 3px;
-  background: var(--bg-0);
-  border-radius: 10px;
-}
-
-.tab {
-  flex: 1;
-  font-family: var(--font-ui);
-  font-size: 13px;
-  font-weight: 600;
-  padding: 7px 0;
-  border: none;
-  border-radius: 8px;
-  background: transparent;
-  color: var(--text-dim);
-  cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease;
-}
-
-.tab.active {
-  background: var(--bg-1);
-  color: var(--text);
-  box-shadow: var(--shadow);
+  min-width: 0;
 }
 
 .panel-body {
@@ -260,17 +272,102 @@ html, body {
   text-overflow: ellipsis;
 }
 
-.curriculum-group + .curriculum-group {
-  margin-top: 18px;
+.curriculum-group-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 18px 0 0;
+}
+
+.curriculum-item:first-child .curriculum-group-row {
+  margin-top: 0;
 }
 
 .curriculum-group-label {
-  margin: 0 0 8px;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 999px;
   font-size: 11.5px;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--text-dim);
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.curriculum-group-label::after {
+  content: "";
+}
+
+.curriculum-group-label:hover::after {
+  content: "add +";
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: normal;
+  opacity: 0.7;
+}
+
+.curriculum-group-label:hover {
+  color: var(--accent);
+  background: var(--accent-bg);
+}
+
+.curriculum-group-label.active {
+  color: #fff;
+  background: var(--accent);
+}
+
+.curriculum-group-label.active:hover::after {
+  content: "remove ✕";
+}
+
+.curriculum-chevron {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.curriculum-chevron svg {
+  display: block;
+  pointer-events: none;
+}
+
+.curriculum-chevron:hover {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.curriculum-chevron:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.curriculum-chevron.expanded {
+  transform: rotate(180deg);
+}
+
+.curriculum-sublist {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
 }
 
 .panel-block h2 {
@@ -497,10 +594,12 @@ html, body {
   font-size: 13px;
 }
 
-@media (max-width: 860px) {
+@media (max-width: 1100px) {
   .layout {
     grid-template-columns: 1fr;
-    grid-template-rows: 55vh 1fr;
+    /* The graph keeps the lion's share once the panels stack above and below it: cards are drawn
+       at a fixed, readable size, so a short band of graph shows only a row or two of equations. */
+    grid-template-rows: minmax(130px, 20vh) minmax(60vh, 1fr) minmax(130px, 22vh);
   }
   .panel-resizer {
     display: none;
