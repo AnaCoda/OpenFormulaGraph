@@ -741,6 +741,10 @@ body {
   font-weight: 600;
 }
 
+.detail-fact-value {
+  grid-column: 1 / -1;
+}
+
 .help-link {
   display: inline-flex;
   align-items: center;

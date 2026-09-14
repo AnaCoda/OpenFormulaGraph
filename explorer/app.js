@@ -128,9 +128,32 @@ function formatUnit(unit) {
     .replace(/\^(-?\d+)/g, (_, exp) => exp.split("").map((c) => SUPERSCRIPT[c] ?? c).join(""));
 }
 
+function formatValue(value) {
+  const num = typeof value === "string" ? parseFloat(value) : value;
+  if (!Number.isFinite(num)) return String(value);
+  const abs = Math.abs(num);
+  if (abs !== 0 && (abs >= 100000 || abs < 0.001)) {
+    const [rawMantissa, rawExp] = num.toExponential(3).split("e");
+    const mantissa = String(parseFloat(rawMantissa));
+    const exp = rawExp.replace("+", "").split("").map((c) => SUPERSCRIPT[c] ?? c).join("");
+    return `${mantissa}×10${exp}`;
+  }
+  return String(num);
+}
+
 function buildGraphData(bundle) {
   const nodes = bundle.quantities
-    .map((q) => ({ id: `q:${q.id}`, type: "quantity", qid: q.id, name: q.name, symbol: q.symbol, val: 3 }))
+    .map((q) => ({
+      id: `q:${q.id}`,
+      type: "quantity",
+      qid: q.id,
+      name: q.name,
+      symbol: q.symbol,
+      constant: q.constant,
+      unitText: q.si_unit ? formatUnit(q.si_unit) : null,
+      valueText: q.constant ? formatValue(q.value) + (q.si_unit ? ` ${formatUnit(q.si_unit)}` : "") : null,
+      val: 3,
+    }))
     .concat(
       bundle.equations.map((eq) => ({
         id: `e:${eq.id}`,
@@ -219,7 +242,7 @@ function measureNode(n) {
     n._hh = (n._el?.offsetHeight || 76) / 2;
   } else {
     n._hw = Math.max(30, n.name.length * 4.2);
-    n._hh = 38;
+    n._hh = n.valueText || n.unitText ? 54 : 38;
   }
 }
 
@@ -339,6 +362,7 @@ function explorer() {
 
     formatDimension,
     formatUnit,
+    formatValue,
     topicColor,
     topicLabel,
     helpLinks: HELP_LINKS,
@@ -951,7 +975,8 @@ function explorer() {
           ctx.save();
           ctx.globalAlpha = alpha;
           ctx.beginPath();
-          ctx.arc(node.x, node.y, r, 0, 2 * Math.PI);
+          if (node.constant) ctx.roundRect(node.x - r, node.y - r, r * 2, r * 2, r * 0.35);
+          else ctx.arc(node.x, node.y, r, 0, 2 * Math.PI);
           if (isSelected) {
             ctx.shadowColor = fill;
             ctx.shadowBlur = 14;
@@ -959,8 +984,8 @@ function explorer() {
           ctx.fillStyle = fill;
           ctx.fill();
           ctx.shadowBlur = 0;
-          ctx.strokeStyle = "rgba(20,23,38,0.28)";
-          ctx.lineWidth = 1;
+          ctx.strokeStyle = node.constant ? "rgba(20,23,38,0.45)" : "rgba(20,23,38,0.28)";
+          ctx.lineWidth = node.constant ? 1.5 : 1;
           ctx.stroke();
 
           ctx.font = `${Math.max(9, r * 1.1 / scale)}px Inter, sans-serif`;
@@ -972,6 +997,14 @@ function explorer() {
           ctx.font = `${Math.max(12, 14 / scale)}px Inter, sans-serif`;
           ctx.fillStyle = COLORS.quantityText;
           ctx.fillText(node.name, node.x, node.y + r + 10);
+
+          const subText = node.valueText || node.unitText;
+          if (subText) {
+            ctx.font = `${Math.max(10, 11.5 / scale)}px Inter, sans-serif`;
+            ctx.fillStyle = COLORS.quantityText;
+            ctx.globalAlpha = alpha * 0.7;
+            ctx.fillText(subText, node.x, node.y + r + 25);
+          }
           ctx.restore();
         })
         .onRenderFramePost(() => this._syncOverlays());
