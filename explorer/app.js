@@ -151,16 +151,28 @@ function buildGraphData(bundle) {
   return { nodes, links };
 }
 
+const BASE_ALPHA_DECAY = 0.03;
+const BASE_VELOCITY_DECAY = 0.38;
+const TRANSITION_ALPHA_DECAY = 0.09;
+const TRANSITION_VELOCITY_DECAY = 0.62;
+
+const POSITION_FORCE_ALPHA_CAP = 0.08;
+let _positionAlphaCapUntil = 0;
+function dampenPositionForces(ms = 1600) {
+  _positionAlphaCapUntil = performance.now() + ms;
+}
+
 // Gentle pull toward an anchor so loosely attached nodes (e.g. electric charge/current) don't drift off alone.
 function centerPullForce(strength) {
   let nodes = [];
   function force(alpha) {
+    const a = performance.now() < _positionAlphaCapUntil ? Math.min(alpha, POSITION_FORCE_ALPHA_CAP) : alpha;
     for (const n of nodes) {
       if (n._clusterCenter) continue;
       const ax = n._anchor ? n._anchor.x : 0;
       const ay = n._anchor ? n._anchor.y : 0;
-      n.vx += (ax - n.x) * strength * alpha;
-      n.vy += (ay - n.y) * strength * alpha;
+      n.vx += (ax - n.x) * strength * a;
+      n.vy += (ay - n.y) * strength * a;
     }
   }
   force.initialize = (ns) => {
@@ -175,15 +187,19 @@ function clusterForce(strength) {
   let nodes = [];
   let k = strength;
   function force(alpha) {
+    const a = performance.now() < _positionAlphaCapUntil ? Math.min(alpha, POSITION_FORCE_ALPHA_CAP) : alpha;
     for (const n of nodes) {
       const c = n._clusterCenter;
       if (!c) continue;
       const dx = c.x - n.x;
       const dy = c.y - n.y;
       const dist = Math.sqrt(dx * dx + dy * dy);
-      const pull = dist > (n._clusterRadius || 0) ? k : k * 0.06;
-      n.vx += dx * pull * alpha;
-      n.vy += dy * pull * alpha;
+      const radius = n._clusterRadius || 0;
+      const band = Math.max(8, radius * 0.15);
+      const t = Math.max(0, Math.min(1, (dist - (radius - band)) / (2 * band)));
+      const pull = k * (0.06 + 0.94 * t);
+      n.vx += dx * pull * a;
+      n.vy += dy * pull * a;
     }
   }
   force.initialize = (ns) => {
@@ -223,7 +239,8 @@ function nodeCollideForce(padX, padY) {
       if (n._hw === undefined) measureNode(n);
       if (n._hw > widest) widest = n._hw;
     }
-    for (let pass = 0; pass < 4; pass++) {
+    const SLOP = 1.5;
+    for (let pass = 0; pass < 2; pass++) {
       order.sort((p, q) => p.x - q.x);
       for (let i = 0; i < order.length; i++) {
         const a = order[i];
@@ -234,20 +251,21 @@ function nodeCollideForce(padX, padY) {
           if (dx > reach) break;
           const dy = b.y - a.y || 0.01;
           const overlapX = a._hw + b._hw + padX - Math.abs(dx);
-          if (overlapX <= 0) continue;
+          if (overlapX <= SLOP) continue;
           const overlapY = a._hh + b._hh + padY - Math.abs(dy);
-          if (overlapY <= 0) continue;
+          if (overlapY <= SLOP) continue;
           const fracX = overlapX / (a._hw + b._hw + padX);
           const fracY = overlapY / (a._hh + b._hh + padY);
+          const RELAX = 0.5;
           if (fracX < fracY) {
-            const move = (Math.sign(dx) * overlapX) / 2;
+            const move = (Math.sign(dx) * overlapX * RELAX) / 2;
             a.x -= move;
             b.x += move;
             const avgVx = ((a.vx || 0) + (b.vx || 0)) / 2;
             a.vx = avgVx;
             b.vx = avgVx;
           } else {
-            const move = (Math.sign(dy) * overlapY) / 2;
+            const move = (Math.sign(dy) * overlapY * RELAX) / 2;
             a.y -= move;
             b.y += move;
             const avgVy = ((a.vy || 0) + (b.vy || 0)) / 2;
@@ -300,6 +318,7 @@ function explorer() {
     _sheetDrag: null,
     _loaded: false,
     _clustersCollapsed: false, // true once zoomed out past CLUSTER_COLLAPSE_ZOOM with topic clusters active
+    _transitionTimer: null, // setTimeout restoring the simulation's settled tuning after _dampenTransition
 
     async init() {
       _bundle = await BUNDLE;
@@ -494,14 +513,20 @@ function explorer() {
           })
         : _graphData.links;
 
+      // Lay the sections out in curriculum order
+      const order = this.topicOrder;
+      const ordered = [...topics].sort((a, b) => order.indexOf(a) - order.indexOf(b));
+
+      const prevVisible = _topicNodeIds;
       _topicNodeIds = filtered ? nodeIds : null;
-      this._assignClusters(filtered ? [...topics] : []);
+      this._assignClusters(ordered, prevVisible);
       this._syncForceStrengths();
       this._buildClusterBoxes();
       this._syncClusterStyles();
       this._measureNodes();
       const { x: cx, y: cy } = _graph.centerAt();
       this._freezeView = { cx, cy, k: _graph.zoom() };
+      if (filtered) this._dampenTransition();
       _graph.graphData({ nodes, links });
       this._reassertFreeze();
       this._holdFreezeView();
@@ -509,7 +534,16 @@ function explorer() {
     },
 
     // Lays the active topics out as sections
-    _assignClusters(topicList) {
+    _assignClusters(topicList, prevVisible) {
+      const prevCenter = new Map();
+      const prevAnchor = new Map();
+      for (const n of _graphData.nodes) {
+        if (n._clusterTopic && n._clusterCenter && !prevCenter.has(n._clusterTopic)) {
+          prevCenter.set(n._clusterTopic, { x: n._clusterCenter.x, y: n._clusterCenter.y });
+        }
+        if (n._anchor) prevAnchor.set(n.id, { x: n._anchor.x, y: n._anchor.y });
+      }
+
       _clusterMembers = new Map(topicList.map((topic) => [topic, []]));
       for (const n of _graphData.nodes) {
         n._clusterCenter = null;
@@ -613,6 +647,48 @@ function explorer() {
       for (const [quantity, sum] of sums) {
         quantity._anchor = { x: sum.x / sum.count, y: sum.y / sum.count };
       }
+
+      this._rebaseNodes(prevCenter, prevAnchor, prevVisible);
+    },
+
+    _rebaseNodes(prevCenter, prevAnchor, prevVisible) {
+      const seeded = new Map(); // target object -> how many new nodes have been placed around it
+      for (const node of _graphData.nodes) {
+        const target = node._clusterCenter || node._anchor;
+        if (!target) continue;
+        const from = node._clusterTopic ? prevCenter.get(node._clusterTopic) : prevAnchor.get(node.id);
+        const wasVisible = !prevVisible || prevVisible.has(node.id);
+        if (from && wasVisible && Number.isFinite(node.x)) {
+          const dx = target.x - from.x;
+          const dy = target.y - from.y;
+          node.x += dx;
+          node.y += dy;
+          if (node.fx != null) node.fx += dx;
+          if (node.fy != null) node.fy += dy;
+        } else {
+          const i = seeded.get(target) || 0;
+          seeded.set(target, i + 1);
+          const radius = Math.sqrt(i + 0.5) * 26;
+          const angle = i * 2.39996;
+          node.x = target.x + Math.cos(angle) * radius;
+          node.y = target.y + Math.sin(angle) * radius;
+          node.fx = node.fy = null;
+        }
+        // Whatever momentum the node carried belongs to the old layout.
+        node.vx = 0;
+        node.vy = 0;
+      }
+    },
+
+    _dampenTransition(ms = 1200) {
+      dampenPositionForces(ms);
+      clearTimeout(this._transitionTimer);
+      _graph.d3AlphaDecay(TRANSITION_ALPHA_DECAY);
+      _graph.d3VelocityDecay(TRANSITION_VELOCITY_DECAY);
+      this._transitionTimer = setTimeout(() => {
+        _graph.d3AlphaDecay(BASE_ALPHA_DECAY);
+        _graph.d3VelocityDecay(BASE_VELOCITY_DECAY);
+      }, ms);
     },
 
     // With sections active the link force has to give: a quantity shared between two chapters would
@@ -859,8 +935,8 @@ function explorer() {
           return self.selected ? COLORS.linkDim : COLORS.linkIdle;
         })
         .linkWidth((l) => (self._isLinkActive(l) ? 1.8 : 0.8))
-        .d3AlphaDecay(0.022)
-        .d3VelocityDecay(0.32)
+        .d3AlphaDecay(BASE_ALPHA_DECAY)
+        .d3VelocityDecay(BASE_VELOCITY_DECAY)
         .nodeCanvasObjectMode(() => "replace")
         .nodeCanvasObject((node, ctx, scale) => {
           if (node.type === "equation") return; // rendered as an HTML card instead
@@ -903,11 +979,11 @@ function explorer() {
       // `container`) rather than via .onBackgroundClick. force-graph only fires that when it sees a
       // clean click with zero canvas movement in between
 
-      _graph.d3Force("charge").strength(-140);
+      _graph.d3Force("charge").strength(-170);
       _defaultLinkStrength = _graph.d3Force("link").strength();
       _graph.d3Force("link").distance(70);
       _graph.d3Force("pull", centerPullForce(0.045));
-      _graph.d3Force("collide", nodeCollideForce(26, 16));
+      _graph.d3Force("collide", nodeCollideForce(42, 26));
       _graph.d3Force("cluster", clusterForce(0.6));
 
       const fgWrapper = container.querySelector(":scope > div");
@@ -1049,12 +1125,13 @@ function explorer() {
             el.classList.add("dragging");
             self._userMoved = true; // stop auto-fit from fighting the drag
             self._cancelFit();
+            dampenPositionForces();
+            _graph.d3ReheatSimulation();
           }
           const rect = _graphContainer.getBoundingClientRect();
           const { x, y } = _graph.screen2GraphCoords(move.clientX - rect.left, move.clientY - rect.top);
           node.x = node.fx = x;
           node.y = node.fy = y;
-          _graph.d3ReheatSimulation();
           self._syncOverlays();
         };
         const onEnd = (end) => {
@@ -1111,6 +1188,8 @@ function explorer() {
               center._dragOx = center.x - gx;
               center._dragOy = center.y - gy;
             }
+            dampenPositionForces();
+            _graph.d3ReheatSimulation();
           }
           const rect = _graphContainer.getBoundingClientRect();
           const { x, y } = _graph.screen2GraphCoords(move.clientX - rect.left, move.clientY - rect.top);
@@ -1122,7 +1201,6 @@ function explorer() {
             center.x = x + center._dragOx;
             center.y = y + center._dragOy;
           }
-          _graph.d3ReheatSimulation();
           self._syncOverlays();
         };
         const onEnd = (end) => {
