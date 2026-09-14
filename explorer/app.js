@@ -355,7 +355,6 @@ function explorer() {
       _graphData = buildGraphData(_bundle);
       this._loaded = true;
       this.activeTopics = new Set(this.topicOrder.slice(0, 3));
-      this.expandedTopics = new Set(this.activeTopics);
       this._renderGraph();
       this._applyTopicFilter();
     },
@@ -489,16 +488,15 @@ function explorer() {
     toggleTopic(topic) {
       this._userMoved = true;
       const next = new Set(this.activeTopics);
-      const nextExpanded = new Set(this.expandedTopics);
       if (next.has(topic)) {
         next.delete(topic);
+        const nextExpanded = new Set(this.expandedTopics);
         nextExpanded.delete(topic);
+        this.expandedTopics = nextExpanded;
       } else {
         next.add(topic);
-        nextExpanded.add(topic);
       }
       this.activeTopics = next;
-      this.expandedTopics = nextExpanded;
       this._applyTopicFilter();
     },
 
