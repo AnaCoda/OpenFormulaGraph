@@ -28,7 +28,7 @@ jobs:
       - name: Assemble site
         run: |
           mkdir -p _site/dist
-          cp explorer/*.html explorer/*.js explorer/*.css _site/
+          cp explorer/*.html explorer/*.js explorer/*.css explorer/*.svg _site/
           cp dist/openformulagraph.json _site/dist/
       - uses: actions/upload-pages-artifact@v3
         with:
