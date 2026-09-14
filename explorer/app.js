@@ -10,9 +10,10 @@ const COLORS = {
 };
 
 const TOPIC_COLOR_PALETTE = [
-  "#4f6df5", "#f5734f", "#3fb37f", "#c74fd6", "#e0a83f", "#3fa9d6",
-  "#d64f7a", "#7a5cf0", "#5cc2a6", "#d67c3f", "#5c8ff0", "#c4514f",
-  "#4fae8a", "#a85cf0", "#e0b23f", "#4f9de0",
+  "#4f6df5", "#ca4f21", "#158466", "#d322b2", "#3d8415", "#5d50e2",
+  "#a7671b", "#158384", "#db2488", "#208816", "#8550e2", "#887316",
+  "#1a7da2", "#dd2c5c", "#16882b", "#a742e0", "#717b14", "#2375d7",
+  "#de3535", "#16884a", "#c723d7", "#587f15",
 ];
 
 const SOURCE_NAMES = {
@@ -56,6 +57,13 @@ function hexToRgba(hex, alpha) {
   const n = parseInt(hex.slice(1), 16);
   return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${alpha})`;
 }
+
+// Below this zoom the equation cards in a cluster overlap into unreadable mush (confirmed at
+// zoom ~0.22 with all 20 topics on), so the cluster collapses into one compact tile instead.
+// EXPAND_ZOOM sits above COLLAPSE_ZOOM on purpose (hysteresis) so a slow scroll hovering near the
+// boundary doesn't strobe between the two states every frame.
+const CLUSTER_COLLAPSE_ZOOM = 0.5;
+const CLUSTER_EXPAND_ZOOM = 0.58;
 
 const HELP_LINKS = {
   siUnit: "https://en.wikipedia.org/wiki/International_System_of_Units",
@@ -232,7 +240,11 @@ function explorer() {
     selected: null, // { type: 'quantity'|'equation', id } | null
     curriculumCollapsed: false, // desktop: user has manually collapsed the curriculum panel
     activeTopics: new Set(), // curriculum topics currently filtering/clustering the graph
-    _userMoved: false, // true once the user has panned/zoomed, which stops the view auto-fitting
+    // True once the user has panned/zoomed OR changed the topic filter, which permanently stops the
+    // view auto-fitting/refitting
+    _userMoved: false,
+    // { cx, cy, k } | null - camera pinned by a topic-filter change, kept in place until graph settles
+    _freezeView: null,
     expandedTopics: new Set(), // curriculum topics whose equation list is expanded in the panel
     sheet: null, // null | 'detail' | 'chapters' mobile bottom panes
     sheetFull: false, // true = sheet dragged/expanded past its peek height
@@ -242,6 +254,7 @@ function explorer() {
     _graph: null,
     _activeIds: null, // Set of graph node ids ("q:x" / "e:y") highlighted by the current selection, or null
     _topicNodeIds: null, // Set of graph node ids visible under the current topic filter, or null = no filter
+    _clustersCollapsed: false, // true once zoomed out past CLUSTER_COLLAPSE_ZOOM with topic clusters active
 
     async init() {
       // Deployed, the bundle sits next to index.html; in local dev it's one level up.
@@ -380,6 +393,7 @@ function explorer() {
 
     // Toggles a curriculum topic in/out of the multi-select filter
     toggleTopic(topic) {
+      this._userMoved = true;
       const next = new Set(this.activeTopics);
       const nextExpanded = new Set(this.expandedTopics);
       if (next.has(topic)) {
@@ -430,12 +444,15 @@ function explorer() {
         : this._graphData.links;
 
       this._topicNodeIds = filtered ? nodeIds : null;
-      this._userMoved = false;
       this._assignClusters(filtered ? [...topics] : []);
       this._syncForceStrengths();
       this._buildClusterBoxes();
       this._syncClusterStyles();
+      const { x: cx, y: cy } = this._graph.centerAt();
+      this._freezeView = { cx, cy, k: this._graph.zoom() };
       this._graph.graphData({ nodes, links });
+      this._reassertFreeze();
+      this._holdFreezeView();
       this._refreshHighlight();
     },
 
@@ -558,19 +575,61 @@ function explorer() {
     _buildClusterBoxes() {
       this._clusterBoxLayer.innerHTML = "";
       this._clusterBoxEls = [];
+      this._clustersCollapsed = false;
       for (const topic of this.activeTopics) {
         const color = topicColor(topic);
         const box = document.createElement("div");
         box.className = "cluster-box";
         box.style.setProperty("--cluster-color", color);
         box.style.setProperty("--cluster-bg", hexToRgba(color, 0.07));
+        box.style.setProperty("--cluster-bg-collapsed", hexToRgba(color, 0.16));
         const label = document.createElement("div");
         label.className = "cluster-box-label";
         label.textContent = topicLabel(topic);
         box.appendChild(label);
+
+        const count = this._bundle.equations.filter((eq) => eq.topic === topic).length;
+        const summary = document.createElement("div");
+        summary.className = "cluster-box-summary";
+        summary.textContent = `${topicLabel(topic)} · ${count} equation${count === 1 ? "" : "s"}`;
+
+        summary.addEventListener("click", () => {
+          if (box._wasDragged) return;
+          this._focusCluster(topic);
+        });
+        box.appendChild(summary);
+
         this._clusterBoxLayer.appendChild(box);
         this._clusterBoxEls.push({ topic, box });
+        this._setupClusterDrag(topic, box, label);
       }
+    },
+
+    // Recenters/zooms the view on one cluster
+    _focusCluster(topic) {
+      const node = this._graphData.nodes.find((n) => n._clusterTopic === topic);
+      if (!node?._clusterCenter) return;
+      this._userMoved = true;
+      this._cancelFit();
+      const { x, y } = node._clusterCenter;
+      this._graph.centerAt(x, y, 250).zoom(0.9, 250);
+    },
+
+    // Flips every cluster box between its normal (cards visible) and collapsed (single tile) presentation.
+    _setClustersCollapsed(collapsed) {
+      this._clustersCollapsed = collapsed;
+      this._equationLayer.classList.toggle("clusters-collapsed", collapsed);
+      for (const { box } of this._clusterBoxEls) box.classList.toggle("collapsed", collapsed);
+    },
+
+    // Checks the current zoom against the collapse/expand thresholds
+    _updateClusterCollapse(zoom) {
+      if (!this.activeTopics.size) {
+        if (this._clustersCollapsed) this._setClustersCollapsed(false);
+        return;
+      }
+      if (!this._clustersCollapsed && zoom < CLUSTER_COLLAPSE_ZOOM) this._setClustersCollapsed(true);
+      else if (this._clustersCollapsed && zoom > CLUSTER_EXPAND_ZOOM) this._setClustersCollapsed(false);
     },
 
     // Tints each equation card's left edge to match its cluster color
@@ -658,6 +717,29 @@ function explorer() {
       this._graph.zoom(this._graph.zoom());
     },
 
+    // Freezes the camera exactly where it currently sits
+    _cancelFit() {
+      const { x, y } = this._graph.centerAt();
+      this._graph.centerAt(x, y, 0).zoom(this._graph.zoom(), 0);
+      this._freezeView = null;
+    },
+
+    _reassertFreeze() {
+      const { cx, cy, k } = this._freezeView;
+      this._graph.centerAt(cx, cy, 0).zoom(k, 0);
+    },
+
+    _holdFreezeView() {
+      const deadline = Date.now() + 1000;
+      const loop = () => {
+        if (!this._freezeView) return;
+        this._reassertFreeze();
+        if (Date.now() < deadline) setTimeout(loop, 16);
+        else this._freezeView = null;
+      };
+      loop();
+    },
+
     // Measures the real content box  and solves for the zoom that makes it fill the
     // pane, so the layout spreads into whatever room it has.
     _fitView(duration = 0) {
@@ -724,6 +806,7 @@ function explorer() {
         .nodeCanvasObject((node, ctx, scale) => {
           if (node.type === "equation") return; // rendered as an HTML card instead
           if (self._topicNodeIds && !self._topicNodeIds.has(node.id)) return; // topic filter hides it outright
+          if (self._clustersCollapsed) return; // collapsed tiles stand in for every quantity/equation too
           const isActive = !self._activeIds || self._activeIds.has(node.id);
           // Radius grows with how many equations use this quantity, but logarithmically
           const degree = self._degree.get(node.id) || 0;
@@ -758,8 +841,10 @@ function explorer() {
           ctx.fillText(node.name, node.x, node.y + r + 10);
           ctx.restore();
         })
-        .onBackgroundClick(() => self.clearSelection())
         .onRenderFramePost(() => this._syncOverlays());
+      // Background clicks are handled ourselves below (see the pointerdown/pointerup pair on
+      // `container`) rather than via .onBackgroundClick. force-graph only fires that when it sees a
+      // clean click with zero canvas movement in between
 
       this._graph.d3Force("charge").strength(-110);
       this._defaultLinkStrength = this._graph.d3Force("link").strength();
@@ -768,12 +853,12 @@ function explorer() {
       this._graph.d3Force("collide", nodeCollideForce(26, 16));
       this._graph.d3Force("cluster", clusterForce(0.6));
 
+      const fgWrapper = container.querySelector(":scope > div");
+      if (fgWrapper) container.appendChild(fgWrapper);
+
       this._clusterBoxLayer = document.createElement("div");
       this._clusterBoxLayer.className = "cluster-box-layer";
       container.appendChild(this._clusterBoxLayer);
-
-      const fgWrapper = container.querySelector(":scope > div");
-      if (fgWrapper) container.appendChild(fgWrapper);
 
       this._equationLayer = document.createElement("div");
       this._equationLayer.className = "equation-layer";
@@ -820,13 +905,14 @@ function explorer() {
       }
 
       // Marks the view as user-driven the moment a pan/zoom gesture starts
-      container.addEventListener("wheel", () => { this._userMoved = true; }, { passive: true });
+      container.addEventListener("wheel", () => { this._userMoved = true; this._cancelFit(); }, { passive: true });
       container.addEventListener("pointerdown", (down) => {
         const startX = down.clientX;
         const startY = down.clientY;
         const onMove = (move) => {
           if (Math.abs(move.clientX - startX) > 4 || Math.abs(move.clientY - startY) > 4) {
             this._userMoved = true;
+            this._cancelFit();
             window.removeEventListener("pointermove", onMove);
           }
         };
@@ -836,6 +922,17 @@ function explorer() {
           () => window.removeEventListener("pointermove", onMove),
           { once: true }
         );
+      });
+
+      let bgDownX = 0, bgDownY = 0;
+      container.addEventListener("pointerdown", (down) => {
+        bgDownX = down.clientX;
+        bgDownY = down.clientY;
+      });
+      container.addEventListener("pointerup", (up) => {
+        if (Math.abs(up.clientX - bgDownX) > 4 || Math.abs(up.clientY - bgDownY) > 4) return;
+        if (up.target.closest(".q-hit, .eq-card")) return; // a node click, not background
+        self.clearSelection();
       });
 
       const refit = (duration) => {
@@ -886,6 +983,7 @@ function explorer() {
             el._wasDragged = true;
             el.classList.add("dragging");
             self._userMoved = true; // stop auto-fit from fighting the drag
+            self._cancelFit();
           }
           const rect = self._graphContainer.getBoundingClientRect();
           const { x, y } = self._graph.screen2GraphCoords(move.clientX - rect.left, move.clientY - rect.top);
@@ -913,6 +1011,73 @@ function explorer() {
       });
     },
 
+    // Lets the user grab a whole cluster and drag every node in that topic together, offsets preserved.
+    _setupClusterDrag(topic, box, label) {
+      const self = this;
+
+      const start = (down) => {
+        if (down.button !== 0) return;
+        const el = down.currentTarget;
+        if (el === box && !box.classList.contains("collapsed")) return;
+        const startX = down.clientX;
+        const startY = down.clientY;
+        let dragging = false;
+        let members = null; // [{ node, ox, oy }] graph-unit offsets from the pointer
+        let center = null;
+
+        el.setPointerCapture(down.pointerId);
+
+        const onMove = (move) => {
+          if (move.pointerId !== down.pointerId) return;
+          if (!dragging) {
+            if (Math.abs(move.clientX - startX) < 4 && Math.abs(move.clientY - startY) < 4) return;
+            dragging = true;
+            box.classList.add("dragging");
+            box._wasDragged = true; 
+            self._userMoved = true;
+            self._cancelFit();
+            const rect = self._graphContainer.getBoundingClientRect();
+            const { x: gx, y: gy } = self._graph.screen2GraphCoords(startX - rect.left, startY - rect.top);
+            members = self._graphData.nodes
+              .filter((n) => n._clusterTopic === topic)
+              .map((n) => ({ node: n, ox: n.x - gx, oy: n.y - gy }));
+            center = members[0]?.node._clusterCenter;
+            if (center) {
+              center._dragOx = center.x - gx;
+              center._dragOy = center.y - gy;
+            }
+          }
+          const rect = self._graphContainer.getBoundingClientRect();
+          const { x, y } = self._graph.screen2GraphCoords(move.clientX - rect.left, move.clientY - rect.top);
+          for (const { node, ox, oy } of members) {
+            node.x = node.fx = x + ox;
+            node.y = node.fy = y + oy;
+          }
+          if (center) {
+            center.x = x + center._dragOx;
+            center.y = y + center._dragOy;
+          }
+          self._graph.d3ReheatSimulation();
+          self._syncOverlays();
+        };
+        const onEnd = (end) => {
+          if (end.pointerId !== down.pointerId) return;
+          el.removeEventListener("pointermove", onMove);
+          el.removeEventListener("pointerup", onEnd);
+          el.removeEventListener("pointercancel", onEnd);
+          box.classList.remove("dragging");
+          // Cleared on a timeout so the click that follows this pointerup still sees it.
+          if (dragging) setTimeout(() => { box._wasDragged = false; }, 0);
+        };
+        el.addEventListener("pointermove", onMove);
+        el.addEventListener("pointerup", onEnd);
+        el.addEventListener("pointercancel", onEnd);
+      };
+
+      box.addEventListener("pointerdown", start);
+      label.addEventListener("pointerdown", start);
+    },
+
     _syncOverlays() {
       // Cards and hit targets are HTML drawn over the canvas; scaling them with the view keeps them
       // in proportion to the layout (which is sized in pixels-at-zoom-1) at every zoom level.
@@ -931,6 +1096,7 @@ function explorer() {
     _syncClusterBoxes() {
       if (!this._clusterBoxEls?.length) return;
       const zoom = this._graph.zoom();
+      this._updateClusterCollapse(zoom);
       const PAD = 22 * Math.max(0.5, zoom);
       for (const { topic, box } of this._clusterBoxEls) {
         let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
