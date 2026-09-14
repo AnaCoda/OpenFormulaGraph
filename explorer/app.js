@@ -71,6 +71,31 @@ function hexToRgba(hex, alpha) {
 const CLUSTER_COLLAPSE_ZOOM = 0.5;
 const CLUSTER_EXPAND_ZOOM = 0.58;
 
+// Zoom limits. Equation cards are HTML overlays drawn at (their pixel size x the zoom) -- see
+// --node-scale -- so outside this range they are either unreadable specks or wider than the pane.
+const MIN_ZOOM = 0.05;
+const MAX_ZOOM = 4;
+
+// Wheel delta -> zoom exponent, keyed by the browser's delta unit (0 = pixels, 1 = lines, 2 = pages).
+// One Chrome notch is ~100px and one Firefox notch is 3 lines, which both land near a 1.15x step.
+const WHEEL_UNIT = { 0: 0.002, 1: 0.05, 2: 1 };
+// Browsers report a trackpad pinch as ctrl+wheel with small pixel deltas, while a mouse wheel with
+// ctrl held still sends full notches -- so only the pinch-shaped events get the boost that makes
+// pinching cover useful ground.
+const PINCH_WHEEL_BOOST = 8;
+const PINCH_WHEEL_MAX_DELTA = 50;
+// Cap per event, so one flick of a high-resolution trackpad (or a coalesced burst of smooth-scroll
+// events) can't jump several octaves at once. 0.4 => at most a 1.32x step.
+const MAX_WHEEL_STEP = 0.4;
+// A notched mouse wheel arrives in coarse jumps that look much better ramped over a few frames; a
+// trackpad's fine-grained deltas are already smooth and are applied straight through so the view
+// stays locked to the fingers.
+const WHEEL_NOTCH_DELTA = 40;
+const WHEEL_ZOOM_MS = 110;
+
+// How long the camera holds its ground after graphData() changes -- see Camera.guard.
+const VIEW_GUARD_MS = 600;
+
 const HELP_LINKS = {
   siUnit: "https://en.wikipedia.org/wiki/International_System_of_Units",
   dimension: "https://en.wikipedia.org/wiki/Dimensional_analysis",
@@ -306,10 +331,134 @@ function nodeCollideForce(padX, padY) {
   return force;
 }
 
+// Owns the view transform. Every camera move in the app goes through here.
+function createCamera(graph) {
+  const clampZoom = (k) => Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, k));
+  // Cubic ease-out: quick off the mark, soft landing.
+  const ease = (t) => 1 - (1 - t) ** 3;
+
+  let last = null; // the last view this camera wrote, for guard() to restore
+  let anim = null; // { from, to, t0, dur, pin } | null
+  let guardUntil = 0;
+  let raf = 0;
+
+  function read() {
+    const { x, y } = graph.centerAt();
+    return { x, y, k: graph.zoom() };
+  }
+
+  function write(view) {
+    const k = clampZoom(view.k);
+    graph.zoom(k, 0);
+    graph.centerAt(view.x, view.y, 0);
+    last = { x: view.x, y: view.y, k };
+  }
+
+  // The view that puts graph point `anchor` under canvas pixel (px, py) at zoom `k`
+  function viewAt(anchor, px, py, k) {
+    return {
+      x: anchor.x + (graph.width() / 2 - px) / k,
+      y: anchor.y + (graph.height() / 2 - py) / k,
+      k,
+    };
+  }
+
+  function frame() {
+    raf = 0;
+    const now = performance.now();
+    if (anim) {
+      const t = anim.dur > 0 ? Math.min(1, (now - anim.t0) / anim.dur) : 1;
+      const e = ease(t);
+      // Zoom interpolates geometrically -- equal ratios per step is what reads as even to the eye.
+      const k = clampZoom(anim.from.k * (anim.to.k / anim.from.k) ** e);
+      write(
+        anim.pin
+          ? viewAt(anim.pin.anchor, anim.pin.px, anim.pin.py, k)
+          : { x: anim.from.x + (anim.to.x - anim.from.x) * e, y: anim.from.y + (anim.to.y - anim.from.y) * e, k }
+      );
+      if (t >= 1) anim = null;
+    } else if (now < guardUntil) {
+      write(last);
+    }
+    if (anim || now < guardUntil) raf = requestAnimationFrame(frame);
+  }
+
+  function schedule() {
+    if (!raf) raf = requestAnimationFrame(frame);
+  }
+
+  // Drops any animation or guard immediately, so nothing the app started can fight the user's hand.
+  function release() {
+    anim = null;
+    guardUntil = 0;
+    if (raf) cancelAnimationFrame(raf);
+    raf = 0;
+  }
+
+  function moveTo(view, duration = 0) {
+    release();
+    const from = read();
+    const to = { x: view.x ?? from.x, y: view.y ?? from.y, k: clampZoom(view.k ?? from.k) };
+    if (duration <= 0) {
+      write(to);
+      return;
+    }
+    anim = { from, to, t0: performance.now(), dur: duration, pin: null };
+    schedule();
+  }
+
+  return {
+    get: read,
+    release,
+    moveTo,
+    targetZoom: () => (anim ? anim.to.k : read().k),
+
+    anchorFor: (px, py) => graph.screen2GraphCoords(px, py),
+
+    anchorAt(anchor, px, py, k) {
+      release();
+      const next = clampZoom(k);
+      write(viewAt(anchor, px, py, next));
+    },
+
+    zoomAt(px, py, k, duration = 0) {
+      const anchor = graph.screen2GraphCoords(px, py);
+      const next = clampZoom(k);
+      const from = read();
+      release();
+      if (duration <= 0 || Math.abs(next - from.k) < 1e-4) {
+        write(viewAt(anchor, px, py, next));
+        return;
+      }
+      anim = {
+        from,
+        to: viewAt(anchor, px, py, next),
+        t0: performance.now(),
+        dur: duration,
+        pin: { anchor, px, py },
+      };
+      schedule();
+    },
+
+    guard(ms = VIEW_GUARD_MS) {
+      if (!last) write(read());
+      guardUntil = performance.now() + ms;
+      schedule();
+    },
+
+    // Re-applies the current transfor,
+    poke() {
+      if (anim || performance.now() < guardUntil) return;
+      write(read());
+    },
+  };
+}
+
 function explorer() {
   let _bundle = null;
   let _graphData = null;
   let _graph = null;
+  let _camera = null;
   let _graphContainer = null;
   let _degree = null;
   let _eqKatex = null;
@@ -333,8 +482,7 @@ function explorer() {
     // True once the user has panned/zoomed OR changed the topic filter, which permanently stops the
     // view auto-fitting/refitting
     _userMoved: false,
-    // { cx, cy, k } | null - camera pinned by a topic-filter change, kept in place until graph settles
-    _freezeView: null,
+    _pinching: false,
     expandedTopics: new Set(), // curriculum topics whose equation list is expanded in the panel
     sheet: null, // null | 'detail' | 'chapters' mobile bottom panes
     sheetFull: false, // true = sheet dragged/expanded past its peek height
@@ -546,12 +694,11 @@ function explorer() {
       this._buildClusterBoxes();
       this._syncClusterStyles();
       this._measureNodes();
-      const { x: cx, y: cy } = _graph.centerAt();
-      this._freezeView = { cx, cy, k: _graph.zoom() };
+      const view = _camera.get();
       if (filtered) this._dampenTransition();
       _graph.graphData({ nodes, links });
-      this._reassertFreeze();
-      this._holdFreezeView();
+      _camera.moveTo(view);
+      _camera.guard();
       this._refreshHighlight();
     },
 
@@ -761,10 +908,9 @@ function explorer() {
     _focusCluster(topic) {
       const node = _graphData.nodes.find((n) => n._clusterTopic === topic);
       if (!node?._clusterCenter) return;
-      this._userMoved = true;
-      this._cancelFit();
+      this._markUserMoved();
       const { x, y } = node._clusterCenter;
-      _graph.centerAt(x, y, 250).zoom(0.9, 250);
+      _camera.moveTo({ x, y, k: 0.9 }, 250);
     },
 
     // Flips every cluster box between its normal (cards visible) and collapsed (single tile) presentation.
@@ -871,30 +1017,12 @@ function explorer() {
         }
       }
       // Re-setting graphData() would force a redraw but also reheats the whole sim; this just flags a redraw instead.
-      _graph.zoom(_graph.zoom());
+      _camera.poke();
     },
 
-    // Freezes the camera exactly where it currently sits
-    _cancelFit() {
-      const { x, y } = _graph.centerAt();
-      _graph.centerAt(x, y, 0).zoom(_graph.zoom(), 0);
-      this._freezeView = null;
-    },
-
-    _reassertFreeze() {
-      const { cx, cy, k } = this._freezeView;
-      _graph.centerAt(cx, cy, 0).zoom(k, 0);
-    },
-
-    _holdFreezeView() {
-      const deadline = Date.now() + 1000;
-      const loop = () => {
-        if (!this._freezeView) return;
-        this._reassertFreeze();
-        if (Date.now() < deadline) requestAnimationFrame(loop);
-        else this._freezeView = null;
-      };
-      loop();
+    _markUserMoved() {
+      this._userMoved = true;
+      _camera.release();
     },
 
     // Measures the real content box  and solves for the zoom that makes it fill the
@@ -938,7 +1066,7 @@ function explorer() {
       ) || { left: minX, top: minY };
       const cx = maxX - minX > paneW / k ? start.left + (paneW / 2 - margin) / k : (minX + maxX) / 2;
       const cy = maxY - minY > paneH / k ? start.top + (paneH / 2 - margin) / k : (minY + maxY) / 2;
-      _graph.centerAt(cx, cy, duration).zoom(k, duration);
+      _camera.moveTo({ x: cx, y: cy, k }, duration);
     },
 
     _renderGraph() {
@@ -1005,10 +1133,12 @@ function explorer() {
           }
           ctx.restore();
         })
-        .onRenderFramePost(() => this._syncOverlays());
-      // Background clicks are handled ourselves below (see the pointerdown/pointerup pair on
-      // `container`) rather than via .onBackgroundClick. force-graph only fires that when it sees a
-      // clean click with zero canvas movement in between
+        .onRenderFramePost(() => this._syncOverlays())
+        .minZoom(MIN_ZOOM)
+        .maxZoom(MAX_ZOOM)
+        .enableZoomPanInteraction(false);
+
+      _camera = createCamera(_graph);
 
       _graph.d3Force("charge").strength(-170);
       _defaultLinkStrength = _graph.d3Force("link").strength();
@@ -1069,36 +1199,7 @@ function explorer() {
         _degree.set(t, (_degree.get(t) || 0) + 1);
       }
 
-      // Marks the view as user-driven the moment a pan/zoom gesture starts
-      container.addEventListener("wheel", () => { this._userMoved = true; this._cancelFit(); }, { passive: true });
-      container.addEventListener("pointerdown", (down) => {
-        const startX = down.clientX;
-        const startY = down.clientY;
-        const onMove = (move) => {
-          if (Math.abs(move.clientX - startX) > 4 || Math.abs(move.clientY - startY) > 4) {
-            this._userMoved = true;
-            this._cancelFit();
-            window.removeEventListener("pointermove", onMove);
-          }
-        };
-        window.addEventListener("pointermove", onMove);
-        window.addEventListener(
-          "pointerup",
-          () => window.removeEventListener("pointermove", onMove),
-          { once: true }
-        );
-      });
-
-      let bgDownX = 0, bgDownY = 0;
-      container.addEventListener("pointerdown", (down) => {
-        bgDownX = down.clientX;
-        bgDownY = down.clientY;
-      });
-      container.addEventListener("pointerup", (up) => {
-        if (Math.abs(up.clientX - bgDownX) > 4 || Math.abs(up.clientY - bgDownY) > 4) return;
-        if (up.target.closest(".q-hit, .eq-card")) return; // a node click, not background
-        self.clearSelection();
-      });
+      this._setupViewInput(container);
 
       const refit = (duration) => {
         if (!this._userMoved) this._fitView(duration);
@@ -1120,6 +1221,118 @@ function explorer() {
         this._measureNodes();
         this._applyTopicFilter();
       });
+    },
+
+    // pan/zoom gestures
+    _setupViewInput(container) {
+      // Elements that own their own drag gesture
+      const DRAG_HANDLES = ".q-hit, .eq-card, .cluster-box-label, .cluster-box.collapsed";
+      const points = new Map(); // live pointers over the pane
+      let pan = null; // { id, start, anchor, moved } - one-pointer drag of the background
+      let pinch = null; // { ids, dist, k, anchor } - two-pointer zoom/pan
+
+      const at = (event) => {
+        const rect = container.getBoundingClientRect();
+        return [event.clientX - rect.left, event.clientY - rect.top];
+      };
+
+      // Distance and midpoint between the two pinching pointers, in canvas pixels.
+      const span = (ids) => {
+        const [a, b] = ids.map((id) => points.get(id));
+        return {
+          dist: Math.max(1, Math.hypot(a[0] - b[0], a[1] - b[1])),
+          mid: [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2],
+        };
+      };
+
+      const startPan = (id, px, py) => {
+        pan = { id, start: [px, py], anchor: _camera.anchorFor(px, py), moved: false };
+      };
+
+      const endGesture = () => {
+        points.clear();
+        pan = null;
+        pinch = null;
+        this._pinching = false;
+        container.classList.remove("panning");
+      };
+
+      container.addEventListener("wheel", (event) => {
+        event.preventDefault();
+        const unit = WHEEL_UNIT[event.deltaMode] ?? WHEEL_UNIT[0];
+        const pinchWheel =
+          event.ctrlKey && event.deltaMode === 0 && Math.abs(event.deltaY) < PINCH_WHEEL_MAX_DELTA;
+        const step = Math.max(
+          -MAX_WHEEL_STEP,
+          Math.min(MAX_WHEEL_STEP, -event.deltaY * unit * (pinchWheel ? PINCH_WHEEL_BOOST : 1))
+        );
+        if (!step) return;
+        const discrete = event.deltaMode !== 0 || Math.abs(event.deltaY) >= WHEEL_NOTCH_DELTA;
+        const [px, py] = at(event);
+        this._userMoved = true;
+        _camera.zoomAt(px, py, _camera.targetZoom() * 2 ** step, discrete ? WHEEL_ZOOM_MS : 0);
+      }, { passive: false });
+
+      container.addEventListener("pointerdown", (event) => {
+        if (event.pointerType === "mouse" && event.button !== 0) return;
+        const [px, py] = at(event);
+        points.set(event.pointerId, [px, py]);
+        _camera.release();
+
+        if (points.size === 2) {
+          const ids = [...points.keys()];
+          const { dist, mid } = span(ids);
+          pan = null;
+          this._pinching = true; // node and cluster drags stand down while this runs
+          this._userMoved = true;
+          pinch = { ids, dist, k: _camera.get().k, anchor: _camera.anchorFor(mid[0], mid[1]) };
+          return;
+        }
+        if (points.size > 1 || event.target.closest(DRAG_HANDLES)) return;
+        startPan(event.pointerId, px, py);
+      });
+
+      window.addEventListener("pointermove", (event) => {
+        if (!points.has(event.pointerId)) return;
+        const [px, py] = at(event);
+        points.set(event.pointerId, [px, py]);
+
+        if (pinch) {
+          if (!pinch.ids.includes(event.pointerId)) return;
+          const { dist, mid } = span(pinch.ids);
+          _camera.anchorAt(pinch.anchor, mid[0], mid[1], pinch.k * (dist / pinch.dist));
+          return;
+        }
+        if (pan?.id !== event.pointerId) return;
+        if (!pan.moved) {
+          if (Math.abs(px - pan.start[0]) < 4 && Math.abs(py - pan.start[1]) < 4) return;
+          pan.moved = true;
+          this._userMoved = true;
+          container.classList.add("panning");
+        }
+        _camera.anchorAt(pan.anchor, px, py, _camera.get().k);
+      });
+
+      const onPointerEnd = (event) => {
+        if (!points.delete(event.pointerId)) return;
+        if (pinch?.ids.includes(event.pointerId)) {
+          pinch = null;
+          this._pinching = false;
+          const [id] = [...points.keys()];
+          if (id !== undefined) {
+            const [px, py] = points.get(id);
+            startPan(id, px, py);
+            pan.moved = true;
+          }
+        }
+        if (pan?.id !== event.pointerId) return;
+        container.classList.remove("panning");
+        if (!pan.moved && !event.target.closest(DRAG_HANDLES)) this.clearSelection();
+        pan = null;
+      };
+      window.addEventListener("pointerup", onPointerEnd);
+      window.addEventListener("pointercancel", onPointerEnd);
+      window.addEventListener("blur", endGesture);
     },
 
     _isLinkActive(link) {
@@ -1148,14 +1361,13 @@ function explorer() {
         el.setPointerCapture(down.pointerId);
 
         const onMove = (move) => {
-          if (move.pointerId !== down.pointerId) return;
+          if (move.pointerId !== down.pointerId || self._pinching) return;
           if (!dragging) {
             if (Math.abs(move.clientX - startX) < 4 && Math.abs(move.clientY - startY) < 4) return;
             dragging = true;
             el._wasDragged = true;
             el.classList.add("dragging");
-            self._userMoved = true; // stop auto-fit from fighting the drag
-            self._cancelFit();
+            self._markUserMoved(); // stop auto-fit from fighting the drag
             dampenPositionForces();
             _graph.d3ReheatSimulation();
           }
@@ -1201,14 +1413,13 @@ function explorer() {
         el.setPointerCapture(down.pointerId);
 
         const onMove = (move) => {
-          if (move.pointerId !== down.pointerId) return;
+          if (move.pointerId !== down.pointerId || self._pinching) return;
           if (!dragging) {
             if (Math.abs(move.clientX - startX) < 4 && Math.abs(move.clientY - startY) < 4) return;
             dragging = true;
             box.classList.add("dragging");
             box._wasDragged = true; 
-            self._userMoved = true;
-            self._cancelFit();
+            self._markUserMoved();
             const rect = _graphContainer.getBoundingClientRect();
             const { x: gx, y: gy } = _graph.screen2GraphCoords(startX - rect.left, startY - rect.top);
             members = _graphData.nodes

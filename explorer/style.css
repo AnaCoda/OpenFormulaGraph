@@ -173,9 +173,15 @@ body {
   position: relative;
   min-width: 0;
   overflow: hidden;
+  cursor: grab;
+  touch-action: none;
   background:
     radial-gradient(circle at 1px 1px, #e6e9f5 1px, transparent 1px) 0 0 / 28px 28px,
     var(--bg-0);
+}
+
+.graph.panning {
+  cursor: grabbing;
 }
 
 @property --node-emphasis {
