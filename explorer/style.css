@@ -178,6 +178,12 @@ body {
     var(--bg-0);
 }
 
+@property --node-emphasis {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1;
+}
+
 .equation-layer {
   position: absolute;
   inset: 0;
@@ -189,7 +195,9 @@ body {
    pixel size — otherwise a zoomed-out graph draws full-size cards piled on top of each other. */
 .q-hit {
   position: absolute;
-  transform: translate(-50%, -50%) scale(var(--node-scale, 1));
+  left: 0;
+  top: 0;
+  transform: translate(var(--nx, 0px), var(--ny, 0px)) translate(-50%, -50%) scale(var(--node-scale, 1));
   width: 24px;
   height: 24px;
   border-radius: 50%;
@@ -201,11 +209,14 @@ body {
 
 .eq-card {
   position: absolute;
+  left: 0;
+  top: 0;
   /* Without an explicit width, an absolutely-positioned box's shrink-to-fit width is bounded by
      (containing block width - left), so the card's own title would rewrap as `left` changes while
      dragging it toward an edge. max-content ties the width to the content instead. */
   width: max-content;
-  transform: translate(-50%, -50%) scale(var(--node-scale, 1));
+  transform: translate(var(--nx, 0px), var(--ny, 0px)) translate(-50%, -50%)
+    scale(calc(var(--node-scale, 1) * var(--node-emphasis, 1)));
   background: var(--bg-1);
   border: 1.5px solid var(--equation-border);
   border-radius: 11px;
@@ -218,7 +229,7 @@ body {
   pointer-events: auto;
   touch-action: none;
   opacity: 1;
-  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.15s ease, opacity 0.25s ease;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, --node-emphasis 0.15s ease, opacity 0.25s ease;
 }
 
 .q-hit.dragging,
@@ -331,7 +342,7 @@ body {
 .eq-card.highlight {
   border-color: var(--equation-border-highlight);
   box-shadow: 0 0 0 3px rgba(139, 108, 240, 0.15), var(--shadow);
-  transform: translate(-50%, -50%) scale(calc(var(--node-scale, 1) * 1.08));
+  --node-emphasis: 1.08;
 }
 
 .eq-card.dim {

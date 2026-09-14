@@ -1,5 +1,11 @@
 // Fetches dist/openformulagraph.json and renders a clickable force-directed graph
 
+const BUNDLE = (async () => {
+  let res = await fetch("dist/openformulagraph.json");
+  if (!res.ok) res = await fetch("../dist/openformulagraph.json");
+  return res.json();
+})();
+
 const COLORS = {
   quantityFill: "#767ea8",
   quantityText: "#2c3040",
@@ -191,39 +197,62 @@ function clusterForce(strength) {
   return force;
 }
 
-// How much room a node actually takes up on screen, as half-width/half-height in graph units
-function nodeExtent(n) {
+function measureNode(n) {
   if (n.type === "equation") {
-    return { hw: (n._el?.offsetWidth || 220) / 2, hh: (n._el?.offsetHeight || 76) / 2 };
+    n._hw = (n._el?.offsetWidth || 220) / 2;
+    n._hh = (n._el?.offsetHeight || 76) / 2;
+  } else {
+    n._hw = Math.max(30, n.name.length * 4.2);
+    n._hh = 38;
   }
-  return { hw: Math.max(30, n.name.length * 4.2), hh: 38 };
+}
+
+function nodeExtent(n) {
+  if (n._hw === undefined) measureNode(n);
+  return { hw: n._hw, hh: n._hh };
 }
 
 // Keeps cards and quantity labels from overlapping.
 function nodeCollideForce(padX, padY) {
   let nodes = [];
+  let order = [];
   function force() {
-    // Several passes per tick so overlaps resolve within the simulation's shorter, calmer settle time.
-    for (let pass = 0; pass < 3; pass++) {
-      for (let i = 0; i < nodes.length; i++) {
-        for (let j = i + 1; j < nodes.length; j++) {
-          const a = nodes[i];
-          const b = nodes[j];
-          const ea = nodeExtent(a);
-          const eb = nodeExtent(b);
+    if (nodes.length < 2) return;
+    let widest = 0;
+    for (const n of nodes) {
+      if (n._hw === undefined) measureNode(n);
+      if (n._hw > widest) widest = n._hw;
+    }
+    for (let pass = 0; pass < 4; pass++) {
+      order.sort((p, q) => p.x - q.x);
+      for (let i = 0; i < order.length; i++) {
+        const a = order[i];
+        const reach = a._hw + widest + padX;
+        for (let j = i + 1; j < order.length; j++) {
+          const b = order[j];
           const dx = b.x - a.x || 0.01;
+          if (dx > reach) break;
           const dy = b.y - a.y || 0.01;
-          const overlapX = ea.hw + eb.hw + padX - Math.abs(dx);
-          const overlapY = ea.hh + eb.hh + padY - Math.abs(dy);
-          if (overlapX <= 0 || overlapY <= 0) continue;
-          if (overlapX < overlapY) {
+          const overlapX = a._hw + b._hw + padX - Math.abs(dx);
+          if (overlapX <= 0) continue;
+          const overlapY = a._hh + b._hh + padY - Math.abs(dy);
+          if (overlapY <= 0) continue;
+          const fracX = overlapX / (a._hw + b._hw + padX);
+          const fracY = overlapY / (a._hh + b._hh + padY);
+          if (fracX < fracY) {
             const move = (Math.sign(dx) * overlapX) / 2;
             a.x -= move;
             b.x += move;
+            const avgVx = ((a.vx || 0) + (b.vx || 0)) / 2;
+            a.vx = avgVx;
+            b.vx = avgVx;
           } else {
             const move = (Math.sign(dy) * overlapY) / 2;
             a.y -= move;
             b.y += move;
+            const avgVy = ((a.vy || 0) + (b.vy || 0)) / 2;
+            a.vy = avgVy;
+            b.vy = avgVy;
           }
         }
       }
@@ -231,11 +260,31 @@ function nodeCollideForce(padX, padY) {
   }
   force.initialize = (ns) => {
     nodes = ns;
+    order = ns.slice();
   };
   return force;
 }
 
 function explorer() {
+  let _bundle = null;
+  let _graphData = null;
+  let _graph = null;
+  let _graphContainer = null;
+  let _degree = null;
+  let _eqKatex = null;
+  let _symbolKatex = null;
+  let _activeIds = null; // Set of graph node ids ("q:x" / "e:y") highlighted by the current selection, or null
+  let _topicNodeIds = null; // Set of graph node ids visible under the current topic filter, or null = no filter
+  let _clusterMembers = new Map(); // topic -> its equation nodes, for _syncClusterBoxes
+  let _clusterBoxEls = [];
+  let _clusterBoxLayer = null;
+  let _equationLayer = null;
+  let _defaultLinkStrength = null;
+  let _selectedGraphId = null; // "q:<id>" / "e:<id>" for the current selection, or null
+  let _quantityById = null;
+  let _equationById = null;
+  const _memo = {};
+
   return {
     selected: null, // { type: 'quantity'|'equation', id } | null
     curriculumCollapsed: false, // desktop: user has manually collapsed the curriculum panel
@@ -249,24 +298,20 @@ function explorer() {
     sheet: null, // null | 'detail' | 'chapters' mobile bottom panes
     sheetFull: false, // true = sheet dragged/expanded past its peek height
     _sheetDrag: null,
-    _bundle: null,
-    _graphData: null,
-    _graph: null,
-    _activeIds: null, // Set of graph node ids ("q:x" / "e:y") highlighted by the current selection, or null
-    _topicNodeIds: null, // Set of graph node ids visible under the current topic filter, or null = no filter
+    _loaded: false,
     _clustersCollapsed: false, // true once zoomed out past CLUSTER_COLLAPSE_ZOOM with topic clusters active
 
     async init() {
-      // Deployed, the bundle sits next to index.html; in local dev it's one level up.
-      let res = await fetch("dist/openformulagraph.json");
-      if (!res.ok) res = await fetch("../dist/openformulagraph.json");
-      this._bundle = await res.json();
+      _bundle = await BUNDLE;
       // KaTeX rendering (a full LaTeX parse) is not cheap; do it once per equation/symbol up front
-      this._eqKatex = new Map(
-        this._bundle.equations.map((eq) => [eq.id, window.katex.renderToString(eq.latex, { throwOnError: false })])
+      _eqKatex = new Map(
+        _bundle.equations.map((eq) => [eq.id, window.katex.renderToString(eq.latex, { throwOnError: false })])
       );
-      this._symbolKatex = new Map();
-      this._graphData = buildGraphData(this._bundle);
+      _symbolKatex = new Map();
+      _quantityById = new Map(_bundle.quantities.map((q) => [q.id, q]));
+      _equationById = new Map(_bundle.equations.map((eq) => [eq.id, eq]));
+      _graphData = buildGraphData(_bundle);
+      this._loaded = true;
       this.activeTopics = new Set(this.topicOrder.slice(0, 3));
       this.expandedTopics = new Set(this.activeTopics);
       this._renderGraph();
@@ -280,70 +325,74 @@ function explorer() {
     helpLinks: HELP_LINKS,
 
     _symbolKatexFor(symbol) {
-      if (!this._symbolKatex.has(symbol)) {
-        this._symbolKatex.set(symbol, window.katex.renderToString(symbolToLatex(symbol), { throwOnError: false }));
+      if (!_symbolKatex.has(symbol)) {
+        _symbolKatex.set(symbol, window.katex.renderToString(symbolToLatex(symbol), { throwOnError: false }));
       }
-      return this._symbolKatex.get(symbol);
+      return _symbolKatex.get(symbol);
     },
 
     get selectedQuantity() {
       if (this.selected?.type !== "quantity") return null;
-      return this._bundle.quantities.find((q) => q.id === this.selected.id) ?? null;
+      return _quantityById.get(this.selected.id) ?? null;
     },
 
     get selectedEquation() {
       if (this.selected?.type !== "equation") return null;
-      const eq = this._bundle.equations.find((e) => e.id === this.selected.id);
+      const eq = _equationById.get(this.selected.id);
       if (!eq) return null;
-      return { ...eq, katex: this._eqKatex.get(eq.id) };
+      return { ...eq, katex: _eqKatex.get(eq.id) };
     },
 
     get curriculum() {
-      if (!this._bundle) return [];
-      return [...this._bundle.equations]
+      if (!this._loaded || !_bundle) return [];
+      if (_memo.curriculum) return _memo.curriculum;
+      return (_memo.curriculum = [..._bundle.equations]
         .map((eq) => ({
           id: eq.id,
           name: eq.name,
           topic: eq.topic,
           section: eq.source?.section ?? "?",
           sectionNum: sectionSortKey(eq.source?.section),
-          katex: this._eqKatex.get(eq.id),
+          katex: _eqKatex.get(eq.id),
         }))
-        .sort((a, b) => a.sectionNum - b.sectionNum);
+        .sort((a, b) => a.sectionNum - b.sectionNum));
     },
 
     // Curriculum topics ordered by their earliest section, e.g. ["kinematics", "dynamics", ...].
     get topicOrder() {
-      if (!this._bundle) return [];
+      if (!this._loaded || !_bundle) return [];
+      if (_memo.topicOrder) return _memo.topicOrder;
       const minSection = new Map();
       for (const eq of this.curriculum) {
         if (!minSection.has(eq.topic) || eq.sectionNum < minSection.get(eq.topic)) minSection.set(eq.topic, eq.sectionNum);
       }
-      return [...minSection.entries()].sort((a, b) => a[1] - b[1]).map(([topic]) => topic);
+      return (_memo.topicOrder = [...minSection.entries()].sort((a, b) => a[1] - b[1]).map(([topic]) => topic));
     },
 
     // Curriculum equations grouped by textbook topic/chapter, keyed for the panel's collapsible
     // per-topic sections (see toggleExpanded).
     get curriculumByTopic() {
+      if (_memo.byTopic) return _memo.byTopic;
       const byTopic = new Map();
+      if (!this._loaded) return byTopic;
       for (const eq of this.curriculum) {
         if (!byTopic.has(eq.topic)) byTopic.set(eq.topic, []);
         byTopic.get(eq.topic).push(eq);
       }
-      return byTopic;
+      return (_memo.byTopic = byTopic);
     },
 
     get relatedEquations() {
       if (!this.selectedQuantity) return [];
       const qid = this.selectedQuantity.id;
-      return this._bundle.equations
+      return _bundle.equations
         .filter((eq) => Object.values(eq.variables).some((v) => v.quantity === qid))
         .map((eq) => {
           const variable = Object.values(eq.variables).find((v) => v.quantity === qid);
           return {
             id: eq.id,
             name: eq.name,
-            katex: this._eqKatex.get(eq.id),
+            katex: _eqKatex.get(eq.id),
             role: variable.role ?? "",
           };
         });
@@ -352,7 +401,7 @@ function explorer() {
     get relatedQuantities() {
       if (!this.selectedEquation) return [];
       return Object.entries(this.selectedEquation.variables).map(([symbol, v]) => {
-        const q = this._bundle.quantities.find((q) => q.id === v.quantity);
+        const q = _quantityById.get(v.quantity);
         return {
           symbol,
           symbolKatex: this._symbolKatexFor(symbol),
@@ -372,21 +421,23 @@ function explorer() {
 
     selectQuantity(qid) {
       this.selected = { type: "quantity", id: qid };
+      _selectedGraphId = `q:${qid}`;
       const active = new Set([`q:${qid}`]);
-      for (const eq of this._bundle.equations) {
+      for (const eq of _bundle.equations) {
         if (Object.values(eq.variables).some((v) => v.quantity === qid)) active.add(`e:${eq.id}`);
       }
-      this._activeIds = active;
+      _activeIds = active;
       this._refreshHighlight();
       if (this.isMobileShell()) this.openSheet("detail");
     },
 
     selectEquation(eqid) {
       this.selected = { type: "equation", id: eqid };
-      const eq = this._bundle.equations.find((e) => e.id === eqid);
+      _selectedGraphId = `e:${eqid}`;
+      const eq = _bundle.equations.find((e) => e.id === eqid);
       const active = new Set([`e:${eqid}`]);
       for (const v of Object.values(eq.variables)) active.add(`q:${v.quantity}`);
-      this._activeIds = active;
+      _activeIds = active;
       this._refreshHighlight();
       if (this.isMobileShell()) this.openSheet("detail");
     },
@@ -423,34 +474,35 @@ function explorer() {
       const activeEq = new Set();
       const activeQ = new Set();
       if (filtered) {
-        for (const eq of this._bundle.equations) {
+        for (const eq of _bundle.equations) {
           if (!topics.has(eq.topic)) continue;
           activeEq.add(eq.id);
           for (const v of Object.values(eq.variables)) activeQ.add(v.quantity);
         }
       }
       const nodes = filtered
-        ? this._graphData.nodes.filter(
+        ? _graphData.nodes.filter(
             (n) => (n.type === "equation" && activeEq.has(n.eqid)) || (n.type === "quantity" && activeQ.has(n.qid))
           )
-        : this._graphData.nodes;
+        : _graphData.nodes;
       const nodeIds = new Set(nodes.map((n) => n.id));
       const links = filtered
-        ? this._graphData.links.filter((l) => {
+        ? _graphData.links.filter((l) => {
             const s = typeof l.source === "object" ? l.source.id : l.source;
             const t = typeof l.target === "object" ? l.target.id : l.target;
             return nodeIds.has(s) && nodeIds.has(t);
           })
-        : this._graphData.links;
+        : _graphData.links;
 
-      this._topicNodeIds = filtered ? nodeIds : null;
+      _topicNodeIds = filtered ? nodeIds : null;
       this._assignClusters(filtered ? [...topics] : []);
       this._syncForceStrengths();
       this._buildClusterBoxes();
       this._syncClusterStyles();
-      const { x: cx, y: cy } = this._graph.centerAt();
-      this._freezeView = { cx, cy, k: this._graph.zoom() };
-      this._graph.graphData({ nodes, links });
+      this._measureNodes();
+      const { x: cx, y: cy } = _graph.centerAt();
+      this._freezeView = { cx, cy, k: _graph.zoom() };
+      _graph.graphData({ nodes, links });
       this._reassertFreeze();
       this._holdFreezeView();
       this._refreshHighlight();
@@ -458,7 +510,8 @@ function explorer() {
 
     // Lays the active topics out as sections
     _assignClusters(topicList) {
-      for (const n of this._graphData.nodes) {
+      _clusterMembers = new Map(topicList.map((topic) => [topic, []]));
+      for (const n of _graphData.nodes) {
         n._clusterCenter = null;
         n._clusterRadius = 0;
         n._clusterColor = null;
@@ -467,9 +520,9 @@ function explorer() {
       }
       if (!topicList.length) return;
 
-      const byId = new Map(this._graphData.nodes.map((node) => [node.id, node]));
+      const byId = new Map(_graphData.nodes.map((node) => [node.id, node]));
       const eqByTopic = new Map(topicList.map((topic) => [topic, []]));
-      for (const eq of this._bundle.equations) {
+      for (const eq of _bundle.equations) {
         eqByTopic.get(eq.topic)?.push(eq);
       }
 
@@ -488,8 +541,8 @@ function explorer() {
       });
 
       // Pack the cells into rows whose total shape matches the graph pane's aspect ratio
-      const paneW = this._graph?.width() || 1200;
-      const paneH = this._graph?.height() || 800;
+      const paneW = _graph?.width() || 1200;
+      const paneH = _graph?.height() || 800;
       const aspect = Math.max(0.5, Math.min(3, paneW / Math.max(1, paneH)));
       const totalArea = cells.reduce((sum, c) => sum + (c.size + GAP) ** 2, 0);
       const targetWidth = Math.sqrt(totalArea * aspect);
@@ -536,6 +589,7 @@ function explorer() {
             node._clusterRadius = cell.size / 2;
             node._clusterColor = color;
             node._clusterTopic = cell.topic;
+            _clusterMembers.get(cell.topic).push(node);
           }
         }
         y += rowHeights[ri] * spread;
@@ -543,7 +597,7 @@ function explorer() {
 
       // Anchor each quantity at the average of the section centers it links into
       const sums = new Map();
-      for (const link of this._graphData.links) {
+      for (const link of _graphData.links) {
         const src = typeof link.source === "object" ? link.source : byId.get(link.source);
         const tgt = typeof link.target === "object" ? link.target : byId.get(link.target);
         if (!src || !tgt) continue;
@@ -565,16 +619,16 @@ function explorer() {
     // otherwise haul their cards into each other.
     _syncForceStrengths() {
       const clustered = this.activeTopics.size > 0;
-      const link = this._graph.d3Force("link");
-      link.strength(clustered ? 0.04 : this._defaultLinkStrength);
+      const link = _graph.d3Force("link");
+      link.strength(clustered ? 0.04 : _defaultLinkStrength);
       link.distance(clustered ? 110 : 70);
-      this._graph.d3Force("cluster").strength(clustered ? 1.1 : 0.6);
+      _graph.d3Force("cluster").strength(clustered ? 1.1 : 0.6);
     },
 
     // Creates one "container" box per active topic
     _buildClusterBoxes() {
-      this._clusterBoxLayer.innerHTML = "";
-      this._clusterBoxEls = [];
+      _clusterBoxLayer.innerHTML = "";
+      _clusterBoxEls = [];
       this._clustersCollapsed = false;
       for (const topic of this.activeTopics) {
         const color = topicColor(topic);
@@ -588,7 +642,7 @@ function explorer() {
         label.textContent = topicLabel(topic);
         box.appendChild(label);
 
-        const count = this._bundle.equations.filter((eq) => eq.topic === topic).length;
+        const count = _bundle.equations.filter((eq) => eq.topic === topic).length;
         const summary = document.createElement("div");
         summary.className = "cluster-box-summary";
         summary.textContent = `${topicLabel(topic)} · ${count} equation${count === 1 ? "" : "s"}`;
@@ -599,27 +653,27 @@ function explorer() {
         });
         box.appendChild(summary);
 
-        this._clusterBoxLayer.appendChild(box);
-        this._clusterBoxEls.push({ topic, box });
+        _clusterBoxLayer.appendChild(box);
+        _clusterBoxEls.push({ topic, box });
         this._setupClusterDrag(topic, box, label);
       }
     },
 
     // Recenters/zooms the view on one cluster
     _focusCluster(topic) {
-      const node = this._graphData.nodes.find((n) => n._clusterTopic === topic);
+      const node = _graphData.nodes.find((n) => n._clusterTopic === topic);
       if (!node?._clusterCenter) return;
       this._userMoved = true;
       this._cancelFit();
       const { x, y } = node._clusterCenter;
-      this._graph.centerAt(x, y, 250).zoom(0.9, 250);
+      _graph.centerAt(x, y, 250).zoom(0.9, 250);
     },
 
     // Flips every cluster box between its normal (cards visible) and collapsed (single tile) presentation.
     _setClustersCollapsed(collapsed) {
       this._clustersCollapsed = collapsed;
-      this._equationLayer.classList.toggle("clusters-collapsed", collapsed);
-      for (const { box } of this._clusterBoxEls) box.classList.toggle("collapsed", collapsed);
+      _equationLayer.classList.toggle("clusters-collapsed", collapsed);
+      for (const { box } of _clusterBoxEls) box.classList.toggle("collapsed", collapsed);
     },
 
     // Checks the current zoom against the collapse/expand thresholds
@@ -632,9 +686,13 @@ function explorer() {
       else if (this._clustersCollapsed && zoom > CLUSTER_EXPAND_ZOOM) this._setClustersCollapsed(false);
     },
 
+    _measureNodes() {
+      for (const node of _graphData.nodes) measureNode(node);
+    },
+
     // Tints each equation card's left edge to match its cluster color
     _syncClusterStyles() {
-      for (const node of this._graphData.nodes) {
+      for (const node of _graphData.nodes) {
         if (!node._el || node.type !== "equation") continue;
         node._el.style.borderLeftColor = node._clusterColor || "";
         node._el.style.borderLeftWidth = node._clusterColor ? "4px" : "";
@@ -643,7 +701,8 @@ function explorer() {
 
     clearSelection() {
       this.selected = null;
-      this._activeIds = null;
+      _selectedGraphId = null;
+      _activeIds = null;
       this._refreshHighlight();
       this.closeSheet();
     },
@@ -699,34 +758,34 @@ function explorer() {
     },
 
     _refreshHighlight() {
-      const topicFiltered = !!this._topicNodeIds;
-      for (const node of this._graphData.nodes) {
+      const topicFiltered = !!_topicNodeIds;
+      for (const node of _graphData.nodes) {
         if (!node._el) continue;
-        const inTopicFilter = !topicFiltered || this._topicNodeIds.has(node.id);
-        const isActive = !this._activeIds || this._activeIds.has(node.id);
+        const inTopicFilter = !topicFiltered || _topicNodeIds.has(node.id);
+        const isActive = !_activeIds || _activeIds.has(node.id);
         // A topic filter removes non-matching nodes from the simulation entirely (see
         // _applyTopicFilter); this just keeps their leftover DOM overlay elements out of the way.
         // A single quantity/equation selection instead just dims the rest for context.
         node._el.classList.toggle("hidden-node", !inTopicFilter);
         if (node.type === "equation") {
           node._el.classList.toggle("dim", inTopicFilter && !isActive);
-          node._el.classList.toggle("highlight", inTopicFilter && isActive && !!this._activeIds);
+          node._el.classList.toggle("highlight", inTopicFilter && isActive && !!_activeIds);
         }
       }
       // Re-setting graphData() would force a redraw but also reheats the whole sim; this just flags a redraw instead.
-      this._graph.zoom(this._graph.zoom());
+      _graph.zoom(_graph.zoom());
     },
 
     // Freezes the camera exactly where it currently sits
     _cancelFit() {
-      const { x, y } = this._graph.centerAt();
-      this._graph.centerAt(x, y, 0).zoom(this._graph.zoom(), 0);
+      const { x, y } = _graph.centerAt();
+      _graph.centerAt(x, y, 0).zoom(_graph.zoom(), 0);
       this._freezeView = null;
     },
 
     _reassertFreeze() {
       const { cx, cy, k } = this._freezeView;
-      this._graph.centerAt(cx, cy, 0).zoom(k, 0);
+      _graph.centerAt(cx, cy, 0).zoom(k, 0);
     },
 
     _holdFreezeView() {
@@ -734,7 +793,7 @@ function explorer() {
       const loop = () => {
         if (!this._freezeView) return;
         this._reassertFreeze();
-        if (Date.now() < deadline) setTimeout(loop, 16);
+        if (Date.now() < deadline) requestAnimationFrame(loop);
         else this._freezeView = null;
       };
       loop();
@@ -743,18 +802,18 @@ function explorer() {
     // Measures the real content box  and solves for the zoom that makes it fill the
     // pane, so the layout spreads into whatever room it has.
     _fitView(duration = 0) {
-      const paneW = this._graph.width();
-      const paneH = this._graph.height();
+      const paneW = _graph.width();
+      const paneH = _graph.height();
       if (!paneW || !paneH) return;
 
       let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
       const cards = [];
       let found = false;
-      for (const node of this._graphData.nodes) {
+      for (const node of _graphData.nodes) {
         if (!Number.isFinite(node.x) || !Number.isFinite(node.y)) continue;
-        if (this._topicNodeIds && !this._topicNodeIds.has(node.id)) continue;
+        if (_topicNodeIds && !_topicNodeIds.has(node.id)) continue;
         // Excludes degree-0 quantities so a stray drifted node doesn't blow out the framing.
-        if (this._degree && !(this._degree.get(node.id) > 0)) continue;
+        if (_degree && !(_degree.get(node.id) > 0)) continue;
         const { hw, hh } = nodeExtent(node);
         minX = Math.min(minX, node.x - hw);
         maxX = Math.max(maxX, node.x + hw);
@@ -781,17 +840,17 @@ function explorer() {
       ) || { left: minX, top: minY };
       const cx = maxX - minX > paneW / k ? start.left + (paneW / 2 - margin) / k : (minX + maxX) / 2;
       const cy = maxY - minY > paneH / k ? start.top + (paneH / 2 - margin) / k : (minY + maxY) / 2;
-      this._graph.centerAt(cx, cy, duration).zoom(k, duration);
+      _graph.centerAt(cx, cy, duration).zoom(k, duration);
     },
 
     _renderGraph() {
       const self = this;
       const container = document.getElementById("graph");
-      this._graphContainer = container;
+      _graphContainer = container;
 
       // The equation-card layer is appended after ForceGraph() runs, since it clears the container on init.
-      this._graph = ForceGraph()(container)
-        .graphData(this._graphData)
+      _graph = ForceGraph()(container)
+        .graphData(_graphData)
         .nodeId("id")
         .backgroundColor("rgba(0,0,0,0)")
         .nodeLabel((n) => n.name)
@@ -800,17 +859,15 @@ function explorer() {
           return self.selected ? COLORS.linkDim : COLORS.linkIdle;
         })
         .linkWidth((l) => (self._isLinkActive(l) ? 1.8 : 0.8))
-        .d3AlphaDecay(0.05)
-        .d3VelocityDecay(0.45)
+        .d3AlphaDecay(0.022)
+        .d3VelocityDecay(0.32)
         .nodeCanvasObjectMode(() => "replace")
         .nodeCanvasObject((node, ctx, scale) => {
           if (node.type === "equation") return; // rendered as an HTML card instead
-          if (self._topicNodeIds && !self._topicNodeIds.has(node.id)) return; // topic filter hides it outright
+          if (_topicNodeIds && !_topicNodeIds.has(node.id)) return; // topic filter hides it outright
           if (self._clustersCollapsed) return; // collapsed tiles stand in for every quantity/equation too
-          const isActive = !self._activeIds || self._activeIds.has(node.id);
-          // Radius grows with how many equations use this quantity, but logarithmically
-          const degree = self._degree.get(node.id) || 0;
-          const r = Math.min(26, 12 + 5 * Math.log2(1 + degree));
+          const isActive = !_activeIds || _activeIds.has(node.id);
+          const r = node._r ?? (node._r = Math.min(26, 12 + 5 * Math.log2(1 + (_degree.get(node.id) || 0))));
           const isSelected = self.selected?.type === "quantity" && self.selected.id === node.qid;
           const fill = isSelected ? COLORS.activeFill : node._clusterColor || COLORS.quantityFill;
           const alpha = isActive ? 1 : 0.28;
@@ -834,7 +891,7 @@ function explorer() {
           ctx.textAlign = "center";
           ctx.textBaseline = "middle";
           ctx.fillStyle = "#ffffff";
-          ctx.fillText(displaySymbol(node.symbol), node.x, node.y);
+          ctx.fillText(node._symbolText ?? (node._symbolText = displaySymbol(node.symbol)), node.x, node.y);
 
           ctx.font = `${Math.max(12, 14 / scale)}px Inter, sans-serif`;
           ctx.fillStyle = COLORS.quantityText;
@@ -846,31 +903,31 @@ function explorer() {
       // `container`) rather than via .onBackgroundClick. force-graph only fires that when it sees a
       // clean click with zero canvas movement in between
 
-      this._graph.d3Force("charge").strength(-110);
-      this._defaultLinkStrength = this._graph.d3Force("link").strength();
-      this._graph.d3Force("link").distance(70);
-      this._graph.d3Force("pull", centerPullForce(0.045));
-      this._graph.d3Force("collide", nodeCollideForce(26, 16));
-      this._graph.d3Force("cluster", clusterForce(0.6));
+      _graph.d3Force("charge").strength(-140);
+      _defaultLinkStrength = _graph.d3Force("link").strength();
+      _graph.d3Force("link").distance(70);
+      _graph.d3Force("pull", centerPullForce(0.045));
+      _graph.d3Force("collide", nodeCollideForce(26, 16));
+      _graph.d3Force("cluster", clusterForce(0.6));
 
       const fgWrapper = container.querySelector(":scope > div");
       if (fgWrapper) container.appendChild(fgWrapper);
 
-      this._clusterBoxLayer = document.createElement("div");
-      this._clusterBoxLayer.className = "cluster-box-layer";
-      container.appendChild(this._clusterBoxLayer);
+      _clusterBoxLayer = document.createElement("div");
+      _clusterBoxLayer.className = "cluster-box-layer";
+      container.appendChild(_clusterBoxLayer);
 
-      this._equationLayer = document.createElement("div");
-      this._equationLayer.className = "equation-layer";
-      container.appendChild(this._equationLayer);
+      _equationLayer = document.createElement("div");
+      _equationLayer.className = "equation-layer";
+      container.appendChild(_equationLayer);
 
       // Real DOM click targets for every node, since canvas-based hit-testing (force-graph's default) breaks under
       // browsers that add noise to canvas pixel readback for anti-fingerprinting, e.g. Brave.
-      for (const node of this._graphData.nodes) {
+      for (const node of _graphData.nodes) {
         const el = document.createElement("div");
         if (node.type === "equation") {
           el.className = "eq-card";
-          el.innerHTML = `<div class="eq-card-label">${node.name}</div>` + self._eqKatex.get(node.eqid);
+          el.innerHTML = `<div class="eq-card-label">${node.name}</div>` + _eqKatex.get(node.eqid);
           el.addEventListener("click", () => {
             if (el._wasDragged) return;
             self.selectEquation(node.eqid);
@@ -882,26 +939,27 @@ function explorer() {
             self.selectQuantity(node.qid);
           });
         }
-        this._equationLayer.appendChild(el);
+        _equationLayer.appendChild(el);
         node._el = el;
         this._setupNodeDrag(node, el);
       }
+      this._measureNodes();
 
       // Re-fit on resize too
       const resize = () => {
         const rect = container.getBoundingClientRect();
-        this._graph.width(rect.width).height(rect.height);
+        _graph.width(rect.width).height(rect.height);
         if (!this._userMoved) this._fitView(0);
       };
       new ResizeObserver(resize).observe(container);
       resize();
 
-      this._degree = new Map();
-      for (const l of this._graphData.links) {
+      _degree = new Map();
+      for (const l of _graphData.links) {
         const s = typeof l.source === "object" ? l.source.id : l.source;
         const t = typeof l.target === "object" ? l.target.id : l.target;
-        this._degree.set(s, (this._degree.get(s) || 0) + 1);
-        this._degree.set(t, (this._degree.get(t) || 0) + 1);
+        _degree.set(s, (_degree.get(s) || 0) + 1);
+        _degree.set(t, (_degree.get(t) || 0) + 1);
       }
 
       // Marks the view as user-driven the moment a pan/zoom gesture starts
@@ -941,21 +999,28 @@ function explorer() {
 
       refit(0);
       let tick = 0;
-      this._graph.onEngineTick(() => {
+      _graph.onEngineTick(() => {
         tick++;
         if (tick % 12 === 0) refit(250);
       });
-      this._graph.onEngineStop(() => refit(0));
+      _graph.onEngineStop(() => {
+        const collide = _graph.d3Force("collide");
+        for (let i = 0; i < 10; i++) collide();
+        refit(0);
+      });
 
-      document.fonts?.ready?.then(() => this._applyTopicFilter());
+      document.fonts?.ready?.then(() => {
+        this._measureNodes();
+        this._applyTopicFilter();
+      });
     },
 
     _isLinkActive(link) {
-      if (!this.selected) return false;
-      const sourceId = typeof link.source === "object" ? link.source.id : link.source;
-      const targetId = typeof link.target === "object" ? link.target.id : link.target;
-      const selectedGraphId = `${this.selected.type === "quantity" ? "q" : "e"}:${this.selected.id}`;
-      return sourceId === selectedGraphId || targetId === selectedGraphId;
+      if (!_selectedGraphId) return false;
+      const source = link.source;
+      const target = link.target;
+      return (typeof source === "object" ? source.id : source) === _selectedGraphId
+        || (typeof target === "object" ? target.id : target) === _selectedGraphId;
     },
 
     // Lets the user pick up a node and reposition it. The DOM overlay elements sit above the
@@ -985,11 +1050,11 @@ function explorer() {
             self._userMoved = true; // stop auto-fit from fighting the drag
             self._cancelFit();
           }
-          const rect = self._graphContainer.getBoundingClientRect();
-          const { x, y } = self._graph.screen2GraphCoords(move.clientX - rect.left, move.clientY - rect.top);
+          const rect = _graphContainer.getBoundingClientRect();
+          const { x, y } = _graph.screen2GraphCoords(move.clientX - rect.left, move.clientY - rect.top);
           node.x = node.fx = x;
           node.y = node.fy = y;
-          self._graph.d3ReheatSimulation();
+          _graph.d3ReheatSimulation();
           self._syncOverlays();
         };
         const onEnd = (end) => {
@@ -1036,9 +1101,9 @@ function explorer() {
             box._wasDragged = true; 
             self._userMoved = true;
             self._cancelFit();
-            const rect = self._graphContainer.getBoundingClientRect();
-            const { x: gx, y: gy } = self._graph.screen2GraphCoords(startX - rect.left, startY - rect.top);
-            members = self._graphData.nodes
+            const rect = _graphContainer.getBoundingClientRect();
+            const { x: gx, y: gy } = _graph.screen2GraphCoords(startX - rect.left, startY - rect.top);
+            members = _graphData.nodes
               .filter((n) => n._clusterTopic === topic)
               .map((n) => ({ node: n, ox: n.x - gx, oy: n.y - gy }));
             center = members[0]?.node._clusterCenter;
@@ -1047,8 +1112,8 @@ function explorer() {
               center._dragOy = center.y - gy;
             }
           }
-          const rect = self._graphContainer.getBoundingClientRect();
-          const { x, y } = self._graph.screen2GraphCoords(move.clientX - rect.left, move.clientY - rect.top);
+          const rect = _graphContainer.getBoundingClientRect();
+          const { x, y } = _graph.screen2GraphCoords(move.clientX - rect.left, move.clientY - rect.top);
           for (const { node, ox, oy } of members) {
             node.x = node.fx = x + ox;
             node.y = node.fy = y + oy;
@@ -1057,7 +1122,7 @@ function explorer() {
             center.x = x + center._dragOx;
             center.y = y + center._dragOy;
           }
-          self._graph.d3ReheatSimulation();
+          _graph.d3ReheatSimulation();
           self._syncOverlays();
         };
         const onEnd = (end) => {
@@ -1081,12 +1146,21 @@ function explorer() {
     _syncOverlays() {
       // Cards and hit targets are HTML drawn over the canvas; scaling them with the view keeps them
       // in proportion to the layout (which is sized in pixels-at-zoom-1) at every zoom level.
-      this._equationLayer.style.setProperty("--node-scale", this._graph.zoom());
-      for (const node of this._graphData.nodes) {
+      const zoom = _graph.zoom();
+      if (zoom !== this._lastZoom) {
+        _equationLayer.style.setProperty("--node-scale", zoom);
+        this._lastZoom = zoom;
+      }
+      const visible = _topicNodeIds;
+      for (const node of _graphData.nodes) {
         if (!node._el || node.x === undefined) continue;
-        const { x, y } = this._graph.graph2ScreenCoords(node.x, node.y);
-        node._el.style.left = `${x}px`;
-        node._el.style.top = `${y}px`;
+        if (visible && !visible.has(node.id)) continue;
+        const { x, y } = _graph.graph2ScreenCoords(node.x, node.y);
+        if (x === node._sx && y === node._sy) continue;
+        node._sx = x;
+        node._sy = y;
+        node._el.style.setProperty("--nx", `${x}px`);
+        node._el.style.setProperty("--ny", `${y}px`);
       }
       this._syncClusterBoxes();
     },
@@ -1094,17 +1168,18 @@ function explorer() {
     // Sizes/positions each active topic's container box to bound its equation cards' current
     // screen positions, so the box tracks the cards as the simulation settles or the view pans/zooms.
     _syncClusterBoxes() {
-      if (!this._clusterBoxEls?.length) return;
-      const zoom = this._graph.zoom();
+      if (!_clusterBoxEls?.length) return;
+      const zoom = _graph.zoom();
       this._updateClusterCollapse(zoom);
       const PAD = 22 * Math.max(0.5, zoom);
-      for (const { topic, box } of this._clusterBoxEls) {
+      for (const { topic, box } of _clusterBoxEls) {
         let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
-        for (const node of this._graphData.nodes) {
-          if (node._clusterTopic !== topic || node.x === undefined) continue;
-          const { x, y } = this._graph.graph2ScreenCoords(node.x, node.y);
-          const hw = ((node._el?.offsetWidth || 200) / 2) * zoom;
-          const hh = ((node._el?.offsetHeight || 76) / 2) * zoom;
+        for (const node of _clusterMembers.get(topic) || []) {
+          if (node.x === undefined || node._sx === undefined) continue;
+          const x = node._sx;
+          const y = node._sy;
+          const hw = node._hw * zoom;
+          const hh = node._hh * zoom;
           minX = Math.min(minX, x - hw);
           minY = Math.min(minY, y - hh);
           maxX = Math.max(maxX, x + hw);
