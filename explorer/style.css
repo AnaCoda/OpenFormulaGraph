@@ -35,30 +35,39 @@ body {
 
 .topbar {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
-  padding: 18px 28px;
+  height: 56px;
+  padding: 0 20px 0 22px;
   background: var(--bg-1);
   border-bottom: 1px solid var(--panel-border);
 }
 
 .brand {
   display: flex;
-  align-items: baseline;
-  gap: 10px;
+  align-items: center;
+  gap: 9px;
   font-family: var(--font-brand);
 }
 
 .brand-mark {
-  font-size: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  font-size: 25px;
+  line-height: 1;
   font-style: italic;
   color: var(--accent);
+  transform: translateY(1px);
 }
 
 .brand-name {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
   letter-spacing: 0.01em;
+  line-height: 1;
 }
 
 .topbar-hint {
@@ -71,8 +80,8 @@ body {
   align-items: center;
   justify-content: center;
   margin-left: auto;
-  padding: 4px;
-  border-radius: 6px;
+  padding: 7px;
+  border-radius: 8px;
   color: var(--text-dim);
   transition: color 0.15s ease, background 0.15s ease;
 }
@@ -886,7 +895,8 @@ body {
     left: 0;
     right: 0;
     z-index: 3;
-    padding: 10px 16px;
+    height: 52px;
+    padding: 0 12px 0 16px;
     background: rgba(255, 255, 255, 0.82);
     backdrop-filter: blur(8px);
     border-bottom-color: transparent;

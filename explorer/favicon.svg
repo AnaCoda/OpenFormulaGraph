@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="OpenFormulaGraph">
+  <!-- The mark is a stroked path, not a text glyph: a text f renders in whatever serif the browser
+       happens to have, and a thin italic one all but vanishes at 16px. Geometric italic f matching
+       the wordmark, inset from the tile edge and weighted to survive a 16x16 raster. The tile is the app's
+       own pale accent tint carrying the accent-blue mark. -->
+  <rect width="64" height="64" rx="15" fill="#eaeeff"/>
+  <g fill="none" stroke="#4f6df5" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"
+     transform="translate(32 32) scale(0.8) translate(-32 -32)">
+    <path d="M16 53 C22 59 29 56 31 45 L38 22 C41 12 47 11 50 16"/>
+    <path d="M24 35 H43"/>
+  </g>
+</svg>
