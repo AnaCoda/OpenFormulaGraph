@@ -1,0 +1,20 @@
+id: rl-time-constant
+name: RL Time Constant
+description: The time constant of a resistor-inductor circuit, equal to the inductance divided by the resistance.
+expr: "tau - L/R"
+latex: "\\tau = \\frac{L}{R}"
+variables:
+  tau: {quantity: time-constant}
+  L: {quantity: inductance}
+  R: {quantity: resistance}
+topic: electricity
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "23.10"
+  url: "https://openstax.org/books/college-physics-2e/pages/23-10-rl-circuits"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/RL_circuit"}
+checks:
+  - {given: {L: 2, R: 4}, solve_for: tau, expect: 0.5}
+  

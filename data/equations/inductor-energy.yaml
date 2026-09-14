@@ -1,0 +1,20 @@
+id: inductor-energy
+name: Energy Stored in an Inductor
+description: The energy stored in an inductor's magnetic field, which grows with the square of the current through it.
+expr: "E - L*I**2/2"
+latex: "E = \\tfrac{1}{2} L I^2"
+variables:
+  E: {quantity: energy, role: inductor}
+  L: {quantity: inductance}
+  I: {quantity: current}
+topic: electricity
+requires: []
+source:
+  ref: openstax-college-physics-2e
+  section: "23.9"
+  url: "https://openstax.org/books/college-physics-2e/pages/23-9-inductance"
+links:
+  - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Inductor#Stored_energy"}
+checks:
+  - {given: {L: 0.5, I: 2}, solve_for: E, expect: 1}
+  
