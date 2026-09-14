@@ -265,6 +265,15 @@
   links:
     - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Electrical_resistance_and_conductance"}
 
+- id: time-constant
+  name: Time Constant
+  symbol: tau
+  dimension: {T: 1}
+  si_unit: "s"
+  description: The characteristic time scale of an exponential response in a first-order system.
+  links:
+    - {label: Wikipedia, url: "https://en.wikipedia.org/wiki/Time_constant"}
+    
 - id: angular-velocity
   name: Angular Velocity
   symbol: omega
