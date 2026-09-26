@@ -9,7 +9,7 @@ on:
       - "src/ofg/**"
       - "pyproject.toml"
       - "uv.lock"
-      - "dist/**"
+      - ".github/workflows/deploy-pages.yml"
   workflow_dispatch: {}
 
 permissions:
