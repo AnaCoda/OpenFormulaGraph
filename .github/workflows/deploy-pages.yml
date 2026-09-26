@@ -8,6 +8,7 @@ on:
       - "data/**"
       - "src/ofg/**"
       - "pyproject.toml"
+      - "uv.lock"
       - "dist/**"
   workflow_dispatch: {}
 
