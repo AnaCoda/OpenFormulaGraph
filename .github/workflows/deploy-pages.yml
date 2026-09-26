@@ -5,7 +5,11 @@ on:
     branches: [master]
     paths:
       - "explorer/**"
-      - "dist/**"
+      - "data/**"
+      - "src/ofg/**"
+      - "pyproject.toml"
+      - "uv.lock"
+      - ".github/workflows/deploy-pages.yml"
   workflow_dispatch: {}
 
 permissions:
@@ -25,13 +29,21 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+
+      - name: Build openformulagraph.json
+        run: uv run ofg build
+
       - name: Assemble site
         run: |
           mkdir -p _site/dist
           cp explorer/*.html explorer/*.js explorer/*.css explorer/*.svg _site/
           cp dist/openformulagraph.json _site/dist/
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
+
       - uses: actions/deploy-pages@v4
         id: deployment
