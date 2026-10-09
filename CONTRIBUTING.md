@@ -73,13 +73,13 @@ This checks, for every equation:
 - dimensional consistency across every additive term (`tests/test_dimensions.py`)
 - the numeric `checks` fixtures solve correctly (`tests/test_checks.py`)
 
-If you added or changed anything in `data/`, rebuild the bundle the web explorer reads from and commit the result:
+If you want to preview the explorer locally with your data changes, rebuild the bundle it reads from:
 
 ```bash
 uv run ofg build
 ```
 
-This regenerates `dist/openformulagraph.json`.
+This regenerates `dist/openformulagraph.json`. On push to `master`, GitHub Actions runs the same build before deploying Pages, so you do not need to commit `dist/` for the live site to update.
 
 ## Explorer (web UI)
 
