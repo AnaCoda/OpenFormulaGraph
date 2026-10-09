@@ -572,6 +572,11 @@ function explorer() {
       return (_memo.byTopic = byTopic);
     },
 
+    // Topics laid out as sections: the active filter, or every topic when nothing is selected
+    get clusterTopics() {
+      return this.activeTopics.size ? this.activeTopics : new Set(this.topicOrder);
+    },
+
     get relatedEquations() {
       if (!this.selectedQuantity) return [];
       const qid = this.selectedQuantity.id;
@@ -685,7 +690,7 @@ function explorer() {
 
       // Lay the sections out in curriculum order
       const order = this.topicOrder;
-      const ordered = [...topics].sort((a, b) => order.indexOf(a) - order.indexOf(b));
+      const ordered = [...this.clusterTopics].sort((a, b) => order.indexOf(a) - order.indexOf(b));
 
       const prevVisible = _topicNodeIds;
       _topicNodeIds = filtered ? nodeIds : null;
@@ -695,7 +700,7 @@ function explorer() {
       this._syncClusterStyles();
       this._measureNodes();
       const view = _camera.get();
-      if (filtered) this._dampenTransition();
+      this._dampenTransition();
       _graph.graphData({ nodes, links });
       _camera.moveTo(view);
       _camera.guard();
@@ -863,7 +868,7 @@ function explorer() {
     // With sections active the link force has to give: a quantity shared between two chapters would
     // otherwise haul their cards into each other.
     _syncForceStrengths() {
-      const clustered = this.activeTopics.size > 0;
+      const clustered = this.clusterTopics.size > 0;
       const link = _graph.d3Force("link");
       link.strength(clustered ? 0.04 : _defaultLinkStrength);
       link.distance(clustered ? 110 : 70);
@@ -875,7 +880,7 @@ function explorer() {
       _clusterBoxLayer.innerHTML = "";
       _clusterBoxEls = [];
       this._clustersCollapsed = false;
-      for (const topic of this.activeTopics) {
+      for (const topic of this.clusterTopics) {
         const color = topicColor(topic);
         const box = document.createElement("div");
         box.className = "cluster-box";
@@ -922,7 +927,7 @@ function explorer() {
 
     // Checks the current zoom against the collapse/expand thresholds
     _updateClusterCollapse(zoom) {
-      if (!this.activeTopics.size) {
+      if (!this.clusterTopics.size) {
         if (this._clustersCollapsed) this._setClustersCollapsed(false);
         return;
       }
@@ -1051,7 +1056,7 @@ function explorer() {
       if (!found) return;
 
       // Section boxes add their own border and label around the cards.
-      const margin = this.activeTopics.size ? 46 : 20;
+      const margin = this.clusterTopics.size ? 46 : 20;
       const availW = Math.max(60, paneW - margin * 2);
       const availH = Math.max(60, paneH - margin * 2);
       const scale = Math.min(availW / Math.max(1, maxX - minX), availH / Math.max(1, maxY - minY));
